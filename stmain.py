@@ -23,7 +23,7 @@ if 'upar' not in ss:
 if 'data' not in ss:
     ss["data"] = {
         "data_di" : "initial",
-        "data_ve" : "initial",
+        "data_ve" : {'name' : "Data not yet loaded!"},
         }
 
 if 'colseq' not in ss:
@@ -45,7 +45,7 @@ if 'colseq' not in ss:
 st.set_page_config(layout="wide")
  
 pages = [
-    st.Page("page01.py",  title="Get new data"),
+    st.Page("page01.py",  title="Load data"),
     st.Page("page02.py",  title="Check active data"),
     st.Page("page03.py",  title="Plot INFLUENZA"),
     st.Page("page04.py",  title="Color Settings"),
@@ -56,7 +56,7 @@ pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.text("v0.0.0 - under initial devel")
+    st.info("App v0.0.0 - under initial devel")
     # st.markdown(''':blue[QUICK GUIDE]''')
     # st.text("(1) Define distributional scenarios")
     # st.text("(2) Run simulations")

@@ -67,6 +67,25 @@ df['type'].value_counts()
 df['dataComplete'].value_counts()
 df['valueCategory'].value_counts()
 
+
+df['agegroup'] = pd.Categorical(df['agegroup']).rename_categories({
+    'all'      : 'All',   
+    '0 - 4'    : '00-04' , 
+    '5 - 14'   : '05-14' ,       
+    '15 - 29'  : '15-29',      
+    '30 - 64'  : '30-64',      
+    '65+'      : '65+',     
+    'unknown'  : 'Unknown',       
+    })
+
+
+
+
+
+
+
+
+
 # make a continuous time variable 
 df['date'] = df["temporal"].apply(pd.Timestamp.fromisoformat)
 

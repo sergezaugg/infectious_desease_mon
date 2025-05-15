@@ -28,10 +28,10 @@ if 'data' not in ss:
 
 if 'colseq' not in ss:
     ss["colseq"] = {
-        "fig_all" : ['#ffbb00', '#0077ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
+        "fig_all" : ["#fcf808"],
         "fig_can" : ['#ffbb00', '#0077ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
-        "fig_age" : ["#cbf510", "#13f10b", '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
-        "fig_sex" : ['#0000bb', '#ff00ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
+        "fig_age" : ["#ffff00", "#00ff00", "#00ffff", "#0000ff", "#ff00ff", "#ff0000", "#ffffff"],
+        "fig_sex" : ["#fc9107", "#0727F7", "#7c8584",],
         }
 
 

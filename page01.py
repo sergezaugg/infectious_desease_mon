@@ -47,15 +47,20 @@ def download_all_data(progr_bar):
     # return(data_version, data_di)
 
 
-c01, c02 = st.columns([0.2, 0.8])
-with c01:
-    progr_bar = st.progress(0, text='')
-    progr_info = st.info(" Waiting ")
 
-with st.form("form01", border=False, clear_on_submit=True, enter_to_submit=False): 
-    submitted01 = st.form_submit_button("Load data", type="primary", use_container_width = False) 
-    if submitted01:
-        download_all_data(progr_bar)
+
+c01, c02, c03 = st.columns([0.15, 0.3, 1.0])
+with c02:
+    st.text("Download progress")
+    progr_bar = st.progress(0, text='')
+    progr_info = st.info("")
+
+with c01:
+    st.text("Get newest data via FOPH's API")
+    with st.form("form01", border=False, clear_on_submit=True, enter_to_submit=False): 
+        submitted01 = st.form_submit_button("Load data", type="primary", use_container_width = False) 
+        if submitted01:
+            download_all_data(progr_bar)
 
 
 

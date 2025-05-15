@@ -72,6 +72,7 @@ def make_line_plot(df, color_groups, color_sequence):
     
     fig.update_xaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
     fig.update_yaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
+    fig.update_layout(xaxis_title='Year', yaxis_title='Dollars USD')
 
     return(fig)
 

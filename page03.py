@@ -11,7 +11,7 @@ from utils import get_all, get_by_cantons, get_by_agegroup, get_by_sex, make_lin
 
 
 if ss["data"]["data_di"] == "initial":
-    st.info("Data not yet loaded!     Please navigate to Load data (left) and then click on 'Load data' button.")
+    st.info("Data not yet loaded!  --->   Please navigate to 'Load data' menu (left) and then click on 'Load data' button.")
 else:    
     df = ss["data"]["data_di"]["INFLUENZA_oblig"]
 

@@ -68,6 +68,7 @@ def make_line_plot(df, color_groups, color_sequence):
     fig = px.line(
         data_frame = df, 
         color = color_groups, 
+        height = 300,
         x = 'date', y = 'incValue', markers=True, template="plotly_dark", color_discrete_sequence = color_sequence)
     
     fig.update_xaxes(showline=True, linewidth=2, linecolor='white', mirror=True)

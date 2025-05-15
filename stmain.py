@@ -34,8 +34,13 @@ if 'colseq' not in ss:
         "fig_sex" : ["#fc9107", "#0727F7", "#7c8584",],
         }
 
-
-
+if 'figures' not in ss:
+    ss["figures"] = {
+         "fig_all" : None,
+         "fig_can" : None,
+         "fig_age" : None,
+         "fig_sex" : None,
+    }
 
 
 

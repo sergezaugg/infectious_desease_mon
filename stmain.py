@@ -20,21 +20,19 @@ if 'upar' not in ss:
         "par04" : "initial",
         }
 
-
 if 'data' not in ss:
     ss["data"] = {
         "data_di" : "initial",
         "data_ve" : "initial",
-    }
-
+        }
 
 if 'colseq' not in ss:
     ss["colseq"] = {
         "fig_all" : ['#ffbb00', '#0077ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
         "fig_can" : ['#ffbb00', '#0077ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
-        "fig_age" : ['#ffbb00', '#0077ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
-        "fig_sex" : ['#ffbb00', '#0077ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
-    }
+        "fig_age" : ["#cbf510", "#13f10b", '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
+        "fig_sex" : ['#0000bb', '#ff00ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
+        }
 
 
 
@@ -50,7 +48,7 @@ pages = [
     st.Page("page01.py",  title="Get new data"),
     st.Page("page02.py",  title="Check active data"),
     st.Page("page03.py",  title="Plot INFLUENZA"),
-    # st.Page("st_page_03.py",  title="Settings"),
+    st.Page("page04.py",  title="Color Settings"),
     ]
 
 pg = st.navigation(pages)
@@ -58,13 +56,25 @@ pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.text("v0.5.0 - under devel")
+    st.text("v0.0.0 - under initial devel")
     # st.markdown(''':blue[QUICK GUIDE]''')
     # st.text("(1) Define distributional scenarios")
     # st.text("(2) Run simulations")
     # st.text("(3) Check the plotted results")
+
+
+    st.info("Data version: " + ss["data"]["data_ve"]["name"])
+
     st.title(""); st.title(""); st.title(""); 
     st.title(""); st.title("")
     st.markdown(''':gray[RELATED TOPICS]''')
-    st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
+
+    st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health ]")
+    st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
+
+    # st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
     # st.page_link("https://featureimportance.streamlit.app/", label=":gray[feature-importance:red]")
+
+
+
+

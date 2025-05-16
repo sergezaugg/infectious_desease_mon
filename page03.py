@@ -15,29 +15,29 @@ from utils import get_all_sentinella, get_by_region_sentinella, get_by_agegroup_
 if ss["data"]["data_di"] == "initial":
     st.info("Data not yet loaded!  --->   Please navigate to 'Load data' menu (left) and then click on 'Load data' button.")
 else:    
-    df = ss["data"]["data_di"]["INFLUENZA_oblig"]
+    df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
     df_sent = ss["data"]["data_di"]["INFLUENZA_sentinella"]
 
-    df = preprocess_INFLUENZA(df)
+    df_obli = preprocess_INFLUENZA(df_obli)
     df_sent = preprocess_INFLUENZA(df_sent)
 
-    df_all = get_all_oblig(df)
-    df_can = get_by_cantons_oblig(df)
-    df_age = get_by_agegroup_oblig(df)
-    df_sex = get_by_sex_oblig(df)
+    df_all = get_all_oblig(df_obli)
+    df_can = get_by_cantons_oblig(df_obli)
+    df_age = get_by_agegroup_oblig(df_obli)
+    df_sex = get_by_sex_oblig(df_obli)
     df_all_sent = get_all_sentinella(df_sent)
     df_can_sent = get_by_region_sentinella(df_sent)
     df_age_sent = get_by_agegroup_sentinella(df_sent)
     df_sex_sent = get_by_sex_sentinella(df_sent)
 
-    ss["figures"]["fig_all"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all"])
-    ss["figures"]["fig_can"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can"])
-    ss["figures"]["fig_age"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age"])
-    ss["figures"]["fig_sex"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex"])
-    ss["figures"]["fig_all_sent"] = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all"])
-    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_can"])
-    ss["figures"]["fig_age_sent"] = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age"])
-    ss["figures"]["fig_sex_sent"] = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex"])
+    ss["figures"]["fig_all"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all"], y_title = 'Cases per 100000 inhab')
+    ss["figures"]["fig_can"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can"], y_title = 'Cases per 100000 inhab')
+    ss["figures"]["fig_age"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Cases per 100000 inhab')
+    ss["figures"]["fig_sex"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Cases per 100000 inhab')
+    ss["figures"]["fig_all_sent"] = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all"], y_title = 'Consultations per 100000 inhab')
+    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_can"], y_title = 'Consultations per 100000 inhab')
+    ss["figures"]["fig_age_sent"] = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Consultations per 100000 inhab')
+    ss["figures"]["fig_sex_sent"] = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Consultations per 100000 inhab')
 
 
     ca1, ca2 = st.columns([0.4, 0.4])
@@ -46,7 +46,11 @@ else:
         with st.container(height=125, border=True):
             with st.form("form01", border=False, clear_on_submit=False, enter_to_submit=False): 
                 c1, c2 = st.columns([0.4, 0.1])
-                time_options = options=df['date'].sort_values()
+
+                # concat dates from both dfs to get global min and max 
+                df_dates = pd.concat([df_obli['date'], df_sent['date']])
+                # st.write(df_dates.shape, df_obli['date'].shape, df_sent['date'].shape,)
+                time_options = options=df_dates.sort_values()
                 t_sta = time_options.min()
                 t_sta = datetime(year = t_sta.year, month = t_sta.month, day = t_sta.day)
                 t_end = time_options.max()

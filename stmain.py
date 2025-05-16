@@ -30,7 +30,7 @@ if 'colseq' not in ss:
     ss["colseq"] = {
         "fig_all" : ["#fcf808"],
         "fig_can" : ['#ffbb00', '#0077ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
-        "fig_age" : ["#ffff00", "#00ff00", "#00ffff", "#0000ff", "#ff00ff", "#ff0000", "#ffffff"],
+        "fig_age" : ["#00ff73", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#e100ff", "#ffffff"],
         "fig_sex" : ["#fc9107", "#0727F7", "#7c8584",],
         }
 
@@ -58,9 +58,8 @@ st.set_page_config(layout="wide")
  
 pages = [
     st.Page("page01.py",  title="Load data"),
-    st.Page("page02.py",  title="Check active data"),
-    st.Page("page03.py",  title="Plot INFLUENZA_oblig"),
-    st.Page("page03b.py",  title="Plot INFLUENZA_sentinella"),
+    st.Page("page02.py",  title="Tables INFLUENZA"),
+    st.Page("page03.py",  title="Plots INFLUENZA"),
     st.Page("page04.py",  title="Color Settings"),
     ]
 
@@ -75,7 +74,6 @@ with st.sidebar:
     # st.text("(2) Run simulations")
     # st.text("(3) Check the plotted results")
 
-
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
 
     st.title(""); st.title(""); st.title(""); 
@@ -88,7 +86,6 @@ with st.sidebar:
     st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
     
-
     st.markdown(''':gray[MORE COOL STUFF]''')
     st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
 

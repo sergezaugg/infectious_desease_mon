@@ -17,7 +17,14 @@ with col_aa:
         '''    
         **SUMMARY**
 
-        A simple dashboard to visualize Influenza monitoring data provided by the Data API of teh Swiss Federal Office of Public Health (FOPH).
+        A simple dashboard to visualize Influenza monitoring data provided by the Data API of the Swiss Federal Office of Public Health (FOPH).
+
+        **EPI SUMMARY**
+
+        Incidence is the rate of new cases or events over a specified period for the population at risk for the event. 
+        
+
+
         ''')
 
     st.markdown(''':gray[CREDITS]''')

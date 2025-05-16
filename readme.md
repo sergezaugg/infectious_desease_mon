@@ -1,7 +1,7 @@
 # Swiss Influenza Monitoring Visualization
 
 ### Summary
-* A simple dashboard to visualize Influenza monitoring data provided by the Data API of teh Swiss Federal Office of Public Health (FOPH).
+* A simple dashboard to visualize Influenza monitoring data provided by the Data API of the Swiss Federal Office of Public Health (FOPH).
 
 ### Dependencies / Intallation
 * Developed under Python 3.12.8

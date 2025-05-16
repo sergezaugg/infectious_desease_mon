@@ -30,19 +30,19 @@ else:
     df_age_sent = get_by_agegroup_sentinella(df_sent)
     df_sex_sent = get_by_sex_sentinella(df_sent)
 
-    ss["figures"]["fig_all"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all"], y_title = 'Cases per 100000 inhab')
-    ss["figures"]["fig_can"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can"], y_title = 'Cases per 100000 inhab')
-    ss["figures"]["fig_age"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Cases per 100000 inhab')
-    ss["figures"]["fig_sex"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Cases per 100000 inhab')
-    ss["figures"]["fig_all_sent"] = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all"], y_title = 'Consultations per 100000 inhab')
-    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg"], y_title = 'Consultations per 100000 inhab')
-    ss["figures"]["fig_age_sent"] = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Consultations per 100000 inhab')
-    ss["figures"]["fig_sex_sent"] = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Consultations per 100000 inhab')
+    ss["figures"]["fig_all"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_can"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_age"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_sex"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_all_sent"] = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_age_sent"] = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_sex_sent"] = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Consultations per 100000 inhab *')
 
 
     ca1, ca2 = st.columns([0.4, 0.4])
     with ca1:
-        # update time axes 
+        # update time axes
         with st.container(height=125, border=True):
             with st.form("form01", border=False, clear_on_submit=False, enter_to_submit=False): 
                 c1, c2 = st.columns([0.4, 0.1])
@@ -85,6 +85,9 @@ else:
                 if submitted02: 
                     ss["upar"]["selecte_data_sources"] = sel_dat_sou
                     ss["upar"]["selecte_data_groupings"] = sel_dat_grou
+
+
+    st.text("* Incidence is the rate of new events over a specified period. Here, the number of new cases/consultations per week and per 100000 inhabitants.")
 
     if 'oblig' in ss["upar"]["selecte_data_sources"]:
         with st.container(height=None, border=True):

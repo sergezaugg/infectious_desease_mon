@@ -72,7 +72,7 @@ def make_line_plot(df, color_groups, color_sequence):
     fig = px.line(
         data_frame = df, 
         color = color_groups, 
-        height = 280,
+        height = 260,
         x = 'date', 
         y = 'incValue', 
         markers=True, 
@@ -84,10 +84,14 @@ def make_line_plot(df, color_groups, color_sequence):
     _ = fig.update_yaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
     _ = fig.update_layout(xaxis_title='Date', yaxis_title='Cases per 100000 inhabitants')
     _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
-    _ = fig.update_layout(margin=dict(t=10, b=1, l=1, r=1))
+    _ = fig.update_layout(margin=dict(l=1, r=200, t=10, b=1))
+    # _ = fig.update_layout(xaxis_title_font_size=25)
+    # _ = fig.update_layout(yaxis_title_font_size=25)
+    # _ = fig.update_layout(xaxis_tickfont_size=25)
+    # _ = fig.update_layout(legend_font_size=20)
+    _ = fig.update_layout(xaxis_title=None)
 
     return(fig)
-
 
 
 

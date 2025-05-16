@@ -22,17 +22,13 @@ def download_all_data(progr_bar):
     data_file_list = r.json()
 
     # limit to specific diseases , for now 
-    data_file_list =[a for a in data_file_list if a == "INFLUENZA_oblig"]
-
+    data_file_list =[a for a in data_file_list if a == "INFLUENZA_oblig" or a == "INFLUENZA_sentinella"]
 
     n_files = len(data_file_list)
 
     data_di = {}
     for li_index in range(len(data_file_list)):
         print(li_index)
-        # dev
-        # if li_index > 3: 
-        #     break
         data_set_name = data_file_list[li_index]
         full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/' + data_set_name + '/csv'
         r = requests.get(full_query_string, allow_redirects=True)

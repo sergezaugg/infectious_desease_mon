@@ -13,11 +13,11 @@ def convert_iso_date_to_datetime(d):
     return(datetime.strptime(d + '-1', "%Y-W%W-%w"))
 
 @st.cache_data
-def preprocess_INFLUENZA_oblig(df):
+def preprocess_INFLUENZA(df):
     # make a continuous time variable 
     # df['date'] = df["temporal"].apply(pd.Timestamp.fromisoformat) # Buggie
     df['date'] = df["temporal"].apply(convert_iso_date_to_datetime)
-    # ewcode  
+    # re-code  
     df['agegroup'].replace(to_replace='0 - 4',   value='00-04',   inplace=True)
     df['agegroup'].replace(to_replace='5 - 14',  value='05-14',   inplace=True)
     df['agegroup'].replace(to_replace='15 - 29', value='15-29',   inplace=True)
@@ -29,8 +29,9 @@ def preprocess_INFLUENZA_oblig(df):
     return(df)
 
 
+# oblig 
 @st.cache_data
-def get_all(df):
+def get_all_oblig(df):
     df = df[df["type"]  == 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
@@ -39,7 +40,7 @@ def get_all(df):
     return(df)
 
 @st.cache_data
-def get_by_cantons(df):
+def get_by_cantons_oblig(df):
     df = df[df["type"]  == 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] != 'CHFL']
@@ -48,7 +49,7 @@ def get_by_cantons(df):
     return(df)
 
 @st.cache_data
-def get_by_agegroup(df):
+def get_by_agegroup_oblig(df):
     df = df[df["type"]  == 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
@@ -58,7 +59,7 @@ def get_by_agegroup(df):
     return(df)
 
 @st.cache_data
-def get_by_sex(df):
+def get_by_sex_oblig(df):
     df = df[df["type"]  == 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
@@ -67,6 +68,45 @@ def get_by_sex(df):
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
+
+
+# sentinella
+@st.cache_data
+def get_all_sentinella(df):
+    df = df[df["valueCategory"]  == 'consultations']
+    df = df[df["georegion"] == 'CH']
+    df = df[df["agegroup"]  == 'All']
+    df = df[df["sex"]  == 'all']
+    return(df)
+
+@st.cache_data
+def get_by_region_sentinella(df):
+    df = df[df["valueCategory"]  == 'consultations']
+    df = df[df["georegion"] != 'CH']
+    df = df[df["agegroup"]  == 'All']
+    df = df[df["sex"]  == 'all']
+    return(df)
+
+@st.cache_data
+def get_by_agegroup_sentinella(df):
+    df = df[df["valueCategory"]  == 'consultations']
+    df = df[df["georegion"] == 'CH']
+    df = df[df["agegroup"]  != 'All']
+    df = df[df["sex"]  == 'all']
+    return(df)
+
+@st.cache_data
+def get_by_sex_sentinella(df):
+    df = df[df["valueCategory"]  == 'consultations']
+    df = df[df["georegion"] == 'CH']
+    df = df[df["agegroup"]  == 'All']
+    df = df[df["sex"]  != 'all']
+    return(df)
+
+
+
+
+# plot haha
 @st.cache_data
 def make_line_plot(df, color_groups, color_sequence):
     fig = px.line(

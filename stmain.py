@@ -40,7 +40,14 @@ if 'figures' not in ss:
          "fig_can" : None,
          "fig_age" : None,
          "fig_sex" : None,
+
+         "fig_all_sent" : None,
+         "fig_can_sent" : None,
+         "fig_age_sent" : None,
+         "fig_sex_sent" : None,
     }
+
+
 
 
 
@@ -52,7 +59,8 @@ st.set_page_config(layout="wide")
 pages = [
     st.Page("page01.py",  title="Load data"),
     st.Page("page02.py",  title="Check active data"),
-    st.Page("page03.py",  title="Plot INFLUENZA"),
+    st.Page("page03.py",  title="Plot INFLUENZA_oblig"),
+    st.Page("page03b.py",  title="Plot INFLUENZA_sentinella"),
     st.Page("page04.py",  title="Color Settings"),
     ]
 
@@ -72,13 +80,17 @@ with st.sidebar:
 
     st.title(""); st.title(""); st.title(""); 
     st.title(""); st.title("")
-    st.markdown(''':gray[RELATED TOPICS]''')
 
-    st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health ]")
+    st.markdown(''':gray[CREDITS]''')
+    st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health]")
+
+    st.markdown(''':gray[RELATED LINKS]''')
     st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
+    st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
+    
 
-    # st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
-    # st.page_link("https://featureimportance.streamlit.app/", label=":gray[feature-importance:red]")
+    st.markdown(''':gray[MORE COOL STUFF]''')
+    st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
 
 
 

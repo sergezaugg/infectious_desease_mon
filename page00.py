@@ -5,7 +5,7 @@
 
 import streamlit as st
 
-col_aa, col_bb, = st.columns([0.50, 0.50])
+col_aa, col_bb, = st.columns([0.50, 0.20])
 
 with col_aa: 
 

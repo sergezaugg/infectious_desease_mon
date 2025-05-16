@@ -43,6 +43,8 @@ def download_all_data(progr_bar):
     ss["data"]["data_ve"] = data_version
     progr_info.write('Done!')
 
+    st.page_link("page03.py", label="Go to visualization tab")
+
     # # [data_di[a].shape for a in data_di.keys()]
     # return(data_version, data_di)
 

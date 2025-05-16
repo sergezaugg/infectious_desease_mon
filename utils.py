@@ -128,7 +128,7 @@ def make_line_plot(df, color_groups, color_sequence, y_title):
     _ = fig.update_layout(xaxis_title_font_size=15)
     _ = fig.update_layout(yaxis_title_font_size=15)
     _ = fig.update_layout(xaxis_tickfont_size=15)
-    _ = fig.update_layout(legend_font_size=15)
+    _ = fig.update_layout(legend_font_size=20)
     _ = fig.update_layout(xaxis_title=None)
 
     return(fig)

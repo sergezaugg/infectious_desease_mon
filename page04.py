@@ -8,6 +8,11 @@ from streamlit import session_state as ss
 # from utils import update_ss
 
 st.text("  ")  
+st.text("All")  
+cols_b = st.columns(18)   
+ss["colseq"]["fig_all"][0] = cols_b[0].color_picker("All",  ss["colseq"]["fig_all"][0])   
+
+st.text("  ")  
 st.text("Sex")  
 cols_b = st.columns(18)   
 ss["colseq"]["fig_sex"][0] = cols_b[0].color_picker("Female",  ss["colseq"]["fig_sex"][0])   

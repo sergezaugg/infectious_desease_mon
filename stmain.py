@@ -30,8 +30,8 @@ if 'data' not in ss:
 
 if 'colseq' not in ss:
     ss["colseq"] = {
-        "fig_all" : ["#fcf808"],
-        "fig_can"  : px.colors.qualitative.Alphabet,
+        "fig_all" : ["#FC0847"],
+        "fig_can" : px.colors.qualitative.Alphabet,
         "fig_reg" : px.colors.qualitative.Light24, #Plotly,
         "fig_age" : ["#00ff73", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#e100ff", "#ffffff"],
         "fig_sex" : ["#fc9107", "#0727F7", "#7c8584",],
@@ -77,10 +77,8 @@ with st.sidebar:
 
     st.title(""); st.title(""); st.title(""); 
 
-    st.markdown(''':gray[CREDITS]''')
+    st.markdown(''':gray[CREDITS / LINKS]''')
     st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health]")
-
-    st.markdown(''':gray[RELATED LINKS]''')
     st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
     

@@ -27,6 +27,10 @@ full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/files'
 r = requests.get(full_query_string, allow_redirects=True)
 data_file_list = r.json()
 
+# limit to specific diseases , for now 
+data_file_list =[a for a in data_file_list if a == "INFLUENZA_oblig"]
+
+
 data_di = {}
 for li_index in range(len(data_file_list)):
     print(li_index)
@@ -84,10 +88,34 @@ df['agegroup'] = pd.Categorical(df['agegroup']).rename_categories({
 
 
 
-
-
+#-------------------------
+# experiment with tima and dates
+from datetime import date
+from datetime import datetime
+df["temporal"].str.slice(0,4)
+df["temporal"].str.slice(6,8)
+datetime(2020, 1, 1, 9, 30),
+datetime.datetime()
+date.fromisoformat('2021-W01')
+d = "2019-W01"
+r = datetime.strptime(d + '-1', "%Y-W%W-%w")
+r
+def convert_iso_date_to_datetime(d):
+    return(datetime.strptime(d + '-1', "%Y-W%W-%w"))
 # make a continuous time variable 
-df['date'] = df["temporal"].apply(pd.Timestamp.fromisoformat)
+df['date'] = df["temporal"].apply(convert_iso_date_to_datetime)
+df['date'].dtype
+# datetime.datetime(year, month, day, hour=0, minute=0, second=0, microsecond=0,
+df['date'].dt.year
+df['date'].dt.month
+df['date'].dt.day
+time_options = options=df['date'].sort_values()
+t_sta = time_options.min()
+t_sta = datetime(year = t_sta.year, month = t_sta.month, day = t_sta.day)
+t_end = time_options.max()
+t_end = datetime(year = t_end.year, month = t_end.month, day = t_end.day)
+#-------------------------
+
 
 
 df_all = get_all(df)

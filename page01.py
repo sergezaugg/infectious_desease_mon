@@ -21,6 +21,10 @@ def download_all_data(progr_bar):
     r = requests.get(full_query_string, allow_redirects=True)
     data_file_list = r.json()
 
+    # limit to specific diseases , for now 
+    data_file_list =[a for a in data_file_list if a == "INFLUENZA_oblig"]
+
+
     n_files = len(data_file_list)
 
     data_di = {}

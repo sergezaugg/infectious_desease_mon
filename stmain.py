@@ -7,6 +7,7 @@
 import streamlit as st
 from streamlit import session_state as ss
 import numpy as np
+import plotly.express as px
 
 # (1) ---------------------
 # set initial session state
@@ -29,8 +30,9 @@ if 'data' not in ss:
 
 if 'colseq' not in ss:
     ss["colseq"] = {
-        "fig_all" : ["#fcf808"],
-        "fig_can" : ['#ffbb00', '#0077ff', '#33ff00', '#00ffff', '#ff00ff', '#ffff66', '#ff0000'],
+        "fig_all" : ["#FC0847"],
+        "fig_can" : px.colors.qualitative.Alphabet,
+        "fig_reg" : px.colors.qualitative.Light24, #Plotly,
         "fig_age" : ["#00ff73", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#e100ff", "#ffffff"],
         "fig_sex" : ["#fc9107", "#0727F7", "#7c8584",],
         }
@@ -65,7 +67,7 @@ pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.info("App v0.0.2 - under initial devel")
+    st.info("App v0.0.3 - under initial devel")
     # st.markdown(''':blue[QUICK GUIDE]''')
     # st.text("(1) Define distributional scenarios")
     # st.text("(2) Run simulations")
@@ -74,12 +76,9 @@ with st.sidebar:
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
 
     st.title(""); st.title(""); st.title(""); 
-    st.title(""); st.title("")
 
-    st.markdown(''':gray[CREDITS]''')
+    st.markdown(''':gray[CREDITS / LINKS]''')
     st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health]")
-
-    st.markdown(''':gray[RELATED LINKS]''')
     st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
     

@@ -30,19 +30,19 @@ else:
     df_age_sent = get_by_agegroup_sentinella(df_sent)
     df_sex_sent = get_by_sex_sentinella(df_sent)
 
-    ss["figures"]["fig_all"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all"], y_title = 'Cases per 100000 inhab')
-    ss["figures"]["fig_can"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can"], y_title = 'Cases per 100000 inhab')
-    ss["figures"]["fig_age"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Cases per 100000 inhab')
-    ss["figures"]["fig_sex"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Cases per 100000 inhab')
-    ss["figures"]["fig_all_sent"] = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all"], y_title = 'Consultations per 100000 inhab')
-    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_can"], y_title = 'Consultations per 100000 inhab')
-    ss["figures"]["fig_age_sent"] = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Consultations per 100000 inhab')
-    ss["figures"]["fig_sex_sent"] = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Consultations per 100000 inhab')
+    ss["figures"]["fig_all"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_can"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_age"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_sex"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_all_sent"] = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_age_sent"] = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_sex_sent"] = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Consultations per 100000 inhab *')
 
 
     ca1, ca2 = st.columns([0.4, 0.4])
     with ca1:
-        # update time axes 
+        # update time axes
         with st.container(height=125, border=True):
             with st.form("form01", border=False, clear_on_submit=False, enter_to_submit=False): 
                 c1, c2 = st.columns([0.4, 0.1])
@@ -58,7 +58,7 @@ else:
                 with c1:
                     sel_sta, sel_end = st.slider("Time range to plot", value=( t_sta, t_end), format="YYYY-MM-DD", label_visibility = "visible")
                 with c2:
-                    st.text(" ")
+                    # st.text(" ")
                     st.text(" ")
                     submitted01 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
                 if submitted01:
@@ -73,18 +73,28 @@ else:
     with ca2:
         with st.container(height=125, border=True):
             with st.form("form02", border=False, clear_on_submit=False, enter_to_submit=False): 
-                ca1, ca2, ca3 = st.columns([0.3, 0.4, 0.3])
+                ca1, ca2, ca3 = st.columns([0.3, 0.4, 0.4])
                 with ca1:
                     sel_dat_sou = st.segmented_control("Data source", options = ['oblig', 'sentinella'], selection_mode="multi", default = ['oblig', 'sentinella']) 
                 with ca2:
                     sel_dat_grou = st.segmented_control("Data grouping", options = ['All', 'Sex', 'Age', 'Region'], selection_mode="multi", default = ['All'])
                 with ca3:
                     st.text(" ")
-                    st.text(" ")
+                    # st.text(" ")
                     submitted02 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
                 if submitted02: 
                     ss["upar"]["selecte_data_sources"] = sel_dat_sou
                     ss["upar"]["selecte_data_groupings"] = sel_dat_grou
+
+            cb1, cb2, cb3 = st.columns([0.4, 0.15, 0.5])
+            cb1.text("Links to data source details:")
+            cb2.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig",      label=":blue[oblig]")  
+            cb3.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":blue[sentinella]")   
+ 
+                
+
+
+    st.text("* Incidence is the rate of new events over a specified period. Here, the number of new cases/consultations per week and per 100000 inhabitants.")
 
     if 'oblig' in ss["upar"]["selecte_data_sources"]:
         with st.container(height=None, border=True):

@@ -1,8 +1,7 @@
-# aaaaaaaaaaaaaaaaaaaaaaaa
+# Swiss Influenza Monitoring Visualization
 
 ### Summary
-* aaaaaaaaaa
-
+* A simple dashboard to visualize Influenza monitoring data provided by the Data API of the Swiss Federal Office of Public Health (FOPH).
 
 ### Dependencies / Intallation
 * Developed under Python 3.12.8
@@ -18,7 +17,5 @@ streamlit run stmain.py
 
 ```
 
-
-### cheetsheet
-beatify JSON in VSC
-SHIFT + ALT + F
+### cheet-sheet
+*  beatify JSON in VSC : SHIFT + ALT + F

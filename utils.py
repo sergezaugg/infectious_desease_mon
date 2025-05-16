@@ -125,10 +125,10 @@ def make_line_plot(df, color_groups, color_sequence, y_title):
     _ = fig.update_layout(xaxis_title='Date', yaxis_title=y_title)
     _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
     _ = fig.update_layout(margin=dict(l=1, r=200, t=10, b=1))
-    # _ = fig.update_layout(xaxis_title_font_size=25)
+    _ = fig.update_layout(xaxis_title_font_size=15)
     _ = fig.update_layout(yaxis_title_font_size=15)
-    # _ = fig.update_layout(xaxis_tickfont_size=25)
-    # _ = fig.update_layout(legend_font_size=20)
+    _ = fig.update_layout(xaxis_tickfont_size=15)
+    _ = fig.update_layout(legend_font_size=20)
     _ = fig.update_layout(xaxis_title=None)
 
     return(fig)

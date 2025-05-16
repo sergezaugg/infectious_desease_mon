@@ -69,7 +69,7 @@ for li_index in range(len(data_file_list)):
 # (1) 
 
 
-# df = data_di['INFLUENZA_oblig']
+df = data_di['INFLUENZA_oblig']
 df = data_di['INFLUENZA_sentinella']
 
 df.shape
@@ -77,6 +77,10 @@ df.head(15)
 df.columns
 
 df['type'].value_counts()
+df['temporal_type'].value_counts()
+
+
+
 
 df['value'].value_counts()
 df['georegion'].value_counts()

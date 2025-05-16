@@ -1,0 +1,32 @@
+#--------------------             
+# Author : Serge Zaugg
+# Description : Some concise background info 
+#--------------------
+
+import streamlit as st
+
+col_aa, col_bb, = st.columns([0.50, 0.50])
+
+with col_aa: 
+
+    with st.container(border=True):
+        st.title(":violet[Swiss Influenza Monitoring Visualization]") 
+
+    with st.container(border=True, ):
+        st.markdown(
+        '''    
+        :violet[**SUMMARY**]
+
+        A simple dashboard to visualize Influenza monitoring data provided by the Data API of teh Swiss Federal Office of Public Health (FOPH).
+        ''')
+
+    st.markdown(''':gray[CREDITS]''')
+    st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health]")
+
+    st.markdown(''':gray[RELATED LINKS]''')
+    st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
+    st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
+    
+     
+
+      

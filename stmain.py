@@ -11,13 +11,14 @@ import numpy as np
 # (1) ---------------------
 # set initial session state
 
-# keep track of user-provided params
 if 'upar' not in ss:
     ss["upar"] = {
         "par01" : "initial",
         "par02" : "initial",
         "par03" : "initial",
         "par04" : "initial",
+        "selecte_data_sources" : ['oblig', 'sentinella'],
+        "selecte_data_groupings" : ['All'],
         }
 
 if 'data' not in ss:
@@ -40,16 +41,11 @@ if 'figures' not in ss:
          "fig_can" : None,
          "fig_age" : None,
          "fig_sex" : None,
-
          "fig_all_sent" : None,
          "fig_can_sent" : None,
          "fig_age_sent" : None,
          "fig_sex_sent" : None,
-    }
-
-
-
-
+        }
 
 # -------------------
 # (2) main navigation
@@ -58,9 +54,10 @@ st.set_page_config(layout="wide")
  
 pages = [
     st.Page("page01.py",  title="Load data"),
-    st.Page("page02.py",  title="Tables INFLUENZA"),
-    st.Page("page03.py",  title="Plots INFLUENZA"),
+    st.Page("page03.py",  title="Visualize"),
     st.Page("page04.py",  title="Color Settings"),
+    st.Page("page00.py",  title="Background info"),
+    st.Page("page02.py",  title="Tabular data"),
     ]
 
 pg = st.navigation(pages)
@@ -68,7 +65,7 @@ pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.info("App v0.0.1 - under initial devel")
+    st.info("App v0.0.2 - under initial devel")
     # st.markdown(''':blue[QUICK GUIDE]''')
     # st.text("(1) Define distributional scenarios")
     # st.text("(2) Run simulations")

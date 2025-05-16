@@ -9,7 +9,7 @@ import streamlit as st
 from datetime import datetime
 from streamlit import session_state as ss
 from utils import get_all_oblig, get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig, make_line_plot, preprocess_INFLUENZA
-from utils import get_all_sentinella, get_by_region_sentinella, get_by_agegroup_sentinella, get_by_sex_sentinella, make_line_plot, preprocess_INFLUENZA
+from utils import get_all_sentinella, get_by_region_sentinella, get_by_agegroup_sentinella, get_by_sex_sentinella, make_line_plot
 
 
 if ss["data"]["data_di"] == "initial":
@@ -60,8 +60,8 @@ else:
                 with c2:
                     st.text(" ")
                     st.text(" ")
-                    submitted02 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
-                if submitted02:
+                    submitted01 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
+                if submitted01:
                     _ = ss["figures"]["fig_all"].update_xaxes(type="date", range=[sel_sta, sel_end])
                     _ = ss["figures"]["fig_can"].update_xaxes(type="date", range=[sel_sta, sel_end])
                     _ = ss["figures"]["fig_age"].update_xaxes(type="date", range=[sel_sta, sel_end])
@@ -72,27 +72,40 @@ else:
                     _ = ss["figures"]["fig_sex_sent"].update_xaxes(type="date", range=[sel_sta, sel_end])
     with ca2:
         with st.container(height=125, border=True):
-            st.text("")
+            with st.form("form02", border=False, clear_on_submit=False, enter_to_submit=False): 
+                ca1, ca2, ca3 = st.columns([0.3, 0.4, 0.3])
+                with ca1:
+                    sel_dat_sou = st.segmented_control("Data source", options = ['oblig', 'sentinella'], selection_mode="multi", default = ['oblig', 'sentinella']) 
+                with ca2:
+                    sel_dat_grou = st.segmented_control("Data grouping", options = ['All', 'Sex', 'Age', 'Region'], selection_mode="multi", default = ['All'])
+                with ca3:
+                    st.text(" ")
+                    st.text(" ")
+                    submitted02 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
+                if submitted02: 
+                    ss["upar"]["selecte_data_sources"] = sel_dat_sou
+                    ss["upar"]["selecte_data_groupings"] = sel_dat_grou
 
-    with st.container(height=None, border=True):
-        with st.expander("expand"):
-            st.plotly_chart(ss["figures"]["fig_all"], key = "fig_all",  use_container_width=True, theme=None)
-        with st.expander("expand"):
-            st.plotly_chart(ss["figures"]["fig_sex"], key = "fig_sex",  use_container_width=True, theme=None)
-        with st.expander("expand"):
-            st.plotly_chart(ss["figures"]["fig_age"], key = "fig_age",  use_container_width=True, theme=None)
-        with st.expander("expand"):
-            st.plotly_chart(ss["figures"]["fig_can"], key = "fig_can",  use_container_width=True, theme=None)
-
-    with st.container(height=None, border=True):
-        with st.expander("expand"):
-            st.plotly_chart(ss["figures"]["fig_all_sent"], key = "fig_all_sent",  use_container_width=True, theme=None)
-        with st.expander("expand"):
-            st.plotly_chart(ss["figures"]["fig_sex_sent"], key = "fig_sex_sent",  use_container_width=True, theme=None)
-        with st.expander("expand"):
-            st.plotly_chart(ss["figures"]["fig_age_sent"], key = "fig_age_sent",  use_container_width=True, theme=None)
-        with st.expander("expand"):
-            st.plotly_chart(ss["figures"]["fig_can_sent"], key = "fig_can_sent",  use_container_width=True, theme=None)
+    if 'oblig' in ss["upar"]["selecte_data_sources"]:
+        with st.container(height=None, border=True):
+            if 'All' in ss["upar"]["selecte_data_groupings"]:
+                st.plotly_chart(ss["figures"]["fig_all"], key = "fig_all",  use_container_width=True, theme=None)
+            if 'Sex' in ss["upar"]["selecte_data_groupings"]:
+                st.plotly_chart(ss["figures"]["fig_sex"], key = "fig_sex",  use_container_width=True, theme=None)
+            if 'Age' in ss["upar"]["selecte_data_groupings"]:
+                st.plotly_chart(ss["figures"]["fig_age"], key = "fig_age",  use_container_width=True, theme=None)
+            if 'Region' in ss["upar"]["selecte_data_groupings"]:
+                st.plotly_chart(ss["figures"]["fig_can"], key = "fig_can",  use_container_width=True, theme=None)
+    if 'sentinella' in ss["upar"]["selecte_data_sources"]:
+        with st.container(height=None, border=True):
+            if 'All' in ss["upar"]["selecte_data_groupings"]:
+                st.plotly_chart(ss["figures"]["fig_all_sent"], key = "fig_all_sent",  use_container_width=True, theme=None)
+            if 'Sex' in ss["upar"]["selecte_data_groupings"]:
+                st.plotly_chart(ss["figures"]["fig_sex_sent"], key = "fig_sex_sent",  use_container_width=True, theme=None)
+            if 'Age' in ss["upar"]["selecte_data_groupings"]:
+                st.plotly_chart(ss["figures"]["fig_age_sent"], key = "fig_age_sent",  use_container_width=True, theme=None)
+            if 'Region' in ss["upar"]["selecte_data_groupings"]:
+                st.plotly_chart(ss["figures"]["fig_can_sent"], key = "fig_can_sent",  use_container_width=True, theme=None)
 
 
 

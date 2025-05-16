@@ -35,7 +35,7 @@ else:
     ss["figures"]["fig_age"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Cases per 100000 inhab')
     ss["figures"]["fig_sex"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Cases per 100000 inhab')
     ss["figures"]["fig_all_sent"] = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all"], y_title = 'Consultations per 100000 inhab')
-    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_can"], y_title = 'Consultations per 100000 inhab')
+    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg"], y_title = 'Consultations per 100000 inhab')
     ss["figures"]["fig_age_sent"] = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Consultations per 100000 inhab')
     ss["figures"]["fig_sex_sent"] = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Consultations per 100000 inhab')
 

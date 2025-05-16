@@ -19,4 +19,6 @@ streamlit run stmain.py
 ```
 
 
-
+### cheetsheet
+beatify JSON in VSC
+SHIFT + ALT + F

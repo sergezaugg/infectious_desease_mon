@@ -34,8 +34,13 @@ if 'colseq' not in ss:
         "fig_sex" : ["#fc9107", "#0727F7", "#7c8584",],
         }
 
-
-
+if 'figures' not in ss:
+    ss["figures"] = {
+         "fig_all" : None,
+         "fig_can" : None,
+         "fig_age" : None,
+         "fig_sex" : None,
+    }
 
 
 
@@ -56,7 +61,7 @@ pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.info("App v0.0.0 - under initial devel")
+    st.info("App v0.0.1 - under initial devel")
     # st.markdown(''':blue[QUICK GUIDE]''')
     # st.text("(1) Define distributional scenarios")
     # st.text("(2) Run simulations")

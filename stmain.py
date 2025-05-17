@@ -12,10 +12,13 @@ import plotly.express as px
 # (1) ---------------------
 # set initial session state
 
+
+
+
 if 'upar' not in ss:
     ss["upar"] = {
-        "par01" : "initial",
-        "par02" : "initial",
+        "full_date_range" : "initial",
+        "date_range" : "initial",
         "par03" : "initial",
         "par04" : "initial",
         "selecte_data_sources" : ['oblig', 'sentinella'],

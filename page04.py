@@ -28,6 +28,3 @@ ss["colseq"]["fig_age_oblig"][2] = cols_b[2].color_picker("15-29",   ss["colseq"
 ss["colseq"]["fig_age_oblig"][3] = cols_b[3].color_picker("30-64",   ss["colseq"]["fig_age_oblig"][3])   
 ss["colseq"]["fig_age_oblig"][4] = cols_b[4].color_picker("65+",     ss["colseq"]["fig_age_oblig"][4])   
 ss["colseq"]["fig_age_oblig"][5] = cols_b[5].color_picker("Unknown", ss["colseq"]["fig_age_oblig"][5])   
-
-
-

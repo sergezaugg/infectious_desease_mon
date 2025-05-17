@@ -30,23 +30,23 @@ if 'data' not in ss:
 
 if 'colseq' not in ss:
     ss["colseq"] = {
-        "fig_all" : ["#FC0847"],
-        "fig_can" : px.colors.qualitative.Alphabet,
-        "fig_reg" : px.colors.qualitative.Light24, #Plotly,
-        "fig_age" : ["#00ff73", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#e100ff", "#ffffff"],
-        "fig_sex" : ["#fc9107", "#0727F7", "#7c8584",],
+        "fig_all_oblig" : ["#FC0847"],
+        "fig_can_oblig" : px.colors.qualitative.Alphabet,
+        "fig_reg_oblig" : px.colors.qualitative.Light24, #Plotly,
+        "fig_age_oblig" : ["#00ff73", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#e100ff", "#ffffff"],
+        "fig_sex_oblig" : ["#fc9107", "#0727F7", "#7c8584",],
         }
 
 if 'figures' not in ss:
     ss["figures"] = {
-         "fig_all" : None,
-         "fig_can" : None,
-         "fig_age" : None,
-         "fig_sex" : None,
-         "fig_all_sent" : None,
-         "fig_can_sent" : None,
-         "fig_age_sent" : None,
-         "fig_sex_sent" : None,
+         "fig_all_oblig" : None,
+         "fig_can_oblig" : None,
+         "fig_age_oblig" : None,
+         "fig_sex_oblig" : None,
+         "fig_all_sent"  : None,
+         "fig_can_sent"  : None,
+         "fig_age_sent"  : None,
+         "fig_sex_sent"  : None,
         }
 
 # -------------------

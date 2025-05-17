@@ -30,14 +30,14 @@ else:
     df_age_sent = get_by_agegroup_sentinella(df_sent)
     df_sex_sent = get_by_sex_sentinella(df_sent)
 
-    ss["figures"]["fig_all"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["fig_can"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["fig_age"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["fig_sex"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["fig_all_sent"] = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all"], y_title = 'Consultations per 100000 inhab *')
-    ss["figures"]["fig_can_sent"] = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg"], y_title = 'Consultations per 100000 inhab *')
-    ss["figures"]["fig_age_sent"] = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age"], y_title = 'Consultations per 100000 inhab *')
-    ss["figures"]["fig_sex_sent"] = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_all_oblig"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_can_oblig"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_age_oblig"] = make_line_plot(df_age, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_sex_oblig"] = make_line_plot(df_sex, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["fig_all_sent"]  = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all_oblig"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_can_sent"]  = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_age_sent"]  = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["fig_sex_sent"]  = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *')
 
 
     ca1, ca2 = st.columns([0.4, 0.4])
@@ -62,10 +62,10 @@ else:
                     st.text(" ")
                     submitted01 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
                 if submitted01:
-                    _ = ss["figures"]["fig_all"].update_xaxes(type="date", range=[sel_sta, sel_end])
-                    _ = ss["figures"]["fig_can"].update_xaxes(type="date", range=[sel_sta, sel_end])
-                    _ = ss["figures"]["fig_age"].update_xaxes(type="date", range=[sel_sta, sel_end])
-                    _ = ss["figures"]["fig_sex"].update_xaxes(type="date", range=[sel_sta, sel_end])
+                    _ = ss["figures"]["fig_all_oblig"].update_xaxes(type="date", range=[sel_sta, sel_end])
+                    _ = ss["figures"]["fig_can_oblig"].update_xaxes(type="date", range=[sel_sta, sel_end])
+                    _ = ss["figures"]["fig_age_oblig"].update_xaxes(type="date", range=[sel_sta, sel_end])
+                    _ = ss["figures"]["fig_sex_oblig"].update_xaxes(type="date", range=[sel_sta, sel_end])
                     _ = ss["figures"]["fig_all_sent"].update_xaxes(type="date", range=[sel_sta, sel_end])
                     _ = ss["figures"]["fig_can_sent"].update_xaxes(type="date", range=[sel_sta, sel_end])
                     _ = ss["figures"]["fig_age_sent"].update_xaxes(type="date", range=[sel_sta, sel_end])
@@ -99,13 +99,13 @@ else:
     if 'oblig' in ss["upar"]["selecte_data_sources"]:
         with st.container(height=None, border=True):
             if 'All' in ss["upar"]["selecte_data_groupings"]:
-                st.plotly_chart(ss["figures"]["fig_all"], key = "fig_all",  use_container_width=True, theme=None)
+                st.plotly_chart(ss["figures"]["fig_all_oblig"], key = "fig_all_oblig",  use_container_width=True, theme=None)
             if 'Sex' in ss["upar"]["selecte_data_groupings"]:
-                st.plotly_chart(ss["figures"]["fig_sex"], key = "fig_sex",  use_container_width=True, theme=None)
+                st.plotly_chart(ss["figures"]["fig_sex_oblig"], key = "fig_sex_oblig",  use_container_width=True, theme=None)
             if 'Age' in ss["upar"]["selecte_data_groupings"]:
-                st.plotly_chart(ss["figures"]["fig_age"], key = "fig_age",  use_container_width=True, theme=None)
+                st.plotly_chart(ss["figures"]["fig_age_oblig"], key = "fig_age_oblig",  use_container_width=True, theme=None)
             if 'Region' in ss["upar"]["selecte_data_groupings"]:
-                st.plotly_chart(ss["figures"]["fig_can"], key = "fig_can",  use_container_width=True, theme=None)
+                st.plotly_chart(ss["figures"]["fig_can_oblig"], key = "fig_can_oblig",  use_container_width=True, theme=None)
     if 'sentinella' in ss["upar"]["selecte_data_sources"]:
         with st.container(height=None, border=True):
             if 'All' in ss["upar"]["selecte_data_groupings"]:

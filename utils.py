@@ -8,9 +8,20 @@ import plotly.express as px
 import streamlit as st
 from datetime import date
 from datetime import datetime
+from streamlit import session_state as ss
 
 def convert_iso_date_to_datetime(d):
     return(datetime.strptime(d + '-1', "%Y-W%W-%w"))
+
+
+def update_ss(kname, ssname):
+    """
+    description : helper callback fun to implement statefull apps
+    kname : key name of widget
+    ssname : key name of variable in session state (ss)
+    """
+    ss["upar"][ssname] = ss[kname]      
+
 
 @st.cache_data
 def preprocess_INFLUENZA(df):
@@ -119,7 +130,6 @@ def make_line_plot(df, color_groups, color_sequence, y_title):
         template="plotly_dark", 
         color_discrete_sequence = color_sequence
         )
-    
     _ = fig.update_xaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
     _ = fig.update_yaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
     _ = fig.update_layout(xaxis_title='Date', yaxis_title=y_title)
@@ -130,8 +140,24 @@ def make_line_plot(df, color_groups, color_sequence, y_title):
     _ = fig.update_layout(xaxis_tickfont_size=15)
     _ = fig.update_layout(legend_font_size=20)
     _ = fig.update_layout(xaxis_title=None)
-
     return(fig)
+
+
+@st.cache_data
+def update_zoom_line_plot(fig, date_range):
+    return(fig.update_xaxes(type="date", range=date_range))
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

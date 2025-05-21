@@ -6,7 +6,7 @@
 import pandas as pd 
 import plotly.express as px
 import streamlit as st
-from datetime import datetime
+from datetime import datetime, timedelta
 from streamlit import session_state as ss
 from utils import get_all_oblig, get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig, make_line_plot
 from utils import get_all_sentinella, get_by_region_sentinella, get_by_agegroup_sentinella, get_by_sex_sentinella
@@ -31,17 +31,26 @@ else:
     df_sex_sent = get_by_sex_sentinella(df_sent)
 
     if ss["upar"]["date_range"] == 'initial':
-            # concat dates from both dfs to get global min and max 
-            df_dates = pd.concat([df_obli['date'], df_sent['date']])
-            # st.write(df_dates.shape, df_obli['date'].shape, df_sent['date'].shape,)
-            time_options = options=df_dates.sort_values()
-            t_sta = time_options.min()
-            t_sta = datetime(year = t_sta.year, month = t_sta.month, day = t_sta.day)
-            t_end = time_options.max()
-            t_end = datetime(year = t_end.year, month = t_end.month, day = t_end.day)
-            ss["upar"]["date_range"] = (t_sta, t_end)
-            ss["upar"]["full_date_range"] = (t_sta, t_end)
-      
+        delta_time = timedelta(days=100)
+        # concat dates from both dfs to get global min and max 
+        df_dates = pd.concat([df_obli['date'], df_sent['date']])
+        time_options = options=df_dates.sort_values()
+        t_sta = time_options.min() - delta_time
+        t_sta = datetime(year = t_sta.year, month = t_sta.month, day = t_sta.day)
+        t_end = time_options.max() + delta_time
+        t_end = datetime(year = t_end.year, month = t_end.month, day = t_end.day)
+        ss["upar"]["date_range"] = (t_sta, t_end)
+        ss["upar"]["full_date_range"] = (t_sta, t_end)
+    
+    
+    ca1, ca2 = st.columns([0.4, 0.4])
+    # update time axes
+    with ca1:
+        with st.container(height=125, border=True):
+            _ = st.slider("Time range to plot", min_value = ss["upar"]["full_date_range"][0], max_value = ss["upar"]["full_date_range"][1], 
+                value = ss["upar"]["date_range"], format = "YYYY-MM-DD", label_visibility = "visible",
+                key = "k_date_range", on_change=update_ss, args=["k_date_range", "date_range"]
+                )     
 
     ss["figures"]["fig_all_oblig"] = make_line_plot(df_all, 'georegion', ss["colseq"]["fig_all_oblig"], y_title = 'Cases per 100000 inhab *', )
     ss["figures"]["fig_can_oblig"] = make_line_plot(df_can, 'georegion', ss["colseq"]["fig_can_oblig"], y_title = 'Cases per 100000 inhab *', )
@@ -51,7 +60,7 @@ else:
     ss["figures"]["fig_can_sent"]  = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *', )
     ss["figures"]["fig_age_sent"]  = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *', )
     ss["figures"]["fig_sex_sent"]  = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *', )
-
+           
     ss["figures"]["fig_all_oblig"] = update_zoom_line_plot(fig = ss["figures"]["fig_all_oblig"], date_range = ss["upar"]["date_range"])
     ss["figures"]["fig_can_oblig"] = update_zoom_line_plot(fig = ss["figures"]["fig_can_oblig"], date_range = ss["upar"]["date_range"])                
     ss["figures"]["fig_age_oblig"] = update_zoom_line_plot(fig = ss["figures"]["fig_age_oblig"], date_range = ss["upar"]["date_range"])                
@@ -59,25 +68,8 @@ else:
     ss["figures"]["fig_all_sent"]  = update_zoom_line_plot(fig = ss["figures"]["fig_all_sent"], date_range = ss["upar"]["date_range"])                
     ss["figures"]["fig_can_sent"]  = update_zoom_line_plot(fig = ss["figures"]["fig_can_sent"], date_range = ss["upar"]["date_range"])                
     ss["figures"]["fig_age_sent"]  = update_zoom_line_plot(fig = ss["figures"]["fig_age_sent"], date_range = ss["upar"]["date_range"])                
-    ss["figures"]["fig_sex_sent"]  = update_zoom_line_plot(fig = ss["figures"]["fig_sex_sent"], date_range = ss["upar"]["date_range"])                
+    ss["figures"]["fig_sex_sent"]  = update_zoom_line_plot(fig = ss["figures"]["fig_sex_sent"], date_range = ss["upar"]["date_range"])      
 
-
-
-    ca1, ca2 = st.columns([0.4, 0.4])
-    with ca1:
-        # update time axes
-        with st.container(height=125, border=True):
-            with st.form("form01", border=False, clear_on_submit=False, enter_to_submit=False): 
-                c1, c2 = st.columns([0.4, 0.1])
-                with c1:
-                    sel_sta, sel_end = st.slider("Time range to plot", min_value = ss["upar"]["full_date_range"][0], max_value = ss["upar"]["full_date_range"][1]  , 
-                                                 value = ss["upar"]["date_range"], format = "YYYY-MM-DD", label_visibility = "visible")    
-                with c2:
-                    st.text(" ")
-                    submitted01 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
-                if submitted01:
-                    ss["upar"]["date_range"] = (sel_sta, sel_end)
-                    st.rerun()
                  
     with ca2:
         with st.container(height=125, border=True):
@@ -89,7 +81,6 @@ else:
                     sel_dat_grou = st.segmented_control("Data grouping", options = ['All', 'Sex', 'Age', 'Region'], selection_mode="multi", default = ['All'])
                 with ca3:
                     st.text(" ")
-                    # st.text(" ")
                     submitted02 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
                 if submitted02: 
                     ss["upar"]["selecte_data_sources"] = sel_dat_sou
@@ -100,9 +91,6 @@ else:
             cb2.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig",      label=":blue[oblig]")  
             cb3.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":blue[sentinella]")   
  
-                
-
-
     st.text("* Incidence is the rate of new events over a specified period. Here, the number of new cases/consultations per week and per 100000 inhabitants.")
 
     if 'oblig' in ss["upar"]["selecte_data_sources"]:

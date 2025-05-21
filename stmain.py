@@ -12,9 +12,6 @@ import plotly.express as px
 # (1) ---------------------
 # set initial session state
 
-
-
-
 if 'upar' not in ss:
     ss["upar"] = {
         "full_date_range" : "initial",
@@ -64,27 +61,17 @@ pages = [
     st.Page("page00.py",  title="Background info"),
     st.Page("page02.py",  title="Tabular data"),
     ]
-
 pg = st.navigation(pages)
-
 pg.run()
 
 with st.sidebar:
     st.info("App v0.0.3 - under initial devel")
-    # st.markdown(''':blue[QUICK GUIDE]''')
-    # st.text("(1) Define distributional scenarios")
-    # st.text("(2) Run simulations")
-    # st.text("(3) Check the plotted results")
-
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
-
     st.title(""); st.title(""); st.title(""); 
-
     st.markdown(''':gray[CREDITS / LINKS]''')
     st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health]")
     st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
-    
     st.markdown(''':gray[MORE COOL STUFF]''')
     st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
 

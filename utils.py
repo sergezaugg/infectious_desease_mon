@@ -3,6 +3,7 @@
 # Description : tbd
 #--------------------
 
+import numpy as np
 import pandas as pd 
 import plotly.express as px
 import streamlit as st
@@ -114,10 +115,6 @@ def get_by_sex_sentinella(df):
     df = df[df["sex"]  != 'all']
     return(df)
 
-
-
-
-# plot haha
 @st.cache_data
 def make_line_plot(df, color_groups, color_sequence, y_title):
     fig = px.line(
@@ -142,6 +139,35 @@ def make_line_plot(df, color_groups, color_sequence, y_title):
     _ = fig.update_layout(xaxis_title=None)
     return(fig)
 
+@st.cache_data
+def make_area_plot(df, color_groups, color_sequence, y_title):
+    # set area plot to nan whe overall incidence was too low
+    df['incValue'][df['incValue_all']<1.0] = np.nan
+    fig = px.area(
+        groupnorm = 'fraction',
+        data_frame = df, 
+        color = color_groups, 
+        height = 260,
+        x = 'date', 
+        y = 'incValue', 
+        template="plotly_dark", 
+        color_discrete_sequence = color_sequence,
+        markers = False,
+        line_shape = 'hvh',#'spline', One of 'linear', 'spline', 'hv', 'vh', 'hvh', or 'vhv'
+        )
+    _ = fig.update_xaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
+    _ = fig.update_yaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
+    _ = fig.update_layout(xaxis_title='Date', yaxis_title=y_title)
+    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
+    _ = fig.update_layout(margin=dict(l=1, r=200, t=10, b=1))
+    _ = fig.update_layout(xaxis_title_font_size=15)
+    _ = fig.update_layout(yaxis_title_font_size=15)
+    _ = fig.update_layout(xaxis_tickfont_size=15)
+    _ = fig.update_layout(legend_font_size=20)
+    _ = fig.update_layout(xaxis_title=None)
+    return(fig)
+
+
 
 @st.cache_data
 def update_zoom_line_plot(fig, date_range):
@@ -160,27 +186,6 @@ def update_zoom_line_plot(fig, date_range):
 
 
 
-
-
-    # _ = fig00.update_xaxes(showline = True, linecolor = 'white', linewidth = 2, row = 1, col = 1, mirror = True)
-    # _ = fig00.update_yaxes(showline = True, linecolor = 'white', linewidth = 2, row = 1, col = 1, mirror = True)
-    # _ = fig00.update_traces(marker=dict(size=4))
-    # _ = fig00.update_layout(xaxis=dict(showgrid=False, zeroline=False), yaxis=dict(showgrid=False, zeroline=False))
-    # _ = fig00.update_layout(xaxis_range=[-0.00001, +1.00001])
-    # _ = fig00.update_layout(paper_bgcolor="#000000") # "#350030"
-    # _ = fig00.update_yaxes(showticklabels=False)
-    # # text font sizes 
-    # # _ = fig00.update_layout(title_font_size=25)
-    # _ = fig00.update_layout(xaxis_title_font_size=25)
-    # _ = fig00.update_layout(yaxis_title_font_size=25)
-    # _ = fig00.update_layout(xaxis_tickfont_size=25)
-    # _ = fig00.update_layout(legend_font_size=20)
-    # # _ = fig00.update_layout(title_y=0.96)
-    # _ = fig00.update_layout(showlegend=False)
-    # _ = fig00.update_layout(yaxis_title=None)
-    # _ = fig00.update_layout(margin=dict(t=10, b=10, l=15, r=15))
-    # # _ = fig00.update_layout(xaxis={'side': 'top'}) # , yaxis={'side': 'right'}  )
-    # # 
 
 
 

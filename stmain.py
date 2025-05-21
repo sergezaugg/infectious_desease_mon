@@ -20,6 +20,7 @@ if 'upar' not in ss:
         "par04" : "initial",
         "selecte_data_sources" : ['oblig', 'sentinella'],
         "selecte_data_groupings" : ['All'],
+        "plot_type" : 'Line'
         }
 
 if 'data' not in ss:
@@ -65,7 +66,7 @@ pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.info("App v0.0.3 - under initial devel")
+    st.info("App v0.1.0 - under devel")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
     st.title(""); st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS / LINKS]''')

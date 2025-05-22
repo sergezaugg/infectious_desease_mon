@@ -143,10 +143,10 @@ def make_line_plot(df, color_groups, color_sequence, y_title):
     return(fig)
 
 @st.cache_data
-def make_area_plot(df, color_groups, color_sequence, y_title):
+def make_area_plot(df, color_groups, color_sequence, y_title, cutoff):
     # set area plot to nan whe overall incidence was too low
     df = df.copy() # to avoid orig df in ss to be cut !
-    df['incValue'][df['incValue_all']<1.0] = np.nan
+    df['incValue'][df['incValue_all']<cutoff] = np.nan
     fig = px.area(
         groupnorm = 'fraction',
         data_frame = df, 
@@ -157,7 +157,7 @@ def make_area_plot(df, color_groups, color_sequence, y_title):
         template="plotly_dark", 
         color_discrete_sequence = color_sequence,
         markers = False,
-        line_shape = 'hvh',#'spline', One of 'linear', 'spline', 'hv', 'vh', 'hvh', or 'vhv'
+        line_shape = 'spline', # 'hvh',#'spline', One of 'linear', 'spline', 'hv', 'vh', 'hvh', or 'vhv'
         )
     _ = fig.update_xaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
     _ = fig.update_yaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
@@ -269,12 +269,12 @@ def draw_figures(data, colseq):
     ss["figures"]["fig_age_sent"]  = make_line_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Consult. per 100000 inhab *', )
     ss["figures"]["fig_sex_sent"]  = make_line_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Consult. per 100000 inhab *', )
     # area plots
-    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Relative incidence °')
-    ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °')
-    ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °')
-    ss["figures"]["figa_can_sent"]  = make_area_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Relative incidence °')
-    ss["figures"]["figa_age_sent"]  = make_area_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °')    
-    ss["figures"]["figa_sex_sent"]  = make_area_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °')
+    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Relative incidence °', cutoff = 1.0)
+    ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °', cutoff = 1.0)
+    ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °', cutoff = 1.0)
+    ss["figures"]["figa_can_sent"]  = make_area_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Relative incidence °', cutoff = 10.0)
+    ss["figures"]["figa_age_sent"]  = make_area_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °', cutoff = 10.0)    
+    ss["figures"]["figa_sex_sent"]  = make_area_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °', cutoff = 10.0)
 
 
 

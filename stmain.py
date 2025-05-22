@@ -17,9 +17,9 @@ if 'upar' not in ss:
         "date_range" : "initial",
         "par03" : "initial",
         "par04" : "initial",
-        "selecte_data_sources" : ['oblig', 'sentinella'],
-        "selecte_data_groupings" : ['All'],
-        "plot_type" : 'Line'
+        "selecte_data_sources" : ['oblig'],
+        "selecte_data_groupings" : ['All', 'Age'],
+        "plot_type" : 'Area'
         }
 
 if 'data' not in ss:
@@ -30,11 +30,11 @@ if 'data' not in ss:
 
 if 'colseq' not in ss:
     ss["colseq"] = {
-        "fig_all_oblig" : ["#FC0847"],
+        "fig_all_oblig" : ["#FC08B3"],
         "fig_can_oblig" : px.colors.qualitative.Alphabet,
         "fig_reg_oblig" : px.colors.qualitative.Light24, #Plotly,
-        "fig_age_oblig" : ["#00ff73", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#e100ff", "#ffffff"],
-        "fig_sex_oblig" : ["#ff2407", "#0727F7", "#7c8584",],
+        "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#848385", "#ffffff"],
+        "fig_sex_oblig" : ["#fd6804", "#0727F7", "#7c8584",],
         }
 
 if 'figures' not in ss:
@@ -42,7 +42,7 @@ if 'figures' not in ss:
 
 
 with st.sidebar:
-    st.info("App v0.5.2 - under devel")
+    st.info("App v0.5.3 - under devel")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
     st.title(""); st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS / LINKS]''')
@@ -58,8 +58,8 @@ with st.sidebar:
 pages = [
     st.Page("page03.py",  title="Visualize"),
     st.Page("page04.py",  title="Color Settings"),
-    st.Page("page00.py",  title="Background info"),
-    st.Page("page02.py",  title="Tabular data"),
+    st.Page("page00.py",  title="Background Info"),
+    st.Page("page02.py",  title="Tabular Data"),
     ]
 pg = st.navigation(pages)
 pg.run()

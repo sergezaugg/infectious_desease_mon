@@ -5,8 +5,7 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-# from utils import update_ss
-
+from utils import update_ss, show_selected_plots, download_all_data, prepare_data
 st.text("  ")  
 st.text("All")  
 cols_b = st.columns(18)   
@@ -27,4 +26,9 @@ ss["colseq"]["fig_age_oblig"][1] = cols_b[1].color_picker("05-14",   ss["colseq"
 ss["colseq"]["fig_age_oblig"][2] = cols_b[2].color_picker("15-29",   ss["colseq"]["fig_age_oblig"][2])   
 ss["colseq"]["fig_age_oblig"][3] = cols_b[3].color_picker("30-64",   ss["colseq"]["fig_age_oblig"][3])   
 ss["colseq"]["fig_age_oblig"][4] = cols_b[4].color_picker("65+",     ss["colseq"]["fig_age_oblig"][4])   
-ss["colseq"]["fig_age_oblig"][5] = cols_b[5].color_picker("Unknown", ss["colseq"]["fig_age_oblig"][5])   
+ss["colseq"]["fig_age_oblig"][5] = cols_b[5].color_picker("Unknown", ss["colseq"]["fig_age_oblig"][5])  
+
+
+
+
+

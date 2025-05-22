@@ -6,7 +6,7 @@
 import pandas as pd 
 import streamlit as st
 from streamlit import session_state as ss
-from utils import update_ss, show_selected_plots, download_all_data, prepare_data
+from utils import update_ss, show_selected_plots, download_all_data, draw_figures, prepare_data
 
 if ss["data"]["data_di"] == "initial":
    
@@ -19,17 +19,16 @@ if ss["data"]["data_di"] == "initial":
     prepare_data(progr_bar2)
     st.rerun()
 
-else:    
+else:  
+
+    draw_figures(data = ss["data"], colseq =ss["colseq"])
 
     ca1, ca2 = st.columns([0.4, 0.4])
     # update time axes
     with ca1:
         with st.container(height=125, border=True):
-            _ = st.slider("Time range to plot", min_value = ss["upar"]["full_date_range"][0], max_value = ss["upar"]["full_date_range"][1], 
-                value = ss["upar"]["date_range"], format = "YYYY-MM-DD", label_visibility = "visible",
-                key = "k_date_range", on_change=update_ss, args=["k_date_range", "date_range"]
-                )     
-        
+            _ = st.slider("Time range to plot", min_value = ss["upar"]["full_date_range"][0], max_value = ss["upar"]["full_date_range"][1], value = ss["upar"]["date_range"], 
+                format = "YYYY-MM-DD", label_visibility = "visible",key = "k_date_range", on_change=update_ss, args=["k_date_range", "date_range"])      
     with ca2:
         with st.container(height=125, border=True):
             ca1, ca2, ca3, ca4 = st.columns([0.3, 0.4, 0.3, 0.2])
@@ -40,12 +39,10 @@ else:
             _ = ca3.segmented_control("Plot type", options = ['Line', 'Area'], selection_mode="single", default = ss["upar"]["plot_type"], 
                                                 key = "k_plot_type", on_change=update_ss, args=["k_plot_type", "plot_type"])
             ca4.text(" ")
-
             cb1, cb2, cb3 = st.columns([0.4, 0.15, 0.5])
             cb1.text("Links to data source details:")
             cb2.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig",      label=":blue[oblig]")  
             cb3.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":blue[sentinella]")   
-
 
     st.text("* Incidence is the rate of new events over a specified period. Here, the number of new cases/consultations per week and per 100000 inhabitants.")
 

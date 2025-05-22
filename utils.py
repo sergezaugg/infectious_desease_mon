@@ -85,8 +85,6 @@ def get_by_sex_oblig(df):
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
-
-
 # sentinella
 @st.cache_data
 def get_all_sentinella(df):
@@ -147,6 +145,7 @@ def make_line_plot(df, color_groups, color_sequence, y_title):
 @st.cache_data
 def make_area_plot(df, color_groups, color_sequence, y_title):
     # set area plot to nan whe overall incidence was too low
+    df = df.copy() # to avoi orig df in ss to be cut !
     df['incValue'][df['incValue_all']<1.0] = np.nan
     fig = px.area(
         groupnorm = 'fraction',
@@ -263,7 +262,6 @@ def download_all_data(progr_bar):
 
    
 
-
 def prepare_data(progr_bar):
     progr_bar.progress(0.0, text="")
     df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
@@ -286,35 +284,19 @@ def prepare_data(progr_bar):
     progr_bar.progress(0.4, text="")
 
     # merge-in all info
-    df_can_obli = pd.merge(df_can_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    df_can_sent = pd.merge(df_can_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    df_age_obli = pd.merge(df_age_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    df_age_sent = pd.merge(df_age_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    df_sex_obli = pd.merge(df_sex_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    df_sex_sent = pd.merge(df_sex_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss["data"]["df_can_obli"] = pd.merge(df_can_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss["data"]["df_can_sent"] = pd.merge(df_can_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss["data"]["df_age_obli"] = pd.merge(df_age_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss["data"]["df_age_sent"] = pd.merge(df_age_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss["data"]["df_sex_obli"] = pd.merge(df_sex_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss["data"]["df_sex_sent"] = pd.merge(df_sex_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
 
+    ss["data"]["df_all_obli"] = df_all_obli
+    ss["data"]["df_all_sent"] = df_all_sent
+  
     progr_bar.progress(0.6, text="")
 
-    # lineplots 
-    ss["figures"]["fig_all_oblig"] = make_line_plot(df_all_obli, 'georegion', ss["colseq"]["fig_all_oblig"], y_title = 'Cases per 100000 inhab *', )
-    ss["figures"]["fig_all_sent"]  = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all_oblig"], y_title = 'Consultations per 100000 inhab *', )
-
-    # if ss["upar"]["plot_type"] == 'Line': 
-    ss["figures"]["fig_can_oblig"] = make_line_plot(df_can_obli, 'georegion', ss["colseq"]["fig_can_oblig"], y_title = 'Cases per 100000 inhab *', )
-    ss["figures"]["fig_age_oblig"] = make_line_plot(df_age_obli, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Cases per 100000 inhab *',)
-    ss["figures"]["fig_sex_oblig"] = make_line_plot(df_sex_obli, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *', )
-    ss["figures"]["fig_can_sent"]  = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *', )
-    ss["figures"]["fig_age_sent"]  = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *', )
-    ss["figures"]["fig_sex_sent"]  = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *', )
-
-    # area plots
-    # if ss["upar"]["plot_type"] == 'Area': 
-    ss["figures"]["figa_can_oblig"] = make_area_plot(df_can_obli, 'georegion', ss["colseq"]["fig_can_oblig"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["figa_age_oblig"] = make_area_plot(df_age_obli, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["figa_sex_oblig"] = make_area_plot(df_sex_obli, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["figa_can_sent"]  = make_area_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *')
-    ss["figures"]["figa_age_sent"]  = make_area_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *')    
-    ss["figures"]["figa_sex_sent"]  = make_area_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *')
+    draw_figures(data = ss["data"], colseq =ss["colseq"])
 
     progr_bar.progress(0.8, text="")
  
@@ -334,6 +316,33 @@ def prepare_data(progr_bar):
 
 
 
+
+
+
+
+
+@st.cache_data
+def draw_figures(data, colseq):
+    # lineplots 
+    ss["figures"]["fig_all_oblig"] = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_all_sent"]  = make_line_plot(data["df_all_sent"], 'georegion', colseq["fig_all_oblig"], y_title = 'Consultations per 100000 inhab *', )
+    # lineplots 
+    ss["figures"]["fig_can_oblig"] = make_line_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_age_oblig"] = make_line_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Cases per 100000 inhab *',)
+    ss["figures"]["fig_sex_oblig"] = make_line_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_can_sent"]  = make_line_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *', )
+    ss["figures"]["fig_age_sent"]  = make_line_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *', )
+    ss["figures"]["fig_sex_sent"]  = make_line_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *', )
+    # area plots
+    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["figa_can_sent"]  = make_area_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["figa_age_sent"]  = make_area_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *')    
+    ss["figures"]["figa_sex_sent"]  = make_area_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *')
+
+ 
+   
 
 
 

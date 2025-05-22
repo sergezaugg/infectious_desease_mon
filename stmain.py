@@ -66,7 +66,7 @@ pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.info("App v0.5.0 - under devel")
+    st.info("App v0.5.1 - under devel")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
     st.title(""); st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS / LINKS]''')

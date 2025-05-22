@@ -8,7 +8,9 @@ import streamlit as st
 from streamlit import session_state as ss
 from utils import update_ss, show_selected_plots, download_all_data, draw_figures, prepare_data
 
-if ss["data"]["data_di"] == "initial":
+if ss["data"]["data_di"] == "initial" or ss["upar"]["date_range"] == "initial":
+
+    st.cache_data.clear() # quick fix
    
     c02, c03, c04 = st.columns([0.3, 0.3, 0.5])
     c02.text("Download progress")

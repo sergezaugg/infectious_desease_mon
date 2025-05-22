@@ -5,7 +5,7 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-from utils import update_ss, show_selected_plots, download_all_data, prepare_data
+
 st.text("  ")  
 st.text("All")  
 cols_b = st.columns(18)   

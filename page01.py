@@ -9,6 +9,10 @@ import io
 import plotly.express as px
 import streamlit as st
 from streamlit import session_state as ss
+from utils import get_all_oblig, get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig, make_line_plot
+from utils import get_all_sentinella, get_by_region_sentinella, get_by_agegroup_sentinella, get_by_sex_sentinella
+from utils import update_ss, preprocess_INFLUENZA, make_line_plot, update_zoom_line_plot, make_area_plot
+from datetime import datetime, timedelta
 
 
 
@@ -49,6 +53,75 @@ def download_all_data(progr_bar):
     # return(data_version, data_di)
 
 
+def prepare_data(progr_bar):
+    progr_bar.progress(0.0, text="")
+    progr_info.write('Preparing data and plots ...')
+    df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
+    df_sent = ss["data"]["data_di"]["INFLUENZA_sentinella"]
+
+    df_obli = preprocess_INFLUENZA(df_obli)
+    df_sent = preprocess_INFLUENZA(df_sent)
+
+    progr_bar.progress(0.2, text="")
+
+    df_all_obli = get_all_oblig(df_obli)
+    df_can_obli = get_by_cantons_oblig(df_obli)
+    df_age_obli = get_by_agegroup_oblig(df_obli)
+    df_sex_obli = get_by_sex_oblig(df_obli)
+    df_all_sent = get_all_sentinella(df_sent)
+    df_can_sent = get_by_region_sentinella(df_sent)
+    df_age_sent = get_by_agegroup_sentinella(df_sent)
+    df_sex_sent = get_by_sex_sentinella(df_sent)
+
+    progr_bar.progress(0.4, text="")
+
+    # merge-in all info
+    df_can_obli = pd.merge(df_can_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    df_can_sent = pd.merge(df_can_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    df_age_obli = pd.merge(df_age_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    df_age_sent = pd.merge(df_age_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    df_sex_obli = pd.merge(df_sex_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    df_sex_sent = pd.merge(df_sex_sent, df_all_sent[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+
+    progr_bar.progress(0.6, text="")
+
+    # lineplots 
+    ss["figures"]["fig_all_oblig"] = make_line_plot(df_all_obli, 'georegion', ss["colseq"]["fig_all_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_all_sent"]  = make_line_plot(df_all_sent, 'georegion', ss["colseq"]["fig_all_oblig"], y_title = 'Consultations per 100000 inhab *', )
+
+    # if ss["upar"]["plot_type"] == 'Line': 
+    ss["figures"]["fig_can_oblig"] = make_line_plot(df_can_obli, 'georegion', ss["colseq"]["fig_can_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_age_oblig"] = make_line_plot(df_age_obli, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Cases per 100000 inhab *',)
+    ss["figures"]["fig_sex_oblig"] = make_line_plot(df_sex_obli, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_can_sent"]  = make_line_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *', )
+    ss["figures"]["fig_age_sent"]  = make_line_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *', )
+    ss["figures"]["fig_sex_sent"]  = make_line_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *', )
+
+    # area plots
+    # if ss["upar"]["plot_type"] == 'Area': 
+    ss["figures"]["figa_can_oblig"] = make_area_plot(df_can_obli, 'georegion', ss["colseq"]["fig_can_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["figa_age_oblig"] = make_area_plot(df_age_obli, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["figa_sex_oblig"] = make_area_plot(df_sex_obli, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *')
+    ss["figures"]["figa_can_sent"]  = make_area_plot(df_can_sent, 'georegion', ss["colseq"]["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["figa_age_sent"]  = make_area_plot(df_age_sent, 'agegroup',  ss["colseq"]["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *')    
+    ss["figures"]["figa_sex_sent"]  = make_area_plot(df_sex_sent, 'sex',       ss["colseq"]["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *')
+
+    progr_bar.progress(0.8, text="")
+ 
+    if ss["upar"]["date_range"] == 'initial':
+        delta_time = timedelta(days=100)
+        # concat dates from both dfs to get global min and max 
+        df_dates = pd.concat([df_obli['date'], df_sent['date']])
+        time_options = df_dates.sort_values()
+        t_sta = time_options.min() - delta_time
+        t_sta = datetime(year = t_sta.year, month = t_sta.month, day = t_sta.day)
+        t_end = time_options.max() + delta_time
+        t_end = datetime(year = t_end.year, month = t_end.month, day = t_end.day)
+        ss["upar"]["date_range"] = (t_sta, t_end)
+        ss["upar"]["full_date_range"] = (t_sta, t_end)
+
+    progr_bar.progress(1.0, text="")
+
 
 
 c01, c02, c03 = st.columns([0.15, 0.3, 1.0])
@@ -63,6 +136,7 @@ with c01:
         submitted01 = st.form_submit_button("Load data", type="primary", use_container_width = False) 
         if submitted01:
             download_all_data(progr_bar)
+            prepare_data(progr_bar)
 
 
 

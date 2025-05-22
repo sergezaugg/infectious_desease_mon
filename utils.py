@@ -171,7 +171,7 @@ def make_area_plot(df, color_groups, color_sequence, y_title):
 
 @st.cache_data
 def update_zoom_line_plot(fig, date_range):
-    return(fig.update_xaxes(type="date", range=date_range))
+    fig.update_xaxes(type="date", range=date_range)
 
 
 

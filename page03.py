@@ -32,21 +32,14 @@ else:
         
     with ca2:
         with st.container(height=125, border=True):
-            with st.form("form02", border=False, clear_on_submit=False, enter_to_submit=False): 
-                ca1, ca2, ca3, ca4 = st.columns([0.3, 0.4, 0.3, 0.2])
-                with ca1:
-                    sel_dat_sou = st.segmented_control("Data source", options = ['oblig', 'sentinella'], selection_mode="multi", default = ['oblig', 'sentinella']) 
-                with ca2:
-                    sel_dat_grou = st.segmented_control("Data grouping", options = ['All', 'Sex', 'Age', 'Region'], selection_mode="multi", default = ['All'])
-                with ca3:
-                    ss["upar"]["plot_type"] = st.segmented_control("Plot type", options = ['Line', 'Area'], selection_mode="single", default = ss["upar"]["plot_type"])
-                                                        # key = "k_plot_type", on_change=update_ss, args=["k_plot_type", "plot_type"])
-                with ca4:
-                    st.text(" ")
-                    submitted02 = st.form_submit_button("Apply", type="primary", use_container_width = False) 
-                if submitted02: 
-                    ss["upar"]["selecte_data_sources"] = sel_dat_sou
-                    ss["upar"]["selecte_data_groupings"] = sel_dat_grou
+            ca1, ca2, ca3, ca4 = st.columns([0.3, 0.4, 0.3, 0.2])
+            _ = ca1.segmented_control("Data source", options = ['oblig', 'sentinella'], selection_mode="multi",  default = ss["upar"]["selecte_data_sources"],
+                                                key = "k_data_sou", on_change=update_ss, args=["k_data_sou", "selecte_data_sources"]) 
+            _ = ca2.segmented_control("Data grouping", options = ['All', 'Sex', 'Age', 'Region'], selection_mode="multi", default = ss["upar"]["selecte_data_groupings"],
+                                                key = "k_data_gr", on_change=update_ss, args=["k_data_gr", "selecte_data_groupings"])  
+            _ = ca3.segmented_control("Plot type", options = ['Line', 'Area'], selection_mode="single", default = ss["upar"]["plot_type"], 
+                                                key = "k_plot_type", on_change=update_ss, args=["k_plot_type", "plot_type"])
+            ca4.text(" ")
 
             cb1, cb2, cb3 = st.columns([0.4, 0.15, 0.5])
             cb1.text("Links to data source details:")

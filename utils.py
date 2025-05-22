@@ -179,12 +179,13 @@ def show_selected_plots():
     # update x axis zoom for all available plots 
     for k in ss["figures"].keys():
         ss["figures"][k].update_xaxes(type="date", range=ss["upar"]["date_range"])
-        # update_zoom_line_plot(fig = ss["figures"][k], date_range = ss["upar"]["date_range"])
 
     # rename locally for ease of reading coed
     sel_d = ss["upar"]["selecte_data_sources"]
     sel_g = ss["upar"]["selecte_data_groupings"]
     set_t = ss["upar"]["plot_type"]
+
+    # ss["upar"]["plot_type"]
 
     with st.container(height=None, border=True):
 

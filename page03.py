@@ -8,10 +8,7 @@ import streamlit as st
 from streamlit import session_state as ss
 from utils import update_ss, show_selected_plots, download_all_data, draw_figures, prepare_data
 
-if ss["data"]["data_di"] == "initial" or ss["upar"]["date_range"] == "initial":
-
-    st.cache_data.clear() # quick fix
-   
+if ss["data"]["data_di"] == "initial" or ss["upar"]["date_range"] == "initial" or len(ss["figures"]) == 0 :
     c02, c03, c04 = st.columns([0.3, 0.3, 0.5])
     c02.text("Download progress")
     progr_bar1 = c02.progress(0, text='')
@@ -19,12 +16,10 @@ if ss["data"]["data_di"] == "initial" or ss["upar"]["date_range"] == "initial":
     progr_bar2 = c02.progress(0, text='')
     download_all_data(progr_bar1)
     prepare_data(progr_bar2)
+    draw_figures(data = ss["data"], colseq =ss["colseq"])
     st.rerun()
 
 else:  
-
-    draw_figures(data = ss["data"], colseq =ss["colseq"])
-
     ca1, ca2 = st.columns([0.4, 0.4])
     # update time axes
     with ca1:
@@ -50,6 +45,12 @@ else:
     For groups, incidence is normalized within group, e.g. per 100000 inh. in age-group '+65'""")
     st.text("""° Area plots only shown when overall incidence was above 1.0. \
     Relative incidence = inc. group / sum(inc. all groups) <experimental!>""")
+
+    # update x axis zoom for all available plots 
+    for k in ss["figures"].keys():
+        # print('k ---    ', k)
+        ss["figures"][k].update_xaxes(type="date", range=ss["upar"]["date_range"])
+
     show_selected_plots()
 
 

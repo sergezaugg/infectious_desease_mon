@@ -35,20 +35,11 @@ if 'colseq' not in ss:
         "fig_can_oblig" : px.colors.qualitative.Alphabet,
         "fig_reg_oblig" : px.colors.qualitative.Light24, #Plotly,
         "fig_age_oblig" : ["#00ff73", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#e100ff", "#ffffff"],
-        "fig_sex_oblig" : ["#fc9107", "#0727F7", "#7c8584",],
+        "fig_sex_oblig" : ["#ff2407", "#0727F7", "#7c8584",],
         }
 
 if 'figures' not in ss:
-    ss["figures"] = {
-         "fig_all_oblig" : None,
-         "fig_can_oblig" : None,
-         "fig_age_oblig" : None,
-         "fig_sex_oblig" : None,
-         "fig_all_sent"  : None,
-         "fig_can_sent"  : None,
-         "fig_age_sent"  : None,
-         "fig_sex_sent"  : None,
-        }
+    ss["figures"] = dict()
 
 # -------------------
 # (2) main navigation
@@ -60,13 +51,12 @@ pages = [
     st.Page("page04.py",  title="Color Settings"),
     st.Page("page00.py",  title="Background info"),
     st.Page("page02.py",  title="Tabular data"),
-    # st.Page("page01.py",  title="Refresh data"),
     ]
 pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.info("App v0.5.1 - under devel")
+    st.info("App v0.5.2 - under devel")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
     st.title(""); st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS / LINKS]''')

@@ -6,7 +6,7 @@
 import pandas as pd 
 import streamlit as st
 from streamlit import session_state as ss
-from utils import update_ss, update_zoom_line_plot
+from utils import update_ss, show_selected_plots
 
 if ss["data"]["data_di"] == "initial":
     st.info("Data not yet loaded!  --->   Please navigate to 'Load data' menu (left) and then click on 'Load data' button.")
@@ -45,58 +45,9 @@ else:
             cb3.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":blue[sentinella]")   
 
 
-    # update x axis zoom for all available plots 
-    for k in ss["figures"].keys():
-        update_zoom_line_plot(fig = ss["figures"][k], date_range = ss["upar"]["date_range"])
-
-
     st.text("* Incidence is the rate of new events over a specified period. Here, the number of new cases/consultations per week and per 100000 inhabitants.")
 
-    # rename locally for ease of reading coed
-    sel_d = ss["upar"]["selecte_data_sources"]
-    sel_g = ss["upar"]["selecte_data_groupings"]
-    set_t = ss["upar"]["plot_type"]
-
-    with st.container(height=None, border=True):
-
-        if 'oblig' in sel_d and 'All' in sel_g:
-            st.plotly_chart(ss["figures"]["fig_all_oblig"], use_container_width=True, theme=None)
-
-        if 'oblig' in sel_d and 'Sex' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_sex_oblig"], use_container_width=True, theme=None)
-        if 'oblig' in sel_d and 'Sex' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_sex_oblig"], use_container_width=True, theme=None)
-
-        if 'oblig' in sel_d and 'Age' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_age_oblig"], use_container_width=True, theme=None)
-        if 'oblig' in sel_d and 'Age' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_age_oblig"], use_container_width=True, theme=None)
-
-        if 'oblig' in sel_d and 'Region' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_can_oblig"], use_container_width=True, theme=None)
-        if 'oblig' in sel_d and 'Region' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None)
-    
-    with st.container(height=None, border=True):
-
-        if 'sentinella' in sel_d and  'All' in sel_g:
-            st.plotly_chart(ss["figures"]["fig_all_sent"], use_container_width=True, theme=None)
-
-        if 'sentinella' in sel_d and  'Sex' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_sex_sent"], use_container_width=True, theme=None)
-        if 'sentinella' in sel_d and  'Sex' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_sex_sent"], use_container_width=True, theme=None)
-
-        if 'sentinella' in sel_d and  'Age' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_age_sent"], use_container_width=True, theme=None)
-        if 'sentinella' in sel_d and  'Age' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_age_sent"], use_container_width=True, theme=None)
-
-        if 'sentinella' in sel_d and  'Region' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_can_sent"], use_container_width=True, theme=None)
-        if 'sentinella' in sel_d and  'Region' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_can_sent"], use_container_width=True, theme=None)
-
+    show_selected_plots()
 
 
 

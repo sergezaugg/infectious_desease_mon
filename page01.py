@@ -11,7 +11,7 @@ import streamlit as st
 from streamlit import session_state as ss
 from utils import get_all_oblig, get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig, make_line_plot
 from utils import get_all_sentinella, get_by_region_sentinella, get_by_agegroup_sentinella, get_by_sex_sentinella
-from utils import update_ss, preprocess_INFLUENZA, make_line_plot, update_zoom_line_plot, make_area_plot
+from utils import update_ss, preprocess_INFLUENZA, make_line_plot, make_area_plot
 from datetime import datetime, timedelta
 
 

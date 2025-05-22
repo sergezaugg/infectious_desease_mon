@@ -177,6 +177,7 @@ def show_selected_plots():
 
     # update x axis zoom for all available plots 
     for k in ss["figures"].keys():
+        print('k ---    ', k)
         ss["figures"][k].update_xaxes(type="date", range=ss["upar"]["date_range"])
 
     # rename locally for ease of reading coed

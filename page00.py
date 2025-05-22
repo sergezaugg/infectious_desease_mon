@@ -10,7 +10,7 @@ col_aa, col_bb, = st.columns([0.50, 0.20])
 with col_aa: 
 
     with st.container(border=True):
-        st.title("Swiss Influenza Monitoring Visualization") 
+        st.title("Swiss Influenza Monitoring Visualization (under development)") 
 
     with st.container(border=True, ):
         st.markdown(

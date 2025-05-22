@@ -6,10 +6,19 @@
 import pandas as pd 
 import streamlit as st
 from streamlit import session_state as ss
-from utils import update_ss, show_selected_plots
+from utils import update_ss, show_selected_plots, download_all_data, prepare_data
 
 if ss["data"]["data_di"] == "initial":
-    st.info("Data not yet loaded!  --->   Please navigate to 'Load data' menu (left) and then click on 'Load data' button.")
+   
+    c02, c03, c04 = st.columns([0.3, 0.3, 0.5])
+    c02.text("Download progress")
+    progr_bar1 = c02.progress(0, text='')
+    c02.text("Data preparation progress")
+    progr_bar2 = c02.progress(0, text='')
+    download_all_data(progr_bar1)
+    prepare_data(progr_bar2)
+    st.rerun()
+
 else:    
 
     ca1, ca2 = st.columns([0.4, 0.4])

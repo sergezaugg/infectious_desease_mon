@@ -56,11 +56,11 @@ if 'figures' not in ss:
 st.set_page_config(layout="wide")
  
 pages = [
-    st.Page("page01.py",  title="Load data"),
     st.Page("page03.py",  title="Visualize"),
     st.Page("page04.py",  title="Color Settings"),
     st.Page("page00.py",  title="Background info"),
     st.Page("page02.py",  title="Tabular data"),
+    # st.Page("page01.py",  title="Refresh data"),
     ]
 pg = st.navigation(pages)
 pg.run()

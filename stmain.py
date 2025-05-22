@@ -20,6 +20,7 @@ if 'upar' not in ss:
         "par04" : "initial",
         "selecte_data_sources" : ['oblig', 'sentinella'],
         "selecte_data_groupings" : ['All'],
+        "plot_type" : 'Line'
         }
 
 if 'data' not in ss:
@@ -55,17 +56,17 @@ if 'figures' not in ss:
 st.set_page_config(layout="wide")
  
 pages = [
-    st.Page("page01.py",  title="Load data"),
     st.Page("page03.py",  title="Visualize"),
     st.Page("page04.py",  title="Color Settings"),
     st.Page("page00.py",  title="Background info"),
     st.Page("page02.py",  title="Tabular data"),
+    # st.Page("page01.py",  title="Refresh data"),
     ]
 pg = st.navigation(pages)
 pg.run()
 
 with st.sidebar:
-    st.info("App v0.0.3 - under initial devel")
+    st.info("App v0.5.0 - under devel")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
     st.title(""); st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS / LINKS]''')

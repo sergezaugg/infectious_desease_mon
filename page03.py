@@ -44,8 +44,10 @@ else:
             cb2.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig",      label=":blue[oblig]")  
             cb3.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":blue[sentinella]")   
 
-    st.text("* Incidence is the rate of new events over a specified period. Here, the number of new cases/consultations per week and per 100000 inhabitants.")
-
+    st.text("""* Incidence is the rate of new events over a specified period. Here, the number of new cases/consultations per week and per 100000 inhabitants.\
+    For groups, incidence is normalized within group, e.g. per 100000 inh. in age-group '+65'""")
+    st.text("""° Area plots only shown when overall incidence was above 1.0. \
+    Relative incidence = inc. group / sum(inc. all groups) <experimental!>""")
     show_selected_plots()
 
 

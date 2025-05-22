@@ -314,13 +314,6 @@ def prepare_data(progr_bar):
 
     progr_bar.progress(1.0, text="")
 
-
-
-
-
-
-
-
 @st.cache_data
 def draw_figures(data, colseq):
     # lineplots 
@@ -330,16 +323,16 @@ def draw_figures(data, colseq):
     ss["figures"]["fig_can_oblig"] = make_line_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Cases per 100000 inhab *', )
     ss["figures"]["fig_age_oblig"] = make_line_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Cases per 100000 inhab *',)
     ss["figures"]["fig_sex_oblig"] = make_line_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *', )
-    ss["figures"]["fig_can_sent"]  = make_line_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *', )
-    ss["figures"]["fig_age_sent"]  = make_line_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *', )
-    ss["figures"]["fig_sex_sent"]  = make_line_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *', )
+    ss["figures"]["fig_can_sent"]  = make_line_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Consult. per 100000 inhab *', )
+    ss["figures"]["fig_age_sent"]  = make_line_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Consult. per 100000 inhab *', )
+    ss["figures"]["fig_sex_sent"]  = make_line_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Consult. per 100000 inhab *', )
     # area plots
-    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *')
-    ss["figures"]["figa_can_sent"]  = make_area_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Consultations per 100000 inhab *')
-    ss["figures"]["figa_age_sent"]  = make_area_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Consultations per 100000 inhab *')    
-    ss["figures"]["figa_sex_sent"]  = make_area_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Consultations per 100000 inhab *')
+    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Relative incidence °')
+    ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °')
+    ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °')
+    ss["figures"]["figa_can_sent"]  = make_area_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Relative incidence °')
+    ss["figures"]["figa_age_sent"]  = make_area_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °')    
+    ss["figures"]["figa_sex_sent"]  = make_area_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °')
 
  
    

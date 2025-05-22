@@ -169,6 +169,8 @@ def make_area_plot(df, color_groups, color_sequence, y_title):
     _ = fig.update_layout(xaxis_tickfont_size=15)
     _ = fig.update_layout(legend_font_size=20)
     _ = fig.update_layout(xaxis_title=None)
+    _ = fig.update_traces(line=dict(width=0.2))
+    _ = fig.for_each_trace(lambda trace: trace.update(fillcolor = trace.line.color))
     return(fig)
 
 

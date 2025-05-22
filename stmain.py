@@ -8,10 +8,9 @@ import streamlit as st
 from streamlit import session_state as ss
 import numpy as np
 import plotly.express as px
+st.set_page_config(layout="wide")
 
-# (1) ---------------------
-# set initial session state
-
+# (1) set initial session state
 if 'upar' not in ss:
     ss["upar"] = {
         "full_date_range" : "initial",
@@ -41,19 +40,6 @@ if 'colseq' not in ss:
 if 'figures' not in ss:
     ss["figures"] = dict()
 
-# -------------------
-# (2) main navigation
-
-st.set_page_config(layout="wide")
- 
-pages = [
-    st.Page("page03.py",  title="Visualize"),
-    st.Page("page04.py",  title="Color Settings"),
-    st.Page("page00.py",  title="Background info"),
-    st.Page("page02.py",  title="Tabular data"),
-    ]
-pg = st.navigation(pages)
-pg.run()
 
 with st.sidebar:
     st.info("App v0.5.2 - under devel")
@@ -65,6 +51,19 @@ with st.sidebar:
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
     st.markdown(''':gray[MORE COOL STUFF]''')
     st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
+
+
+# (2) main navigation
+
+pages = [
+    st.Page("page03.py",  title="Visualize"),
+    st.Page("page04.py",  title="Color Settings"),
+    st.Page("page00.py",  title="Background info"),
+    st.Page("page02.py",  title="Tabular data"),
+    ]
+pg = st.navigation(pages)
+pg.run()
+
 
 
 

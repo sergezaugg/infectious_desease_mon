@@ -19,7 +19,9 @@ if 'upar' not in ss:
         "par04" : "initial",
         "selecte_data_sources" : ['oblig'],
         "selecte_data_groupings" : ['All', 'Age', 'Type'],
-        "plot_type" : 'Area'
+        "plot_type" : 'Area',
+        "cutoff_obli" :  1.0,
+        "cutoff_sent" : 20.0,
         }
 
 if 'data' not in ss:
@@ -43,22 +45,29 @@ if 'figures' not in ss:
 
 
 with st.sidebar:
-    st.info("App v0.5.1 - under devel")
+    st.info("App v0.5.4 - under devel")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
-    st.title(""); st.title(""); st.title(""); 
+
+    st.info("cutoff oblig: " + str(ss["upar"]["cutoff_obli"]))
+    st.info("cutoff senti: " + str(ss["upar"]["cutoff_sent"]))     
+    
+    st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS / LINKS]''')
     st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health]")
     st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
-    st.markdown(''':gray[MORE COOL STUFF]''')
-    st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
+    st.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig", label=":gray[oblig]")
+    st.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":gray[sentinella]")
+   
+    # st.markdown(''':gray[MORE COOL STUFF]''')
+    # st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
 
 
 # (2) main navigation
 
 pages = [
     st.Page("page03.py",  title="Visualize"),
-    st.Page("page04.py",  title="Color Settings"),
+    st.Page("page04.py",  title="Settings"),
     st.Page("page00.py",  title="Background Info"),
     st.Page("page02.py",  title="Tabular Data"),
     ]

@@ -28,10 +28,10 @@ else:
                 format = "YYYY-MM-DD", label_visibility = "visible",key = "k_date_range", on_change=update_ss, args=["k_date_range", "date_range"])      
     with ca2:
         with st.container(height=140, border=True):
-            ca1, ca2, ca3 = st.columns([0.3, 0.45, 0.3])
+            ca1, ca2, ca3 = st.columns([0.3, 0.60, 0.25])
             _ = ca1.segmented_control("Data source", options = ['oblig', 'sentinella'], selection_mode="multi",  default = ss["upar"]["selecte_data_sources"],
                                                 key = "k_data_sou", on_change=update_ss, args=["k_data_sou", "selecte_data_sources"]) 
-            _ = ca2.segmented_control("Data grouping", options = ['All', 'Sex', 'Age', 'Region'], selection_mode="multi", default = ss["upar"]["selecte_data_groupings"],
+            _ = ca2.segmented_control("Data grouping", options = ['All', 'Sex', 'Age', 'Region', 'Type'], selection_mode="multi", default = ss["upar"]["selecte_data_groupings"],
                                                 key = "k_data_gr", on_change=update_ss, args=["k_data_gr", "selecte_data_groupings"])  
             _ = ca3.segmented_control("Plot type", options = ['Line', 'Area'], selection_mode="single", default = ss["upar"]["plot_type"], 
                                                 key = "k_plot_type", on_change=update_ss, args=["k_plot_type", "plot_type"])

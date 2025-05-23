@@ -18,7 +18,7 @@ if 'upar' not in ss:
         "par03" : "initial",
         "par04" : "initial",
         "selecte_data_sources" : ['oblig'],
-        "selecte_data_groupings" : ['All', 'Age'],
+        "selecte_data_groupings" : ['All', 'Age', 'Type'],
         "plot_type" : 'Area'
         }
 
@@ -33,8 +33,9 @@ if 'colseq' not in ss:
         "fig_all_oblig" : ["#FC08B3"],
         "fig_can_oblig" : px.colors.qualitative.Alphabet,
         "fig_reg_oblig" : px.colors.qualitative.Light24, #Plotly,
-        "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#848385", "#ffffff"],
+        "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"],
         "fig_sex_oblig" : ["#fd6804", "#0727F7", "#7c8584",],
+        "fig_typ_oblig" : ["#7802e6", "#02BB2A", "#7c8584",],
         }
 
 if 'figures' not in ss:
@@ -42,7 +43,7 @@ if 'figures' not in ss:
 
 
 with st.sidebar:
-    st.info("App v0.5.3 - under devel")
+    st.info("App v0.5.1 - under devel")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
     st.title(""); st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS / LINKS]''')

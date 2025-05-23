@@ -18,8 +18,10 @@ if 'upar' not in ss:
         "par03" : "initial",
         "par04" : "initial",
         "selecte_data_sources" : ['oblig'],
-        "selecte_data_groupings" : ['All', 'Age'],
-        "plot_type" : 'Area'
+        "selecte_data_groupings" : ['All', 'Age', 'Type'],
+        "plot_type" : 'Area',
+        "cutoff_obli" :  1.0,
+        "cutoff_sent" : 20.0,
         }
 
 if 'data' not in ss:
@@ -33,8 +35,9 @@ if 'colseq' not in ss:
         "fig_all_oblig" : ["#FC08B3"],
         "fig_can_oblig" : px.colors.qualitative.Alphabet,
         "fig_reg_oblig" : px.colors.qualitative.Light24, #Plotly,
-        "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#848385", "#ffffff"],
+        "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"],
         "fig_sex_oblig" : ["#fd6804", "#0727F7", "#7c8584",],
+        "fig_typ_oblig" : ["#7802e6", "#02BB2A", "#7c8584",],
         }
 
 if 'figures' not in ss:
@@ -42,22 +45,29 @@ if 'figures' not in ss:
 
 
 with st.sidebar:
-    st.info("App v0.5.3 - under devel")
+    st.info("App v0.5.4 - under devel")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
-    st.title(""); st.title(""); st.title(""); 
+
+    st.info("cutoff oblig: " + str(ss["upar"]["cutoff_obli"]))
+    st.info("cutoff senti: " + str(ss["upar"]["cutoff_sent"]))     
+    
+    st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS / LINKS]''')
     st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health]")
     st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
-    st.markdown(''':gray[MORE COOL STUFF]''')
-    st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
+    st.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig", label=":gray[oblig]")
+    st.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":gray[sentinella]")
+   
+    # st.markdown(''':gray[MORE COOL STUFF]''')
+    # st.page_link("https://ml-performance-metrics.streamlit.app/", label=":gray[ml-performance-metrics]")
 
 
 # (2) main navigation
 
 pages = [
     st.Page("page03.py",  title="Visualize"),
-    st.Page("page04.py",  title="Color Settings"),
+    st.Page("page04.py",  title="Settings"),
     st.Page("page00.py",  title="Background Info"),
     st.Page("page02.py",  title="Tabular Data"),
     ]

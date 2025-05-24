@@ -28,7 +28,6 @@ def update_ss(kname, ssname):
     """
     ss["upar"][ssname] = ss[kname]      
 
-
 @st.cache_data
 def preprocess_INFLUENZA(df):
     # make a continuous time variable 
@@ -44,6 +43,25 @@ def preprocess_INFLUENZA(df):
     df['agegroup'].replace(to_replace='all',     value='All',     inplace=True)
     # 
     return(df)
+
+@st.cache_data
+def combine_cantons(df):
+    # re-code  
+    df['georegion'].replace(to_replace=['GE', 'NE', 'VD', 'VS'],   value='Region 1',   inplace=True)
+    df['georegion'].replace(to_replace=['BE', 'FR', 'JU'],   value='Region 2',   inplace=True)
+    df['georegion'].replace(to_replace=['AG', 'BL', 'BS', 'SO'],   value='Region 3',   inplace=True)
+    df['georegion'].replace(to_replace=['LU', 'NW', 'OW', 'SZ', 'UR', 'ZG'],   value='Region 4',   inplace=True)
+    df['georegion'].replace(to_replace=['AI', 'AR', 'GL', 'SG', 'SH', 'TG', 'ZH'],   value='Region 5',   inplace=True)
+    df['georegion'].replace(to_replace=['GR', 'TI'],   value='Region 6',   inplace=True)
+    return(df)
+   
+    # Region 1: GE, NE, VD, VS 
+    # Region 2: BE, FR, JU 
+    # Region 3: AG, BL, BS, SO 
+    # Region 4: LU, NW, OW, SZ, UR, ZG 
+    # Region 5: AI, AR, GL, SG, SH, TG, ZH 
+    # Region 6: GR, TI 
+
 
 
 # oblig 
@@ -61,8 +79,11 @@ def get_by_cantons_oblig(df):
     df = df[df["type"]  == 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] != 'CHFL']
+    df = df[df["georegion"] != 'CH']
+    df = df[df["georegion"] != 'FL']
     df = df[df["agegroup"]  == 'All']
     df = df[df["sex"]  == 'all']
+    df = df.sort_values(by=["georegion", 'date'], ascending=True)
     return(df)
 
 @st.cache_data
@@ -85,7 +106,6 @@ def get_by_sex_oblig(df):
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
-
 @st.cache_data
 def get_by_type_oblig(df):
     df = df[df["type"] != 'all']
@@ -95,10 +115,6 @@ def get_by_type_oblig(df):
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
-
-
-
-
 
 
 # sentinella
@@ -233,7 +249,8 @@ def prepare_data(progr_bar):
 
     df_obli = preprocess_INFLUENZA(df_obli)
     df_sent = preprocess_INFLUENZA(df_sent)
-
+    df_obli = combine_cantons(df_obli)
+    
     progr_bar.progress(0.2, text="")
 
     df_all_obli = get_all_oblig(df_obli)
@@ -242,8 +259,6 @@ def prepare_data(progr_bar):
     df_sex_obli = get_by_sex_oblig(df_obli)
     df_typ_obli = get_by_type_oblig(df_obli)
     
-
-
     df_all_sent = get_all_sentinella(df_sent)
     df_can_sent = get_by_region_sentinella(df_sent)
     df_age_sent = get_by_agegroup_sentinella(df_sent)
@@ -286,7 +301,7 @@ def draw_figures(data, colseq):
     ss["figures"]["fig_all_oblig"] = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], y_title = 'Cases per 100000 inhab *', )
     ss["figures"]["fig_all_sent"]  = make_line_plot(data["df_all_sent"], 'georegion', colseq["fig_all_oblig"], y_title = 'Consultations per 100000 inhab *', )
     # lineplots 
-    ss["figures"]["fig_can_oblig"] = make_line_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_can_oblig"] = make_line_plot(data["df_can_obli"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Cases per 100000 inhab *', )
     ss["figures"]["fig_age_oblig"] = make_line_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Cases per 100000 inhab *',)
     ss["figures"]["fig_sex_oblig"] = make_line_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *', )
     ss["figures"]["fig_typ_oblig"] = make_line_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"], y_title = 'Cases per 100000 inhab *', )
@@ -295,7 +310,7 @@ def draw_figures(data, colseq):
     ss["figures"]["fig_age_sent"]  = make_line_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Consult. per 100000 inhab *', )
     ss["figures"]["fig_sex_sent"]  = make_line_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Consult. per 100000 inhab *', )
     # area plots
-    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
+    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
     ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
     ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
     ss["figures"]["figa_typ_oblig"] = make_area_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
@@ -303,13 +318,6 @@ def draw_figures(data, colseq):
     ss["figures"]["figa_can_sent"]  = make_area_plot(data["df_can_sent"], 'georegion', colseq["fig_reg_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_sent"])
     ss["figures"]["figa_age_sent"]  = make_area_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_sent"])    
     ss["figures"]["figa_sex_sent"]  = make_area_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_sent"])
-
-
-
-
-
-
-
 
 
 #----------------------------------------------------
@@ -325,11 +333,6 @@ def show_selected_plots():
         if 'oblig' in sel_d and 'All' in sel_g:
             st.plotly_chart(ss["figures"]["fig_all_oblig"], use_container_width=True, theme=None)
 
-        if 'oblig' in sel_d and 'Sex' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_sex_oblig"], use_container_width=True, theme=None)
-        if 'oblig' in sel_d and 'Sex' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_sex_oblig"], use_container_width=True, theme=None)
-
         if 'oblig' in sel_d and 'Age' in sel_g and "Line" in set_t:
             st.plotly_chart(ss["figures"]["fig_age_oblig"], use_container_width=True, theme=None)
         if 'oblig' in sel_d and 'Age' in sel_g and "Area" in set_t:
@@ -343,25 +346,32 @@ def show_selected_plots():
         if 'oblig' in sel_d and 'Region' in sel_g and "Line" in set_t:
             st.plotly_chart(ss["figures"]["fig_can_oblig"], use_container_width=True, theme=None)
         if 'oblig' in sel_d and 'Region' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None)    
+            st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None) 
+
+        if 'oblig' in sel_d and 'Sex' in sel_g and "Line" in set_t:
+            st.plotly_chart(ss["figures"]["fig_sex_oblig"], use_container_width=True, theme=None)
+        if 'oblig' in sel_d and 'Sex' in sel_g and "Area" in set_t:
+            st.plotly_chart(ss["figures"]["figa_sex_oblig"], use_container_width=True, theme=None)
 
 
     with st.container(height=None, border=True):
         if 'sentinella' in sel_d and  'All' in sel_g:
             st.plotly_chart(ss["figures"]["fig_all_sent"], use_container_width=True, theme=None)
-        if 'sentinella' in sel_d and  'Sex' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_sex_sent"], use_container_width=True, theme=None)
-        if 'sentinella' in sel_d and  'Sex' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_sex_sent"], use_container_width=True, theme=None)
+
         if 'sentinella' in sel_d and  'Age' in sel_g and "Line" in set_t:
             st.plotly_chart(ss["figures"]["fig_age_sent"], use_container_width=True, theme=None)
         if 'sentinella' in sel_d and  'Age' in sel_g and "Area" in set_t:
             st.plotly_chart(ss["figures"]["figa_age_sent"], use_container_width=True, theme=None)
+
         if 'sentinella' in sel_d and  'Region' in sel_g and "Line" in set_t:
             st.plotly_chart(ss["figures"]["fig_can_sent"], use_container_width=True, theme=None)
         if 'sentinella' in sel_d and  'Region' in sel_g and "Area" in set_t:
             st.plotly_chart(ss["figures"]["figa_can_sent"], use_container_width=True, theme=None)
-
+        
+        if 'sentinella' in sel_d and  'Sex' in sel_g and "Line" in set_t:
+            st.plotly_chart(ss["figures"]["fig_sex_sent"], use_container_width=True, theme=None)
+        if 'sentinella' in sel_d and  'Sex' in sel_g and "Area" in set_t:
+            st.plotly_chart(ss["figures"]["figa_sex_sent"], use_container_width=True, theme=None)
    
 
 

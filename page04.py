@@ -46,9 +46,10 @@ with st.form("colors_form", border=False):
                 
     st.text("")  
     st.text("")  
-    submitted = st.form_submit_button("Confirm", type = "primary")
+    submitted = st.form_submit_button("Save changes", type = "primary")
     if submitted:
         draw_figures(data = ss["data"], colseq =ss["colseq"])
+
 
 
  

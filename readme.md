@@ -1,21 +1,29 @@
 # Swiss Influenza Monitoring Visualization
 
 ### Summary
-* A simple dashboard to visualize Influenza monitoring data provided by the Data API of the Swiss Federal Office of Public Health (FOPH).
+* A simple dashboard to visualize Influenza monitoring 
+* Data updated weekly by the Data API of the Swiss Federal Office of Public Health (FOPH).
+* Only incidence rate of Infuenza (flu) is visualized.
 
-### Dependencies / Intallation
+### Dependencies 
+* At startup, data is fetched from FOPH Data API
+* https://api.idd.bag.admin.ch/api
 * Developed under Python 3.12.8
+
+### Intallation
 * First make a venv, then:
 ```
 pip install -r requirements.txt
 ```
 
-### Usage / Sample code
+### Usage 
 *  Start dashboard
 ```bash 
 streamlit run stmain.py
-
 ```
 
-### cheet-sheet
-*  beatify JSON in VSC : SHIFT + ALT + F
+### Credits 
+* Data management, coordination, and curation kindly performed by FOPH 
+* https://www.bag.admin.ch
+
+

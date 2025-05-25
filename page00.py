@@ -10,7 +10,7 @@ col_aa, col_bb, = st.columns([0.50, 0.20])
 with col_aa: 
 
     with st.container(border=True):
-        st.title("Swiss Influenza Monitoring Visualization (under development)") 
+        st.title("Swiss Influenza Monitoring Visualization") 
 
     with st.container(border=True, ):
         st.markdown(
@@ -19,11 +19,10 @@ with col_aa:
 
         A simple dashboard to visualize Influenza monitoring data provided by the Data API of the Swiss Federal Office of Public Health (FOPH).
 
-        <Under construction>
+        For detailed background information and context please see the links in sidebar on the left.
         
         ''')
 
-    st.markdown(''':gray[CREDITS]: Please see links in sidebar left.''')
    
     
      

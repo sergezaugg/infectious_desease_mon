@@ -45,7 +45,7 @@ if 'figures' not in ss:
 
 
 with st.sidebar:
-    st.info("App version: v1.0.0")
+    st.info("App version: v1.0.1")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
 
     st.info("cutoff oblig: " + str(ss["upar"]["cutoff_obli"]))

@@ -53,9 +53,9 @@ with st.sidebar:
     
     st.title(""); st.title(""); 
     st.markdown(''':gray[CREDITS]''')
-    st.page_link("https://www.bag.admin.ch/", label=":gray[Federal Office of Public Health]")
+    st.page_link("https://www.bag.admin.ch/", label=":gray[Data provided by FOPH]")
     st.markdown(''':gray[LINKS]''')
-    st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API provided by FOPH]")
+    st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API]")
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
     st.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig", label=":gray[Mandatory reporting (oblig)]")
     st.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":gray[Voluntary surveillance (sentinella)]")

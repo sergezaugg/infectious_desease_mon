@@ -38,14 +38,14 @@ with st.form("colors_form", border=False):
             ss["colseq"]["fig_age_oblig"][4] = cols_b[4].color_picker("65+",     ss["colseq"]["fig_age_oblig"][4])   
             ss["colseq"]["fig_age_oblig"][5] = cols_b[5].color_picker("Unknown", ss["colseq"]["fig_age_oblig"][5], key = "u3") 
 
-    with co_main2:
-        with st.container(border=True, height = 450):
-            st.text("  ")  
-            ss["upar"]["cutoff_obli"] = st.slider("Area plot cutoff (oblig)", min_value = 0.0, max_value = 100.0, step = 0.5, value = ss["upar"]["cutoff_obli"]) 
-            ss["upar"]["cutoff_sent"] = st.slider("Area plot cutoff (sentinella)", min_value = 0.0, max_value = 100.0, step = 0.5, value = ss["upar"]["cutoff_sent"]) 
+    # with co_main2:
+    #     with st.container(border=True, height = 450):
+    #         st.text("  ")  
+    #         ss["upar"]["cutoff_obli"] = st.slider("Area plot cutoff (oblig)", min_value = 0.0, max_value = 100.0, step = 0.5, value = ss["upar"]["cutoff_obli"]) 
+    #         ss["upar"]["cutoff_sent"] = st.slider("Area plot cutoff (sentinella)", min_value = 0.0, max_value = 100.0, step = 0.5, value = ss["upar"]["cutoff_sent"]) 
                 
-    st.text("")  
-    st.text("")  
+    # st.text("")  
+    # st.text("")  
     submitted = st.form_submit_button("Save changes", type = "primary")
     if submitted:
         draw_figures(data = ss["data"], colseq =ss["colseq"])

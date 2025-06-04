@@ -8,6 +8,7 @@ import streamlit as st
 from streamlit import session_state as ss
 import numpy as np
 import plotly.express as px
+from utils import draw_figures
 st.set_page_config(layout="wide")
 
 # (1) set initial session state
@@ -45,28 +46,42 @@ if 'figures' not in ss:
 
 
 with st.sidebar:
-    st.info("App version: v1.0.1")
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
-
-    st.info("cutoff oblig: " + str(ss["upar"]["cutoff_obli"]))
-    st.info("cutoff sentinella: " + str(ss["upar"]["cutoff_sent"]))     
-    
-    st.title(""); st.title(""); 
-    st.markdown(''':gray[CREDITS]''')
+    # new     
+    with st.form("thld_form", border=False):
+        with st.container(border=True):
+            st.text("  ")  
+            ss["upar"]["cutoff_obli"] = st.slider("Area plot cutoff (oblig)", min_value = 0.0, max_value = 10.0, step = 0.1, value = ss["upar"]["cutoff_obli"]) 
+            ss["upar"]["cutoff_sent"] = st.slider("Area plot cutoff (sentinella)", min_value = 0.0, max_value = 200.0, step = 0.5, value = ss["upar"]["cutoff_sent"])          
+            submitted = st.form_submit_button("Apply thresholds", type = "primary")
+        if submitted:
+            draw_figures(data = ss["data"], colseq =ss["colseq"])
+            st.rerun()
+    # st.title("")
+    st.markdown(''':gray[CREDITS and LINKS]''')
     st.page_link("https://www.bag.admin.ch/", label=":gray[Data provided by FOPH]")
-    st.markdown(''':gray[LINKS]''')
     st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API]")
     st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
     st.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig", label=":gray[Mandatory reporting (oblig)]")
     st.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":gray[Voluntary surveillance (sentinella)]")
-   
+    # logos an links
+    # st.header("")
+    c1,c2=st.columns([80,200])
+    c1.image(image='pics/z_logo_blue.png', width=65)
+    c2.markdown(''':gray[Frontend app v1.0.2]  
+    :gray[Created by]
+    :gray[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]    
+    :gray[[Pollito-ML](https://github.com/sergezaugg)]
+    ''')
+    st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
+
 
 # (2) main navigation
 pages = [
     st.Page("page03.py",  title="Visualize"),
-    st.Page("page04.py",  title="Settings"),
-    st.Page("page00.py",  title="Background Info"),
-    st.Page("page02.py",  title="Tabular Data"),
+    st.Page("page04.py",  title="Color settings"),
+    # st.Page("page00.py",  title="Background Info"),
+    # st.Page("page02.py",  title="Tabular Data"),
     ]
 pg = st.navigation(pages)
 pg.run()

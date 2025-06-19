@@ -14,6 +14,7 @@
 * First make a venv, then:
 ```
 pip install -r requirements.txt
+pip install --upgrade -r requirements.txt
 ```
 
 ### Usage 

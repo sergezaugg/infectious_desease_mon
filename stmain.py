@@ -58,7 +58,7 @@ with st.sidebar:
         if submitted:
             draw_figures(data = ss["data"], colseq =ss["colseq"])
             st.rerun()
-    st.title("");st.title("");st.title("");st.title("");st.title(""); st.title("") 
+    st.title("");st.title("");st.title("");st.title("");st.title(""); st.text("") 
     # logos an links
     c1,c2=st.columns([80,200])
     c1.image(image='pics/z_logo_blue.png', width=65)

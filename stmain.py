@@ -9,7 +9,7 @@ from streamlit import session_state as ss
 import numpy as np
 import plotly.express as px
 from utils import draw_figures
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
 
 # (1) set initial session state
 if 'upar' not in ss:
@@ -44,10 +44,11 @@ if 'colseq' not in ss:
 if 'figures' not in ss:
     ss["figures"] = dict()
 
-
+# (2) sidebar
 with st.sidebar:
+    st.title("") 
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
-    # new     
+    st.title("") 
     with st.form("thld_form", border=False):
         with st.container(border=True):
             st.text("  ")  
@@ -57,15 +58,8 @@ with st.sidebar:
         if submitted:
             draw_figures(data = ss["data"], colseq =ss["colseq"])
             st.rerun()
-    # st.title("")
-    st.markdown(''':gray[CREDITS and LINKS]''')
-    st.page_link("https://www.bag.admin.ch/", label=":gray[Data provided by FOPH]")
-    st.page_link("https://www.idd.bag.admin.ch/portal-data", label=":gray[Data API]")
-    st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label=":gray[Official frontend of FOPH]")
-    st.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig", label=":gray[Mandatory reporting (oblig)]")
-    st.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label=":gray[Voluntary surveillance (sentinella)]")
+    st.title("");st.title("");st.title("");st.title("");st.title(""); st.text("") 
     # logos an links
-    # st.header("")
     c1,c2=st.columns([80,200])
     c1.image(image='pics/z_logo_blue.png', width=65)
     c2.markdown(''':gray[Frontend app v1.0.2]  
@@ -75,13 +69,11 @@ with st.sidebar:
     ''')
     st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
 
-
-# (2) main navigation
+# (3) main navigation
 pages = [
     st.Page("page03.py",  title="Visualize"),
     st.Page("page04.py",  title="Color settings"),
-    # st.Page("page00.py",  title="Background Info"),
-    # st.Page("page02.py",  title="Tabular Data"),
+    st.Page("page00.py",  title="Credits"),
     ]
 pg = st.navigation(pages)
 pg.run()

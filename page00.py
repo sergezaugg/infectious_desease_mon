@@ -5,23 +5,21 @@
 
 import streamlit as st
 
-col_aa, col_bb, = st.columns([0.50, 0.20])
-
+col_aa, col_bb, = st.columns([0.50, 0.05])
 with col_aa: 
-
-    with st.container(border=True):
-        st.title("Swiss Influenza Monitoring Visualization") 
-
     with st.container(border=True, ):
-        st.markdown(
-        '''    
-        **SUMMARY**
 
-        A simple dashboard to visualize Influenza monitoring data provided by the Data API of the Swiss Federal Office of Public Health (FOPH).
-
-        For detailed background information and context please see the links in sidebar on the left.
-        
+        st.markdown('''
+        ## CREDITS
+        * ### Data kindly provided weekly on this [API](https://www.idd.bag.admin.ch/portal-data) by the Swiss Federal Office of Public Health ([FOPH](https://www.bag.admin.ch/)).
         ''')
+
+        st.markdown('''### LINKS ''')
+        # st.page_link("https://www.bag.admin.ch/", label="Data provided by FOPH")
+        # st.page_link("https://www.idd.bag.admin.ch/portal-data", label="Data API")
+        st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label="Official visual frontend of FOPH")
+        st.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig", label="Mandatory reporting (oblig)")
+        st.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label="Voluntary surveillance (sentinella)")
 
    
     

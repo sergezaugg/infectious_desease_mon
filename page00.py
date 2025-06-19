@@ -11,7 +11,7 @@ with col_aa:
 
         st.markdown('''
         ## CREDITS
-        * ### Data updated weekly by the [Data API](https://www.idd.bag.admin.ch/portal-data) of the Swiss Federal Office of Public Health ([FOPH](https://www.bag.admin.ch/)).
+        * ### Data kindly provided weekly on this [API](https://www.idd.bag.admin.ch/portal-data) by the Swiss Federal Office of Public Health ([FOPH](https://www.bag.admin.ch/)).
         * ### Only incidence rate of Infuenza (flu) is visualized.
         ''')
 

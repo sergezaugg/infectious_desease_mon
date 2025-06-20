@@ -62,7 +62,7 @@ with st.sidebar:
     # logos an links
     c1,c2=st.columns([80,200])
     c1.image(image='pics/z_logo_blue.png', width=65)
-    c2.markdown(''':gray[Frontend app v1.0.2]  
+    c2.markdown(''':gray[Frontend app v1.0.3]  
     :gray[Created by]
     :gray[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]    
     :gray[[Pollito-ML](https://github.com/sergezaugg)]

@@ -35,7 +35,7 @@ if 'colseq' not in ss:
     ss["colseq"] = {
         "fig_all_oblig" : ["#FC08B3"],
         "fig_can_oblig" : px.colors.qualitative.Alphabet,
-        "fig_reg_oblig" : px.colors.qualitative.Light24, #Plotly,
+        "fig_reg_oblig" : px.colors.qualitative.Light24, 
         "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"],
         "fig_sex_oblig" : ["#fd6804", "#0727F7", "#7c8584",],
         "fig_typ_oblig" : ["#7802e6", "#02BB2A", "#7c8584",],
@@ -49,6 +49,7 @@ with st.sidebar:
     st.title("") 
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
     st.title("") 
+    # user input for the two thresholds
     with st.form("thld_form", border=False):
         with st.container(border=True):
             st.text("  ")  
@@ -58,11 +59,11 @@ with st.sidebar:
         if submitted:
             draw_figures(data = ss["data"], colseq =ss["colseq"])
             st.rerun()
+    # logos an links        
     st.title("");st.title("");st.title("");st.title("");st.title(""); st.text("") 
-    # logos an links
     c1,c2=st.columns([80,200])
     c1.image(image='pics/z_logo_blue.png', width=65)
-    c2.markdown(''':gray[Frontend app v1.0.3]  
+    c2.markdown(''':gray[Frontend app v1.1.0]  
     :gray[Created by]
     :gray[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]    
     :gray[[Pollito-ML](https://github.com/sergezaugg)]
@@ -71,9 +72,9 @@ with st.sidebar:
 
 # (3) main navigation
 pages = [
-    st.Page("page03.py",  title="Visualize"),
-    st.Page("page04.py",  title="Color settings"),
-    st.Page("page00.py",  title="Credits"),
+    st.Page("page00.py",  title="Visualize"),
+    st.Page("page01.py",  title="Color settings"),
+    st.Page("page02.py",  title="Credits"),
     ]
 pg = st.navigation(pages)
 pg.run()

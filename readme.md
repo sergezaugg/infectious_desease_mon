@@ -1,30 +1,62 @@
 # Swiss Influenza Monitoring Visualization
 
-### Summary
-* A simple dashboard to visualize Influenza monitoring 
-* Data updated weekly by the Data API of the Swiss Federal Office of Public Health (FOPH).
-* Only incidence rate of Infuenza (flu) is visualized.
+A simple interactive dashboard for visualizing Swiss influenza surveillance data, using data provided weekly by the Swiss Federal Office of Public Health (FOPH).
 
-### Dependencies 
-* At startup, data is fetched from FOPH Data API
-* https://api.idd.bag.admin.ch/api
-* Developed under Python 3.12.8
+## Features
 
-### Intallation
-* First make a venv, then:
-```
-pip install -r requirements.txt
-pip install --upgrade -r requirements.txt
-```
+- Visualizes weekly incidence rates of influenza (flu) in Switzerland.
+- Supports both mandatory reporting ("oblig") and voluntary surveillance ("sentinella") data sources.
+- Interactive plots by age, sex, region, and influenza type.
+- Customizable color schemes and area plot thresholds.
+- Data is fetched live from the official FOPH API.
 
-### Usage 
-*  Start dashboard
-```bash 
+## Installation
+
+1. **Download or clone the repository**  
+2. **Create and activate a virtual environment**  
+3. **Install dependencies**  
+   ```bash
+   pip install -r requirements.txt
+   # or 
+   pip install --upgrade -r requirements.txt
+   ```
+
+## Usage
+
+Start the dashboard locally with:
+
+```bash
 streamlit run stmain.py
 ```
 
-### Credits 
-* Data management, coordination, and curation kindly performed by FOPH 
-* https://www.bag.admin.ch
+The app will automatically download the latest data from the FOPH API and display interactive plots.
+
+## Project Structure
+
+- `stmain.py` – Main Streamlit entry point and navigation.
+- `page00.py` – Main visualization page.
+- `page01.py` – Color settings page.
+- `page02.py` – Credits and background info.
+- `utils.py` – Data fetching, preprocessing, and plotting utilities.
+- `meta_data/` – Metadata JSON files for each data source.
+- `pics/` – Logo images.
+- `.streamlit/` – Streamlit configuration.
+
+## Data Source
+
+- Data is fetched from the [FOPH Infectious Disease Data API](https://api.idd.bag.admin.ch/api).
+- Official data explorer: [www.idd.bag.admin.ch/dataexplorer](https://www.idd.bag.admin.ch/dataexplorer)
+
+## Credits
+
+- Data management and curation: [Swiss Federal Office of Public Health (FOPH)](https://www.bag.admin.ch/)
+- Dashboard by Serge Zaugg ([Pollito-ML](https://github.com/sergezaugg))
+
+## License
+
+[MIT License](LICENSE)
+
+
+
 
 

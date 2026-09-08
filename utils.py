@@ -1,6 +1,6 @@
 #--------------------             
 # Author : Serge Zaugg
-# Description : tbd
+# Description : All functions an UI elements used my the streamlit app
 #--------------------
 
 import numpy as np
@@ -14,11 +14,8 @@ import requests
 import io
 from datetime import datetime, timedelta
 
-
-
 def convert_iso_date_to_datetime(d):
     return(datetime.strptime(d + '-1', "%Y-W%W-%w"))
-
 
 def update_ss(kname, ssname):
     """
@@ -44,26 +41,7 @@ def preprocess_INFLUENZA(df):
     # 
     return(df)
 
-# @st.cache_data
-# def combine_cantons(df):
-#     # re-code  
-#     df['georegion'].replace(to_replace=['GE', 'NE', 'VD', 'VS'],   value='Region 1',   inplace=True)
-#     df['georegion'].replace(to_replace=['BE', 'FR', 'JU'],   value='Region 2',   inplace=True)
-#     df['georegion'].replace(to_replace=['AG', 'BL', 'BS', 'SO'],   value='Region 3',   inplace=True)
-#     df['georegion'].replace(to_replace=['LU', 'NW', 'OW', 'SZ', 'UR', 'ZG'],   value='Region 4',   inplace=True)
-#     df['georegion'].replace(to_replace=['AI', 'AR', 'GL', 'SG', 'SH', 'TG', 'ZH'],   value='Region 5',   inplace=True)
-#     df['georegion'].replace(to_replace=['GR', 'TI'],   value='Region 6',   inplace=True)
-#     return(df)
-   
-    # Region 1: GE, NE, VD, VS 
-    # Region 2: BE, FR, JU 
-    # Region 3: AG, BL, BS, SO 
-    # Region 4: LU, NW, OW, SZ, UR, ZG 
-    # Region 5: AI, AR, GL, SG, SH, TG, ZH 
-    # Region 6: GR, TI 
-
-
-
+#---------
 # oblig 
 @st.cache_data
 def get_all_oblig(df):
@@ -116,7 +94,7 @@ def get_by_type_oblig(df):
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
-
+#---------
 # sentinella
 @st.cache_data
 def get_all_sentinella(df):
@@ -150,6 +128,7 @@ def get_by_sex_sentinella(df):
     df = df[df["sex"]  != 'all']
     return(df)
 
+# -------------
 @st.cache_data
 def make_line_plot(df, color_groups, color_sequence, y_title):
     fig = px.line(
@@ -206,12 +185,10 @@ def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 2
     _ = fig.for_each_trace(lambda trace: trace.update(fillcolor = trace.line.color))
     return(fig)
 
-
 #----------------------------------------------------
 # function that assign values into ss 
 # must imperatively run on app stratup, Do not st.cache !!
-# Ise only inside form or super-controlled if/else statement 
-
+# Use only inside form or super-controlled if/else statement 
 def download_all_data(progr_bar):
     full_query_string = 'https://api.idd.bag.admin.ch/api/v1/data/version'
     r = requests.get(full_query_string, allow_redirects=True)
@@ -241,7 +218,6 @@ def download_all_data(progr_bar):
     ss["data"]["data_di"] = data_di
     ss["data"]["data_ve"] = data_version
 
-
 def prepare_data(progr_bar):
     progr_bar.progress(0.0, text="")
     df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
@@ -249,7 +225,6 @@ def prepare_data(progr_bar):
 
     df_obli = preprocess_INFLUENZA(df_obli)
     df_sent = preprocess_INFLUENZA(df_sent)
-    # df_obli = combine_cantons(df_obli) # nope this makes the mean of incidences not adecuately normalizes for region pop !
     
     progr_bar.progress(0.2, text="")
 
@@ -295,7 +270,6 @@ def prepare_data(progr_bar):
 
     progr_bar.progress(1.0, text="")
 
-
 def draw_figures(data, colseq):
     # lineplots 
     ss["figures"]["fig_all_oblig"] = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], y_title = 'Cases per 100000 inhab *', )
@@ -318,7 +292,6 @@ def draw_figures(data, colseq):
     ss["figures"]["figa_can_sent"]  = make_area_plot(data["df_can_sent"], 'georegion', colseq["fig_can_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_sent"])
     ss["figures"]["figa_age_sent"]  = make_area_plot(data["df_age_sent"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_sent"])    
     ss["figures"]["figa_sex_sent"]  = make_area_plot(data["df_sex_sent"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_sent"])
-
 
 #----------------------------------------------------
 # UI elemets 
@@ -352,7 +325,6 @@ def show_selected_plots():
             st.plotly_chart(ss["figures"]["fig_can_oblig"], use_container_width=True, theme=None)
         if 'oblig' in sel_d and 'Region' in sel_g and "Area" in set_t:
             st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None) 
-
 
     with st.container(height=None, border=True):
         if 'sentinella' in sel_d and  'All' in sel_g:

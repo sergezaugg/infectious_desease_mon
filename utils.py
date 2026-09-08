@@ -223,6 +223,10 @@ def prepare_data(progr_bar):
     df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
     df_sent = ss["data"]["data_di"]["INFLUENZA_sentinella"]
 
+    # quick fix 
+    df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]
+    df_sent = df_sent[df_sent["temporal_type"] == "iso_week"]
+
     df_obli = preprocess_INFLUENZA(df_obli)
     df_sent = preprocess_INFLUENZA(df_sent)
     
@@ -302,48 +306,48 @@ def show_selected_plots():
     sel_d = ss["upar"]["selecte_data_sources"]
     sel_g = ss["upar"]["selecte_data_groupings"]
     set_t = ss["upar"]["plot_type"]
-    with st.container(height=None, border=True):
+    with st.container(height = 'content', border=True):
         if 'oblig' in sel_d and 'All' in sel_g:
-            st.plotly_chart(ss["figures"]["fig_all_oblig"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_all_oblig"], use_container_width=True, theme=None, key = "k001")
 
         if 'oblig' in sel_d and 'Age' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_age_oblig"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_age_oblig"], use_container_width=True, theme=None, key = "k002")
         if 'oblig' in sel_d and 'Age' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_age_oblig"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["figa_age_oblig"], use_container_width=True, theme=None, key = "k003")
 
         if 'oblig' in sel_d and 'Type' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_typ_oblig"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_typ_oblig"], use_container_width=True, theme=None, key = "k004")
         if 'oblig' in sel_d and 'Type' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_typ_oblig"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["figa_typ_oblig"], use_container_width=True, theme=None, key = "k005")
 
         if 'oblig' in sel_d and 'Sex' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_sex_oblig"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_sex_oblig"], use_container_width=True, theme=None, key = "k006")
         if 'oblig' in sel_d and 'Sex' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_sex_oblig"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["figa_sex_oblig"], use_container_width=True, theme=None, key = "k007")
 
         if 'oblig' in sel_d and 'Region' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_can_oblig"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_can_oblig"], use_container_width=True, theme=None, key = "k008")
         if 'oblig' in sel_d and 'Region' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None) 
+            st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None, key = "k009") 
 
-    with st.container(height=None, border=True):
+    with st.container(height='content', border=True):
         if 'sentinella' in sel_d and  'All' in sel_g:
-            st.plotly_chart(ss["figures"]["fig_all_sent"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_all_sent"], use_container_width=True, theme=None, key = "k010")
 
         if 'sentinella' in sel_d and  'Age' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_age_sent"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_age_sent"], use_container_width=True, theme=None, key = "k011")
         if 'sentinella' in sel_d and  'Age' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_age_sent"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["figa_age_sent"], use_container_width=True, theme=None, key = "k012")
 
         if 'sentinella' in sel_d and  'Sex' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_sex_sent"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_sex_sent"], use_container_width=True, theme=None, key = "k013")
         if 'sentinella' in sel_d and  'Sex' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_sex_sent"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["figa_sex_sent"], use_container_width=True, theme=None, key = "k014")
    
         if 'sentinella' in sel_d and  'Region' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_can_sent"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["fig_can_sent"], use_container_width=True, theme=None, key = "k015")
         if 'sentinella' in sel_d and  'Region' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_can_sent"], use_container_width=True, theme=None)
+            st.plotly_chart(ss["figures"]["figa_can_sent"], use_container_width=True, theme=None, key = "k016")
 
 
 

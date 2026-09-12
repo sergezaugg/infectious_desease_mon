@@ -222,10 +222,9 @@ def prepare_data(progr_bar):
     progr_bar.progress(0.0, text="")
     df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
     df_sent = ss["data"]["data_di"]["INFLUENZA_sentinella"]
-
     # quick fix 
     df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]
-    df_sent = df_sent[df_sent["temporal_type"] == "iso_week"]
+    df_sent = df_sent[df_sent["temporal_type"] == "week"]
 
     df_obli = preprocess_INFLUENZA(df_obli)
     df_sent = preprocess_INFLUENZA(df_sent)
@@ -238,7 +237,7 @@ def prepare_data(progr_bar):
     df_sex_obli = get_by_sex_oblig(df_obli)
     df_typ_obli = get_by_type_oblig(df_obli)
     
-    df_all_sent = get_all_sentinella(df_sent)
+    df_all_sent = get_all_sentinella(df = df_sent)
     df_can_sent = get_by_region_sentinella(df_sent)
     df_age_sent = get_by_agegroup_sentinella(df_sent)
     df_sex_sent = get_by_sex_sentinella(df_sent)

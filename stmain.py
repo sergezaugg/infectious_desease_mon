@@ -11,6 +11,7 @@ import plotly.express as px
 from utils import draw_figures
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
 
+
 # (1) set initial session state
 if 'upar' not in ss:
     ss["upar"] = {

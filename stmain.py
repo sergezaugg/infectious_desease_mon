@@ -57,6 +57,17 @@ with st.sidebar:
         if submitted:
             draw_figures(data = ss["data"], colseq =ss["colseq"])
             st.rerun()
+
+
+    with st.expander( "Info on incidence metrics"):
+        st.text("""Incidence is the rate of new events per period. Here, the number of new cases/consultations per week and normalized per 100000 inhabitants.\
+        For groups, incidence is normalized within group.""")
+        st.text("""Relative incidence = inc. group / sum(inc. all groups).\
+        Area plots only shown when overall incidence above cutoff value.\
+        Can be adjusted in left panel.\
+        """)
+
+
     # logos an links        
     st.title("");st.title("");st.title("");st.title("");st.title(""); st.text("") 
     c1,c2=st.columns([80,200])

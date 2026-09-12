@@ -19,11 +19,9 @@ if 'upar' not in ss:
         "date_range" : "initial",
         "par03" : "initial",
         "par04" : "initial",
-        "selecte_data_sources" : ['oblig'],
         "selecte_data_groupings" : ['All', 'Age', 'Type'],
         "plot_type" : 'Area',
         "cutoff_obli" :  1.0,
-        "cutoff_sent" : 20.0,
         }
 
 if 'data' not in ss:
@@ -54,8 +52,7 @@ with st.sidebar:
     with st.form("thld_form", border=False):
         with st.container(border=True):
             st.text("  ")  
-            ss["upar"]["cutoff_obli"] = st.slider("Area plot cutoff (oblig)", min_value = 0.0, max_value = 10.0, step = 0.1, value = ss["upar"]["cutoff_obli"]) 
-            ss["upar"]["cutoff_sent"] = st.slider("Area plot cutoff (sentinella)", min_value = 0.0, max_value = 200.0, step = 0.5, value = ss["upar"]["cutoff_sent"])          
+            ss["upar"]["cutoff_obli"] = st.slider("Area plot cutoff", min_value = 0.0, max_value = 10.0, step = 0.1, value = ss["upar"]["cutoff_obli"]) 
             submitted = st.form_submit_button("Apply thresholds", type = "primary")
         if submitted:
             draw_figures(data = ss["data"], colseq =ss["colseq"])

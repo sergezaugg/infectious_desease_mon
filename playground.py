@@ -28,7 +28,6 @@ ss["data"]["data_di"]['INFLUENZA_oblig'].columns
 
 
 df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
-df_sent = ss["data"]["data_di"]["INFLUENZA_sentinella"]
 
 
 

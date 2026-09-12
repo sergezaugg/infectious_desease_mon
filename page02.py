@@ -15,4 +15,3 @@ with col_aa:
         st.markdown('''### LINKS ''')
         st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label="Official visual frontend of FOPH")
         st.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig", label="Mandatory reporting (oblig)")
-        st.page_link("https://www.idd.bag.admin.ch/survey-systems/sentinella", label="Voluntary surveillance (sentinella)")

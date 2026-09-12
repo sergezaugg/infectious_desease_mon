@@ -6,7 +6,8 @@ import streamlit as st
 from streamlit import session_state as ss
 from utils import update_ss, show_selected_plots, download_all_data, draw_figures, prepare_data
 
-
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
 
 c02, c03, c04 = st.columns([0.3, 0.3, 0.5])
 c02.text("Download progress")
@@ -17,14 +18,11 @@ aaa = download_all_data(progr_bar1)
 
 
 
-# ss["data"]["data_di"].keys()
 
 aaa = ss["data"]["data_di"]['INFLUENZA_oblig'].head()
 
 
 aaa.temporal
-
-
 ss["data"]["data_di"]['INFLUENZA_oblig'].columns
 
 
@@ -33,9 +31,6 @@ df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
 df_sent = ss["data"]["data_di"]["INFLUENZA_sentinella"]
 
 
-df_obli = preprocess_INFLUENZA(df_obli)
-df_sent = preprocess_INFLUENZA(df_sent)
-
 
 df_obli["temporal"].unique()
 
@@ -43,6 +38,11 @@ df_obli["temporal"].unique()
 df_obli.shape
 df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]
 df_obli.shape
+
+df_obli.head()
+
+df_obli = preprocess_INFLUENZA(df_obli)
+
 
 # temporal_type == 'iso_week'
 

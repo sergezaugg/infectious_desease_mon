@@ -48,7 +48,7 @@ def get_all_oblig(df):
     df = df[df["type"]  == 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  == 'All']
+    df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     return(df)
 
@@ -59,7 +59,7 @@ def get_by_cantons_oblig(df):
     df = df[df["georegion"] != 'CHFL']
     df = df[df["georegion"] != 'CH']
     df = df[df["georegion"] != 'FL']
-    df = df[df["agegroup"]  == 'All']
+    df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["georegion", 'date'], ascending=True)
     return(df)
@@ -69,7 +69,7 @@ def get_by_agegroup_oblig(df):
     df = df[df["type"]  == 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  != 'All']
+    df = df[df["agegroup"]  != 'all']
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["agegroup", 'date'], ascending=True)
     return(df)
@@ -79,7 +79,7 @@ def get_by_sex_oblig(df):
     df = df[df["type"]  == 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  == 'All']
+    df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  != 'all']
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
@@ -89,7 +89,7 @@ def get_by_type_oblig(df):
     df = df[df["type"] != 'all']
     df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  == 'All']
+    df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
@@ -100,7 +100,7 @@ def get_by_type_oblig(df):
 def get_all_sentinella(df):
     df = df[df["valueCategory"]  == 'consultations']
     df = df[df["georegion"] == 'CH']
-    df = df[df["agegroup"]  == 'All']
+    df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     return(df)
 
@@ -108,7 +108,7 @@ def get_all_sentinella(df):
 def get_by_region_sentinella(df):
     df = df[df["valueCategory"]  == 'consultations']
     df = df[df["georegion"] != 'CH']
-    df = df[df["agegroup"]  == 'All']
+    df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     return(df)
 
@@ -116,7 +116,7 @@ def get_by_region_sentinella(df):
 def get_by_agegroup_sentinella(df):
     df = df[df["valueCategory"]  == 'consultations']
     df = df[df["georegion"] == 'CH']
-    df = df[df["agegroup"]  != 'All']
+    df = df[df["agegroup"]  != 'all']
     df = df[df["sex"]  == 'all']
     return(df)
 
@@ -124,7 +124,7 @@ def get_by_agegroup_sentinella(df):
 def get_by_sex_sentinella(df):
     df = df[df["valueCategory"]  == 'consultations']
     df = df[df["georegion"] == 'CH']
-    df = df[df["agegroup"]  == 'All']
+    df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  != 'all']
     return(df)
 
@@ -232,7 +232,7 @@ def prepare_data(progr_bar):
     
     progr_bar.progress(0.2, text="")
 
-    df_all_obli = get_all_oblig(df_obli)
+    df_all_obli = get_all_oblig(df = df_obli)
     df_can_obli = get_by_cantons_oblig(df_obli)
     df_age_obli = get_by_agegroup_oblig(df_obli)
     df_sex_obli = get_by_sex_oblig(df_obli)
@@ -348,6 +348,7 @@ def show_selected_plots():
             st.plotly_chart(ss["figures"]["fig_can_sent"], use_container_width=True, theme=None, key = "k015")
         if 'sentinella' in sel_d and  'Region' in sel_g and "Area" in set_t:
             st.plotly_chart(ss["figures"]["figa_can_sent"], use_container_width=True, theme=None, key = "k016")
+
 
 
 

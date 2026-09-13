@@ -5,7 +5,7 @@ A simple interactive dashboard for visualizing Swiss influenza surveillance data
 ## Features
 
 - Visualizes weekly incidence rates of influenza (flu) in Switzerland.
-- Supports both mandatory reporting ("oblig") and voluntary surveillance ("sentinella") data sources.
+- Supports the mandatory reporting ("oblig") data sources.
 - Interactive plots by age, sex, region, and influenza type.
 - Customizable color schemes and area plot thresholds.
 - Data is fetched live from the official FOPH API.

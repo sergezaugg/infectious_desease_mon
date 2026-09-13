@@ -125,9 +125,8 @@ def make_line_plot(df, color_groups, color_sequence, y_title):
 def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 260):
     # set area plot to nan whe overall incidence was too low
     df = df.copy() # to avoid orig df in ss to be cut !
-    # df['incValue'][df['incValue_all']<cutoff] = np.nan
     # quick fix
-    df['incValue'][df['incValue']<cutoff] = np.nan
+    df.loc[df["incValue_all"] < cutoff, "incValue"] = np.nan
 
     fig = px.area(
         groupnorm = 'fraction',

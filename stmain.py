@@ -55,7 +55,7 @@ with st.sidebar:
             ss["upar"]["cutoff_obli"] = st.slider("Area plot cutoff", min_value = 0.0, max_value = 10.0, step = 0.1, value = ss["upar"]["cutoff_obli"]) 
             submitted = st.form_submit_button("Apply thresholds", type = "primary")
         if submitted:
-            draw_figures(data = ss["data"], colseq =ss["colseq"])
+            draw_figures(data = ss["data"], colseq = ss["colseq"])
             st.rerun()
 
 

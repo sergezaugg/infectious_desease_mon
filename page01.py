@@ -8,7 +8,7 @@ from streamlit import session_state as ss
 from utils import draw_figures
 
 with st.form("colors_form", border=False):
-    co_main1, co_main2, _ = st.columns([0.4,0.4, 0.2])  
+    co_main1, co_main2, _ = st.columns([0.4, 0.4, 0.2])  
     with co_main1:
         with st.container(border=True, height = 450):
             cols_b = st.columns(6)   

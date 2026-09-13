@@ -87,7 +87,7 @@ with st.sidebar:
         st.text("""Area plots shown when overall incidence above cutoff (can be adjusted).""")
 
     # Data version
-    st.info("Data version: " + ss["data"]["data_ve"]["name"])
+    st.info("Data from " + ss["data"]["data_ve"]["name"] + " downloaded via FOPH API")
 
     # logos an links        
     c1,c2=st.columns([70,200])

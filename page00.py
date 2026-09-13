@@ -6,7 +6,7 @@
 import pandas as pd 
 import streamlit as st
 from streamlit import session_state as ss
-from utils import show_selected_plots, download_all_data, draw_figures, prepare_data
+from utils import download_all_data, prepare_data, draw_figures, show_selected_plots
 
 if ss["data"]["data_di"] == "initial" or ss["upar"]["date_range"] == "initial" or len(ss["figures"]) == 0 :
     c02, c03, c04 = st.columns([0.3, 0.3, 0.5])
@@ -18,22 +18,5 @@ if ss["data"]["data_di"] == "initial" or ss["upar"]["date_range"] == "initial" o
     prepare_data(progr_bar2)
     draw_figures(data = ss["data"], colseq =ss["colseq"])
     st.rerun()
-
 else:  
-
-    # # update x axis zoom for all available plots 
-    # for k in ss["figures"].keys():
-    #     ss["figures"][k].update_xaxes(type = "date", range = ss["upar"]["date_range"])
-
     show_selected_plots()
-
-
-
-
-
-
-
-
-
-
-

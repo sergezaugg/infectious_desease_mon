@@ -46,7 +46,7 @@ if 'figures' not in ss:
 # (2) sidebar
 with st.sidebar:
 
-    st.markdown(":blue[**Swiss influenza monitoring with weekly data from FOPH**]") 
+    st.markdown(":blue[**Swiss influenza monitoring with weekly data from Fed. Office of Public Health**]") 
 
     with st.container(border=True):
 
@@ -81,20 +81,18 @@ with st.sidebar:
             st.rerun()
 
     with st.expander( "Info on incidence metrics"):
-        st.text("""Incidence is the rate of new events per period. Here, the number of new cases/consultations per week and normalized per 100000 inhabitants.\
-        For groups, incidence is normalized within group.""")
-        st.text("""Relative incidence = inc. group / sum(inc. all groups).\
-        Area plots only shown when overall incidence above cutoff value.\
-        Can be adjusted.\
-        """)
+        st.text("""Incidence given as number of new cases per week normalized per 100000 inhabitants.""")
+        st.text("""For groups, incidence is normalized within group.""")
+        st.text("""Relative incidence = inc. group / sum(inc. all groups).""")
+        st.text("""Area plots shown when overall incidence above cutoff (can be adjusted).""")
 
     # Data version
     st.info("Data version: " + ss["data"]["data_ve"]["name"])
 
     # logos an links        
-    c1,c2=st.columns([80,200])
+    c1,c2=st.columns([70,200])
     c1.image(image='pics/z_logo_blue.png', width=65)
-    c2.markdown(''':primary[Frontend app v1.1.1]  
+    c2.markdown(''':primary[v1.1.1]  
     :primary[Created by]
     :primary[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]    
     :primary[[Pollito-ML](https://github.com/sergezaugg)]

@@ -230,17 +230,17 @@ def prepare_data(progr_bar):
 
 def draw_figures(data, colseq):
     # lineplots 
-    ss["figures"]["fig_all_oblig"] = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_all_oblig"] = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], y_title = 'Cases per 100000 inhab', )
     # lineplots oblig
-    ss["figures"]["fig_can_oblig"] = make_line_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Cases per 100000 inhab *', )
-    ss["figures"]["fig_age_oblig"] = make_line_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Cases per 100000 inhab *',)
-    ss["figures"]["fig_sex_oblig"] = make_line_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Cases per 100000 inhab *', )
-    ss["figures"]["fig_typ_oblig"] = make_line_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"], y_title = 'Cases per 100000 inhab *', )
+    ss["figures"]["fig_can_oblig"] = make_line_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Cases per 100000 inhab', )
+    ss["figures"]["fig_age_oblig"] = make_line_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Cases per 100000 inhab',)
+    ss["figures"]["fig_sex_oblig"] = make_line_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Cases per 100000 inhab', )
+    ss["figures"]["fig_typ_oblig"] = make_line_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"], y_title = 'Cases per 100000 inhab', )
     # area plots oblig
-    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
-    ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
-    ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
-    ss["figures"]["figa_typ_oblig"] = make_area_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"], y_title = 'Relative incidence °', cutoff = ss["upar"]["cutoff_obli"])
+    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Relative incidence', cutoff = ss["upar"]["cutoff_obli"])
+    ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence', cutoff = ss["upar"]["cutoff_obli"])
+    ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence', cutoff = ss["upar"]["cutoff_obli"])
+    ss["figures"]["figa_typ_oblig"] = make_area_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"], y_title = 'Relative incidence', cutoff = ss["upar"]["cutoff_obli"])
    
 #----------------------------------------------------
 # UI elemets 
@@ -252,27 +252,27 @@ def show_selected_plots():
     set_t = ss["upar"]["plot_type"]
     with st.container(height = 'content', border=True):
         if  'All' in sel_g:
-            st.plotly_chart(ss["figures"]["fig_all_oblig"], use_container_width=True, theme=None, key = "k001")
+            st.plotly_chart(ss["figures"]["fig_all_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k001")
 
         if 'Age' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_age_oblig"], use_container_width=True, theme=None, key = "k002")
+            st.plotly_chart(ss["figures"]["fig_age_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k002")
         if 'Age' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_age_oblig"], use_container_width=True, theme=None, key = "k003")
+            st.plotly_chart(ss["figures"]["figa_age_oblig"], use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k003")
 
         if 'Type' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_typ_oblig"], use_container_width=True, theme=None, key = "k004")
+            st.plotly_chart(ss["figures"]["fig_typ_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k004")
         if 'Type' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_typ_oblig"], use_container_width=True, theme=None, key = "k005")
+            st.plotly_chart(ss["figures"]["figa_typ_oblig"], use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k005")
 
         if 'Sex' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_sex_oblig"], use_container_width=True, theme=None, key = "k006")
-        if 'Sex' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_sex_oblig"], use_container_width=True, theme=None, key = "k007")
+            st.plotly_chart(ss["figures"]["fig_sex_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k006")
+        if 'Sex' in sel_g and "Area" in set_t: 
+            st.plotly_chart(ss["figures"]["figa_sex_oblig"], use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k007")
 
         if 'Region' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_can_oblig"], use_container_width=True, theme=None, key = "k008")
+            st.plotly_chart(ss["figures"]["fig_can_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k008")
         if 'Region' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None, key = "k009") 
+            st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k009") 
 
     
 

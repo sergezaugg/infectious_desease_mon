@@ -46,7 +46,7 @@ if 'figures' not in ss:
 # (2) sidebar
 with st.sidebar:
 
-    st.markdown(":blue[**Swiss influenza monitoring with weekly data from Fed. Office of Public Health**]") 
+    st.markdown(":blue[**Swiss influenza monitoring with weekly data from Federal Office of Public Health**]") 
 
     with st.container(border=True):
 
@@ -92,15 +92,12 @@ with st.sidebar:
     # logos an links        
     c1,c2=st.columns([70,200])
     c1.image(image='pics/z_logo_blue.png', width=65)
-    c2.markdown(''':primary[v1.1.1]  
+    c2.markdown(''':primary[v1.1.2]  
     :primary[Created by]
     :primary[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]    
     :primary[[Pollito-ML](https://github.com/sergezaugg)]
     ''')
     st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
-
-
-
 
 
 # (3) main navigation

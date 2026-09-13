@@ -218,8 +218,6 @@ def prepare_data(progr_bar):
         delta_time = timedelta(days=100)
         # concat dates from both dfs to get global min and max 
         df_dates = df_obli['date']
-
-
         time_options = df_dates.sort_values()
         t_sta = time_options.min() - delta_time
         t_sta = datetime(year = t_sta.year, month = t_sta.month, day = t_sta.day)

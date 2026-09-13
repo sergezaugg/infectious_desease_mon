@@ -8,7 +8,7 @@ import streamlit as st
 from streamlit import session_state as ss
 import numpy as np
 import plotly.express as px
-from utils import draw_figures
+from utils import draw_figures, update_ss
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
 
 
@@ -57,6 +57,35 @@ with st.sidebar:
         if submitted:
             draw_figures(data = ss["data"], colseq = ss["colseq"])
             st.rerun()
+
+
+
+    if ss["upar"]["date_range"] != "initial":
+        with st.container(height=120, border=True):
+            _ = st.slider("Time range to plot", min_value = ss["upar"]["full_date_range"][0], max_value = ss["upar"]["full_date_range"][1], value = ss["upar"]["date_range"], 
+                format = "YYYY-MM-DD", label_visibility = "visible",key = "k_date_range", 
+                on_change=update_ss, args=["k_date_range", "date_range"]) 
+        # update x axis zoom for all available plots 
+        for k in ss["figures"].keys():
+            ss["figures"][k].update_xaxes(type = "date", range = ss["upar"]["date_range"])         
+
+
+    with st.container(height=120, border=True):
+        _ = st.segmented_control("Data grouping", options = ['All', 'Age', 'Type', 'Sex', 'Region',], 
+            selection_mode="multi", default = ss["upar"]["selecte_data_groupings"],
+            key = "k_data_gr", on_change=update_ss, args=["k_data_gr", "selecte_data_groupings"])
+        
+    with st.container(height=120, border=True):        
+        _ = st.select_slider("Plot type", options = ['Line', 'Area'], value=ss["upar"]["plot_type"], 
+            key="k_plot_type", on_change = update_ss, args=["k_plot_type", "plot_type"])
+
+
+
+
+
+
+
+
 
 
     with st.expander( "Info on incidence metrics"):

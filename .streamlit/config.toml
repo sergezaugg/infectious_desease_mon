@@ -1,8 +1,9 @@
 [theme]
 base="dark"
-primaryColor="#0055cc"
+primaryColor="#176c93"
 backgroundColor="#000000"
 secondaryBackgroundColor="#000000"
 textColor="#ffffff"
 font="sans serif"
-linkColor='#0055cc'
+linkColor='#176c93'
+baseRadius = "large"

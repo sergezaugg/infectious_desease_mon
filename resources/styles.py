@@ -40,7 +40,7 @@ def apply_global_styles():
         .stAppHeader {background-color: #0E1117;}
 
         /* Default tab background */
-        .stAppHeader a {background-color: #2f2f3f !important;}
+        .stAppHeader a {background-color: #000000 !important;}
 
         /* Hover state */
         .stAppHeader a:hover {background-color: #3b4d63 !important;}
@@ -49,10 +49,21 @@ def apply_global_styles():
         .stAppHeader a:active {background-color: #dddddd !important; }
 
         /* Active page */
-        .stAppHeader a[aria-current="page"] {background-color: #23a7e4 !important;}
+        .stAppHeader a[aria-current="page"] {background-color: #176c93 !important;}
+
+        /* Bouton borders  */
+        .stAppHeader a {
+            border: 1px solid rgba(255, 255, 255, 0.75);
+            margin: 2px 4px;
+            padding: 4px 10px;
+        }
 
         </style>
     """, unsafe_allow_html=True)
+
+
+   
+
 
     # All navigation tabs: same fixed width
     st.markdown("""

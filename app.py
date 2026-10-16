@@ -72,8 +72,8 @@ pages = [
     st.Page("pages/page01.py",  title="Color settings"),
     st.Page("pages/page_info.py",  title="Info"),
     st.Page("pages/page02.py",  title="About"),
-    st.Page("pages/page99.py",  title="Dev"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),
+    st.Page("pages/page99.py",  title="Dev"),
     ]
 pg = st.navigation(pages, position = "top")
 pg.run()

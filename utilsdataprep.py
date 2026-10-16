@@ -14,6 +14,7 @@ import io
 # (1) function for data download 
 # must imperatively run on app stratup, Do not st.cache !!
 
+@st.cache_data(ttl=24*60*60)
 def download_all_data():
     full_query_string = 'https://api.idd.bag.admin.ch/api/v1/data/version'
     r = requests.get(full_query_string, allow_redirects=True)

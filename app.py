@@ -10,8 +10,7 @@ import numpy as np
 import plotly.express as px
 from utils import draw_figures
 from datetime import datetime, timedelta
-
-
+from utilsdataprep import download_all_data, prepare_data
 
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
 

@@ -1,5 +1,7 @@
-
-
+#--------------------             
+# Author : Serge Zaugg
+# Description : incidence map where each canton has same size 
+#--------------------
 
 import streamlit as st
 from streamlit import session_state as ss
@@ -7,7 +9,6 @@ import plotly.graph_objects as go
 import math
 import pandas as pd 
 import plotly.colors
-
 
 
 
@@ -45,23 +46,61 @@ tiles = [
 
     ("GL", 12, 0, ),
     ("GR", 13, 2, ),
- 
 ]
-
 
 df_tiles = pd.DataFrame(tiles,columns=["georegion", "x", "y"])
 
+# st.write(ss.df_can)
+
+
+
+opt_dates = sorted(ss.df_can['date'].unique())
+
+date_selected = st.select_slider(
+    "Select date",
+    options=opt_dates,
+    value=opt_dates[-1],
+    format_func=lambda d: d.strftime("%Y-%m-%d"),
+)
+
+
+
+
+#-------------------------------------------------
 # data prep
-dfplot = ss.df_can[['date' , 'georegion' ,  'incValue']]
-df_latest = dfplot.loc[dfplot.groupby("georegion")["date"].idxmax()]
+
+# resp_var = 'incValue'
+resp_var = 'value'
+# resp_var = 'pop'
+
+
+
+
+
+dfplot = ss.df_can[['date', 'georegion', resp_var]]
+
+
+
+
+df_latest = dfplot[dfplot['date']==date_selected]
+# df_latest = dfplot.loc[dfplot.groupby("georegion")["date"].idxmax()]
+
 dfm = df_tiles.merge(df_latest, how = "left", on = ['georegion'])
-dfm["color"] = dfm["incValue"].apply(lambda x: plotly.colors.sample_colorscale("RdYlGn",x / 5)[0])
+
+max_val = ss.df_can[resp_var].max()
+# max_val = dfm[resp_var].max()
+max_val = 50
+
+color_map = "RdYlGn_r"
+color_map = "bluered"
+
+dfm["color"] = dfm[resp_var].apply(lambda x: plotly.colors.sample_colorscale(color_map, x / max_val)[0])
+dfm["color"] = dfm[resp_var].apply(lambda x: plotly.colors.sample_colorscale(color_map, min(x / max_val, 1))[0])
 
 
 
 
-
-R = 0.60
+R = 0.59
 
 fig = go.Figure()
 
@@ -72,7 +111,7 @@ for i,r in dfm.iterrows():
     cx    = r.x
     cy    = r.y
     color = r.color
-    value = r.incValue
+    value = r[resp_var]
 
     angles = [math.radians(60 * i + 30) for i in range(6)]
 
@@ -102,11 +141,20 @@ for i,r in dfm.iterrows():
     )
 
 fig.update_layout(
-    title="hexagon",
+    title=None,
     width=1000,
     height=800,
-    xaxis=dict(visible=False, range=[-1, 7], scaleanchor="y"),
-    yaxis=dict(visible=False, range=[-2, 5]),
+    xaxis=dict(visible=False, range=[-1, 8.5], scaleanchor="y", showline=True, linecolor="white", linewidth=2),
+    yaxis=dict(visible=False, range=[-2, 4]),
+)
+
+fig.add_shape(
+    type="rect",
+    xref="paper", yref="paper",
+    x0=0, y0=0, x1=1, y1=1,
+    line=dict(color="white", width=2),
+    fillcolor="rgba(0,0,0,0)",
+    layer="above",
 )
 
 

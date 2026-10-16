@@ -83,6 +83,7 @@ def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 2
     _ = fig.for_each_trace(lambda trace: trace.update(fillcolor = trace.line.color))
     return(fig)
 
+@st.cache_data
 def draw_figures(data, colseq, cutoff):
     # lineplots 
     fig_lin = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], height = 800,

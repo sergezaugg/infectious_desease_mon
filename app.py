@@ -52,12 +52,11 @@ if 'data' not in ss:
         "data_di" : "initial",
         "data_ve" : {'name' : "Data not yet loaded!"},
         }
-    with st.spinner("Downloading"):
-        download_all_data()
-    with st.spinner("Preparing"):
-        prepare_data()
-    with st.spinner("Rendering"):    
-        draw_figures(data = ss["data"], colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
+    ss.data.data_di, ss.data.data_ve = download_all_data()
+    prepare_data()
+    draw_figures(data = ss["data"], colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
+
+
 
 
 # (2) sidebar

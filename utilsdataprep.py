@@ -38,10 +38,11 @@ def download_all_data():
         raw_text = r.text
         df = pd.read_csv(io.StringIO(raw_text, newline='\n')  , sep=",")
         data_di[data_set_name] = df
-       
+
+    return(data_di, data_version)   
           
-    ss["data"]["data_di"] = data_di
-    ss["data"]["data_ve"] = data_version
+    # ss["data"]["data_di"] = data_di
+    # ss["data"]["data_ve"] = data_version
 
 
 #---------------------------------
@@ -116,6 +117,7 @@ def get_by_type_oblig(df):
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
+@st.cache_data
 def prepare_data():
     df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
     df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]

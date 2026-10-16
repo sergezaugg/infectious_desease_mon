@@ -41,8 +41,7 @@ def download_all_data():
 
     return(data_di, data_version)   
           
-    # ss["data"]["data_di"] = data_di
-    # ss["data"]["data_ve"] = data_version
+   
 
 
 #---------------------------------
@@ -119,7 +118,7 @@ def get_by_type_oblig(df):
 
 @st.cache_data
 def prepare_data():
-    df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
+    df_obli = ss["data_di"]["INFLUENZA_oblig"]
     df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]
     df_obli = preprocess_INFLUENZA(df_obli)
 

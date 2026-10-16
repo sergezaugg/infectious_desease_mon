@@ -46,13 +46,15 @@ if 'figures' not in ss:
 
 
 
+# ss["data"]["data_ve"]
+
 # do once on session start 
-if 'data' not in ss:
+if 'data_di' not in ss:
     ss["data"] = {
         "data_di" : "initial",
         "data_ve" : {'name' : "Data not yet loaded!"},
         }
-    ss.data.data_di, ss.data.data_ve = download_all_data()
+    ss.data_di, ss.data_ve = download_all_data()
     prepare_data()
     draw_figures(data = ss["data"], colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
 
@@ -62,7 +64,7 @@ if 'data' not in ss:
 # (2) sidebar
 with st.sidebar:
     st.markdown(":blue[**Swiss Weekly Influenza Monitoring**]") 
-    st.write("Data version " + ss["data"]["data_ve"]["name"])
+    st.write("Data version " + ss["data_ve"]["name"])
     st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
 
 # (3) main navigation

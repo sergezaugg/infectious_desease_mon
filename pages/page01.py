@@ -5,7 +5,7 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-from utils import draw_figures
+from utils_ui import draw_figures
 
 with st.form("colors_form", border=False):
     co_main1, co_main2, _ = st.columns([0.4, 0.4, 0.2])  
@@ -37,4 +37,5 @@ with st.form("colors_form", border=False):
 
     submitted = st.form_submit_button("Save changes", type = "primary")
     if submitted:
-        draw_figures(data = ss["data"], colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
+         ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, 
+                                         colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])

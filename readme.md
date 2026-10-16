@@ -1,6 +1,6 @@
 # Swiss Influenza Monitoring Visualization
 
-A simple interactive dashboard for visualizing Swiss influenza surveillance data, using data provided weekly by the Swiss Federal Office of Public Health (FOPH).
+A simple interactive app for visualizing Swiss influenza surveillance data, using data provided weekly by the Swiss Federal Office of Public Health (FOPH).
 
 ## Features
 
@@ -8,7 +8,7 @@ A simple interactive dashboard for visualizing Swiss influenza surveillance data
 - Supports the mandatory reporting ("oblig") data sources.
 - Interactive plots by age, sex, region, and influenza type.
 - Customizable color schemes and area plot thresholds.
-- Data is fetched live from the official FOPH API.
+- Data is fetched from the official FOPH API.
 
 ## Installation
 
@@ -33,13 +33,10 @@ The app will automatically download the latest data from the FOPH API and displa
 
 ## Project Structure
 
-- `stmain.py` – Main Streamlit entry point and navigation.
-- `page00.py` – Main visualization page.
-- `page01.py` – Color settings page.
-- `page02.py` – Credits and background info.
+- `app.py`   – Main Streamlit entry point and navigation.
+- `pages/`   – page.
 - `utils.py` – Data fetching, preprocessing, and plotting utilities.
-- `meta_data/` – Metadata JSON files for each data source.
-- `pics/` – Logo images.
+- `pics/`    – Logo images.
 - `.streamlit/` – Streamlit configuration.
 
 ## Data Source

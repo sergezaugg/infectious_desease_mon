@@ -59,6 +59,8 @@ with st.sidebar:
 # (3) main navigation
 pages = [
     st.Page("pages/page00.py",  title="Visualize"),
+    st.Page("pages/page_map.py",  title="Map"),
+
     st.Page("pages/page01.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="Info"),
     st.Page("pages/page02.py",  title="About"),

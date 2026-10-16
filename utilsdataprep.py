@@ -24,6 +24,8 @@ def download_all_data():
     r = requests.get(full_query_string, allow_redirects=True)
     data_file_list = r.json()
 
+    # st.write(data_file_list)
+
     # limit data to INFLUENZA_oblig
     data_file_list =[a for a in data_file_list if a == "INFLUENZA_oblig"]
 

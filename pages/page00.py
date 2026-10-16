@@ -7,6 +7,11 @@ import streamlit as st
 from streamlit import session_state as ss
 from utils import draw_figures, update_ss
 
+# on firt run we must prep the plot (becaus form not yet tuched by user )
+if 'fig_all_oblig' not in ss:
+     ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, 
+                                 colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
+
 with st.sidebar:
     # user input for the two thresholds
     with st.form("thld_form", border=True):
@@ -16,7 +21,7 @@ with st.sidebar:
         submitted = st.form_submit_button("Apply", type = "primary")
         if submitted:
             ss["upar"]["cutoff_obli"] = ss["cutoff_obli_slider"]
-            ss.fig_all_oblig = draw_figures(ss.df_all_obli, ss.df_age_obli, ss.df_sex_obli, ss.df_typ_obli, 
+            ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, 
                              colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
 
 st.plotly_chart(ss.fig_all_oblig,  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k001")

@@ -118,16 +118,13 @@ def get_by_type_oblig(df):
 
 @st.cache_data
 def prepare_data(df_obli):
-    
     df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]
     df_obli = preprocess_INFLUENZA(df_obli)
-
-    df_all_obli = get_all_oblig(df = df_obli)
+    df_all_obli = get_all_oblig(df_obli)
     df_can_obli = get_by_cantons_oblig(df_obli)
     df_age_obli = get_by_agegroup_oblig(df_obli)
     df_sex_obli = get_by_sex_oblig(df_obli)
     df_typ_obli = get_by_type_oblig(df_obli)
-
     return (
         df_all_obli,
         pd.merge(df_can_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),

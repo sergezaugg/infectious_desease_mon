@@ -7,16 +7,16 @@
 import streamlit as st
 from streamlit import session_state as ss
 import plotly.express as px
-from utils import draw_figures
 from utilsdataprep import download_all_data, prepare_data
 from resources.styles import apply_global_styles
 
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
 apply_global_styles() # apply custom CSS styles 
 
+#-------------------------------
+# (0) set initial session state 
+# only non-data items
 
-
-# (1) set initial session state
 if 'upar' not in ss:
     ss["upar"] = {
         "par03" : "initial",
@@ -30,10 +30,9 @@ if 'upar' not in ss:
 if "cutoff_obli_slider" not in ss:
     ss["cutoff_obli_slider"] = ss["upar"]["cutoff_obli"]    
 
-
 if 'colseq' not in ss:
     ss["colseq"] = {
-        "fig_all_oblig" : ["#FC08B3"],
+        "fig_all_oblig" : ["#F8DDF0"],
         "fig_can_oblig" : px.colors.qualitative.Alphabet,
         "fig_reg_oblig" : px.colors.qualitative.Light24, 
         "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"],
@@ -44,23 +43,18 @@ if 'colseq' not in ss:
 if 'figures' not in ss:
     ss["figures"] = dict()
 
-
-# do once on session start 
+#-------------------------------
+# (1) data prep - do once on app start 
+# this is then used in multiple session via cache 
 if 'data_di' not in ss:
-   
     ss.data_di, ss.data_ve = download_all_data()
     a,b,c,d,e = prepare_data(df_obli = ss.data_di["INFLUENZA_oblig"])
-    ss.df_all_obli = a
-    ss.df_can_obli = b
-    ss.df_age_obli = c
-    ss.df_sex_obli = d
-    ss.df_typ_obli = e
-    ss.fig_all_oblig = draw_figures(ss.df_all_obli, ss.df_age_obli, ss.df_sex_obli, ss.df_typ_obli, 
-                 colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
-
-
-
-
+    ss.df_all = a
+    ss.df_can = b
+    ss.df_age = c
+    ss.df_sex = d
+    ss.df_typ = e
+   
 # (2) sidebar
 with st.sidebar:
     st.markdown(":blue[**Swiss Weekly Influenza Monitoring**]") 

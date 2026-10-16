@@ -33,9 +33,9 @@ def make_line_plot(df, color_groups, color_sequence, y_title, height):
         height = height,
         x = 'date', 
         y = 'incValue', 
-        markers=True, 
+        markers=False, 
         template="plotly_dark", 
-        color_discrete_sequence = color_sequence
+        color_discrete_sequence = color_sequence,
         )
     _ = fig.update_xaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
     _ = fig.update_yaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
@@ -98,24 +98,42 @@ def draw_figures(df_all,df_age, df_sex, df_typ, colseq, cutoff):
     fig_typ = make_area_plot(df_typ, 'type',      colseq["fig_typ_oblig"],  height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
 
-    fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.05)
+    fig = make_subplots(rows=4, cols=1, shared_xaxes=True, row_heights=[0.3, 0.2, 0.2, 0.2],  vertical_spacing=0.05)
 
     for trace in fig_lin.data:
+        # trace.legend = "legend1"
         fig.add_trace(trace, row=1, col=1)
+
     for trace in fig_age.data:
+        trace.legend = "legend2"
         fig.add_trace(trace, row=2, col=1)
+
     for trace in fig_sex.data:
+        trace.legend = "legend3"
         fig.add_trace(trace, row=3, col=1)
+
     for trace in fig_typ.data:
+        trace.legend = "legend4"
         fig.add_trace(trace, row=4, col=1)
 
-    fig.update_layout(margin=dict(l=10, r=10, t=10, b=10))
+    fig.update_layout(
+    # legend1=dict(orientation="v",x=1.02, y=0.70, xanchor="left", yanchor="bottom",),
+    legend2=dict(orientation="v",x=1.02, y=0.45, xanchor="left", yanchor="bottom",),
+    legend3=dict(orientation="v",x=1.02, y=0.25, xanchor="left", yanchor="bottom",),
+    legend4=dict(orientation="v",x=1.02, y=0.0,  xanchor="left", yanchor="bottom",),
+)    
+
+
+
+    fig.update_layout(margin=dict(l=30, r=35, t=1, b=30))
     fig.update_layout(height=700)
     fig.update_xaxes(matches="x")
     fig.update_layout(hovermode="x unified")
     fig.update_xaxes(showline = True, linewidth=0.8, mirror=True)
     fig.update_yaxes(showline = True, linewidth=0.8, mirror=True)
-    fig.update_yaxes(range=[0.0, 1.02], row=2, col=1)
+    fig.update_yaxes(range=[0.0, 1.00], row=2, col=1)
+    fig.update_yaxes(range=[0.0, 1.00], row=3, col=1)
+    fig.update_yaxes(range=[0.0, 1.00], row=4, col=1)
     # fig.update_layout(legend=dict(orientation="h", x=0, xanchor="left", y=1.2, yanchor="top",))    
     return(fig) 
 

@@ -19,14 +19,10 @@ apply_global_styles() # apply custom CSS styles
 
 if 'upar' not in ss:
     ss["upar"] = {
-        "par03" : "initial",
-        "par04" : "initial",
-        "selecte_data_groupings" : ['All', 'Age', 'Type', 'Sex', 'Region',],
-        "plot_type" : 'Area',
         "cutoff_obli" :  1.0,
         }
 
-# Initialize widget state once
+# Initialize widget keys once
 if "cutoff_obli_slider" not in ss:
     ss["cutoff_obli_slider"] = ss["upar"]["cutoff_obli"]    
 
@@ -36,12 +32,9 @@ if 'colseq' not in ss:
         "fig_can_oblig" : px.colors.qualitative.Alphabet,
         "fig_reg_oblig" : px.colors.qualitative.Light24, 
         "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"],
-        "fig_sex_oblig" : ["#fd6804", "#0727F7", "#7c8584",],
-        "fig_typ_oblig" : ["#7802e6", "#02BB2A", "#7c8584",],
+        "fig_sex_oblig" : ["#fe21d2", "#0539F5", "#7c8584",],
+        "fig_typ_oblig" : ["#ff5e00", "#01FF51", "#7c8584",],
         }
-
-if 'figures' not in ss:
-    ss["figures"] = dict()
 
 #-------------------------------
 # (1) data prep - do once on app start 
@@ -54,17 +47,19 @@ if 'data_di' not in ss:
     ss.df_age = c
     ss.df_sex = d
     ss.df_typ = e
-   
+
+#-------------------------------
 # (2) sidebar
 with st.sidebar:
-    st.markdown(":blue[**Swiss Weekly Influenza Monitoring**]") 
+    st.markdown("## :primary[**Swiss Weekly Influenza Monitoring**]") 
     st.write("Data version " + ss["data_ve"]["name"])
     st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
 
+#-------------------------------
 # (3) main navigation
 pages = [
     st.Page("pages/page00.py",  title="Visualize"),
-    st.Page("pages/page01.py",  title="Color settings"),
+    st.Page("pages/page01.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="Info"),
     st.Page("pages/page02.py",  title="About"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),

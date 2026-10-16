@@ -5,9 +5,9 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-from utils import draw_figures, update_ss
+from utils_ui import draw_figures, update_ss
 
-# on firt run we must prep the plot (becaus form not yet tuched by user )
+# on first run we must prep the plot (because form not yet touched by user)
 if 'fig_all_oblig' not in ss:
      ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, 
                                  colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])

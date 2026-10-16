@@ -6,21 +6,13 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-import numpy as np
 import plotly.express as px
 from utils import draw_figures
-from datetime import datetime, timedelta
 from utilsdataprep import download_all_data, prepare_data
+from resources.styles import apply_global_styles
 
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
-
-
-
-
-
-        
-
-
+apply_global_styles() # apply custom CSS styles 
 
 
 
@@ -33,6 +25,11 @@ if 'upar' not in ss:
         "plot_type" : 'Area',
         "cutoff_obli" :  1.0,
         }
+
+# Initialize widget state once
+if "cutoff_obli_slider" not in ss:
+    ss["cutoff_obli_slider"] = ss["upar"]["cutoff_obli"]    
+
 
 if 'colseq' not in ss:
     ss["colseq"] = {
@@ -60,32 +57,23 @@ if 'data' not in ss:
     with st.spinner("Preparing"):
         prepare_data()
     with st.spinner("Rendering"):    
-        draw_figures(data = ss["data"], colseq = ss["colseq"])
+        draw_figures(data = ss["data"], colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
 
 
 # (2) sidebar
 with st.sidebar:
     st.markdown(":blue[**Swiss Weekly Influenza Monitoring**]") 
-    # Data version
-    st.info("Data from " + ss["data"]["data_ve"]["name"] + " downloaded via FOPH API")
-    # logos an links        
-    c1,c2=st.columns([70,200])
-    # c1.image(image='pics/z_logo_blue.png', width=65)
-    c2.markdown(''':primary[v1.1.2]  
-    :primary[Created by]
-    :primary[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]    
-    :primary[[Pollito-ML](https://github.com/sergezaugg)]
-    ''')
+    st.write("Data version " + ss["data"]["data_ve"]["name"])
     st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
-
 
 # (3) main navigation
 pages = [
     st.Page("pages/page00.py",  title="Visualize"),
     st.Page("pages/page01.py",  title="Color settings"),
     st.Page("pages/page_info.py",  title="Info"),
-    st.Page("pages/page02.py",  title="Credits"),
+    st.Page("pages/page02.py",  title="About"),
     st.Page("pages/page99.py",  title="Dev"),
+    st.Page("pages/page_disclaimer.py",  title="Disclaimer"),
     ]
 pg = st.navigation(pages, position = "top")
 pg.run()

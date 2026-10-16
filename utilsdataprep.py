@@ -117,8 +117,8 @@ def get_by_type_oblig(df):
     return(df)
 
 @st.cache_data
-def prepare_data():
-    df_obli = ss["data_di"]["INFLUENZA_oblig"]
+def prepare_data(df_obli):
+    
     df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]
     df_obli = preprocess_INFLUENZA(df_obli)
 
@@ -128,10 +128,11 @@ def prepare_data():
     df_sex_obli = get_by_sex_oblig(df_obli)
     df_typ_obli = get_by_type_oblig(df_obli)
 
-    # merge-in '_all' info and assign to ss
-    ss["data"]["df_all_obli"] = df_all_obli
-    ss["data"]["df_can_obli"] = pd.merge(df_can_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    ss["data"]["df_age_obli"] = pd.merge(df_age_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    ss["data"]["df_sex_obli"] = pd.merge(df_sex_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    ss["data"]["df_typ_obli"] = pd.merge(df_typ_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    return (
+        df_all_obli,
+        pd.merge(df_can_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),
+        pd.merge(df_age_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),
+        pd.merge(df_sex_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),
+        pd.merge(df_typ_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),
+        )
 

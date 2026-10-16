@@ -84,18 +84,18 @@ def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 2
     return(fig)
 
 @st.cache_data
-def draw_figures(data, colseq, cutoff):
+def draw_figures(df_all,df_age, df_sex, df_typ, colseq, cutoff):
     # lineplots 
-    fig_lin = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], height = 800,
+    fig_lin = make_line_plot(df_all, 'georegion', colseq["fig_all_oblig"], height = 800,
                              y_title = 'Cases per 100000 inhab')
     # area plots
-    fig_age = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], height = 400,
+    fig_age = make_area_plot(df_age, 'agegroup',  colseq["fig_age_oblig"], height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
     
-    fig_sex = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], height = 400,
+    fig_sex = make_area_plot(df_sex, 'sex',       colseq["fig_sex_oblig"], height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
     
-    fig_typ = make_area_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"],  height = 400,
+    fig_typ = make_area_plot(df_typ, 'type',      colseq["fig_typ_oblig"],  height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
 
     fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.05)
@@ -117,8 +117,7 @@ def draw_figures(data, colseq, cutoff):
     fig.update_yaxes(showline = True, linewidth=0.8, mirror=True)
     fig.update_yaxes(range=[0.0, 1.02], row=2, col=1)
     # fig.update_layout(legend=dict(orientation="h", x=0, xanchor="left", y=1.2, yanchor="top",))    
-
-    ss["figures"]["fig_all_oblig"] = fig    
+    return(fig) 
 
 
 

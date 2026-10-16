@@ -45,18 +45,18 @@ if 'figures' not in ss:
     ss["figures"] = dict()
 
 
-
-# ss["data"]["data_ve"]
-
 # do once on session start 
 if 'data_di' not in ss:
-    ss["data"] = {
-        "data_di" : "initial",
-        "data_ve" : {'name' : "Data not yet loaded!"},
-        }
+   
     ss.data_di, ss.data_ve = download_all_data()
-    prepare_data()
-    draw_figures(data = ss["data"], colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
+    a,b,c,d,e = prepare_data(df_obli = ss.data_di["INFLUENZA_oblig"])
+    ss.df_all_obli = a
+    ss.df_can_obli = b
+    ss.df_age_obli = c
+    ss.df_sex_obli = d
+    ss.df_typ_obli = e
+    ss.fig_all_oblig = draw_figures(ss.df_all_obli, ss.df_age_obli, ss.df_sex_obli, ss.df_typ_obli, 
+                 colseq = ss["colseq"], cutoff = ss["upar"]["cutoff_obli"])
 
 
 

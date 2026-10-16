@@ -15,3 +15,11 @@ with col_aa:
         st.markdown('''### LINKS ''')
         st.page_link("https://www.idd.bag.admin.ch/dataexplorer", label="Official visual frontend of FOPH")
         st.page_link("https://www.idd.bag.admin.ch/survey-systems/oblig", label="Mandatory reporting (oblig)")
+
+
+
+        st.markdown(''' 
+            :primary[Created by]
+            :primary[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]    
+            :primary[[Pollito-ML](https://github.com/sergezaugg)]
+            ''')

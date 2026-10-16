@@ -1,18 +1,14 @@
 #--------------------             
 # Author : Serge Zaugg
-# Description : All functions an UI elements used my the streamlit app
+# Description : Plots and UI elements used my the streamlit app
 #--------------------
 
 import numpy as np
-import pandas as pd 
 import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 import streamlit as st
-from datetime import date
-from datetime import datetime
 from streamlit import session_state as ss
-import requests
-import io
-from datetime import datetime, timedelta
 
 #---------------------------------
 # (0) general function  
@@ -26,158 +22,15 @@ def update_ss(kname, ssname):
     ss["upar"][ssname] = ss[kname]      
 
 
-#---------------------------------
-# (1) function for data download 
-# must imperatively run on app stratup, Do not st.cache !!
-def download_all_data(progr_bar):
-    full_query_string = 'https://api.idd.bag.admin.ch/api/v1/data/version'
-    r = requests.get(full_query_string, allow_redirects=True)
-    data_version = r.json()
-
-    full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/files'
-    r = requests.get(full_query_string, allow_redirects=True)
-    data_file_list = r.json()
-
-    # limit data to INFLUENZA_oblig
-    data_file_list =[a for a in data_file_list if a == "INFLUENZA_oblig"]
-
-    n_files = len(data_file_list)
-
-    data_di = {}
-    for li_index in range(len(data_file_list)):
-        print(li_index)
-        data_set_name = data_file_list[li_index]
-        full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/' + data_set_name + '/csv'
-        r = requests.get(full_query_string, allow_redirects=True)
-        raw_text = r.text
-        df = pd.read_csv(io.StringIO(raw_text, newline='\n')  , sep=",")
-        data_di[data_set_name] = df
-        # update status notifications 
-        progr_bar.progress((li_index+1)/n_files, text="")
-          
-    ss["data"]["data_di"] = data_di
-    ss["data"]["data_ve"] = data_version
-
-
-#---------------------------------
-# (2) function for data preparation 
-
-def convert_iso_date_to_datetime(d):
-    return(datetime.strptime(d + '-1', "%Y-W%W-%w"))
-
-@st.cache_data
-def preprocess_INFLUENZA(df):
-    df = df.copy()
-    # make a continuous time variable 
-    df['date'] = df["temporal"].apply(convert_iso_date_to_datetime)
-    # re-code  
-    df['agegroup'] = df['agegroup'].replace(to_replace='0 - 4',   value='00-04') # ,   inplace=True)
-    df['agegroup'] = df['agegroup'].replace(to_replace='5 - 14',  value='05-14') #,   inplace=True)
-    df['agegroup'] = df['agegroup'].replace(to_replace='15 - 29', value='15-29') #,   inplace=True)
-    df['agegroup'] = df['agegroup'].replace(to_replace='30 - 64', value='30-64') #,   inplace=True)
-    df['agegroup'] = df['agegroup'].replace(to_replace='65+',     value='65+') #,     inplace=True)
-    df['agegroup'] = df['agegroup'].replace(to_replace='unknown', value='Unknown') #, inplace=True)
-    # df['agegroup'] = df['agegroup'].replace(to_replace='all',     value='All') #,     inplace=True)
-    return(df)
-
-@st.cache_data
-def get_all_oblig(df):
-    df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
-    df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  == 'all']
-    df = df[df["sex"]  == 'all']
-    return(df)
-
-@st.cache_data
-def get_by_cantons_oblig(df):
-    df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
-    df = df[df["georegion"] != 'CHFL']
-    df = df[df["georegion"] != 'CH']
-    df = df[df["georegion"] != 'FL']
-    df = df[df["agegroup"]  == 'all']
-    df = df[df["sex"]  == 'all']
-    df = df.sort_values(by=["georegion", 'date'], ascending=True)
-    return(df)
-
-@st.cache_data
-def get_by_agegroup_oblig(df):
-    df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
-    df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  != 'all']
-    df = df[df["sex"]  == 'all']
-    df = df.sort_values(by=["agegroup", 'date'], ascending=True)
-    return(df)
-
-@st.cache_data
-def get_by_sex_oblig(df):
-    df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
-    df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  == 'all']
-    df = df[df["sex"]  != 'all']
-    df = df.sort_values(by=["sex", 'date'], ascending=True)
-    return(df)
-
-@st.cache_data
-def get_by_type_oblig(df):
-    df = df[df["type"] != 'all']
-    df = df[df["valueCategory"]  == 'cases']
-    df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  == 'all']
-    df = df[df["sex"]  == 'all']
-    df = df.sort_values(by=["sex", 'date'], ascending=True)
-    return(df)
-
-def prepare_data(progr_bar):
-    progr_bar.progress(0.0, text="")
-    df_obli = ss["data"]["data_di"]["INFLUENZA_oblig"]
-    df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]
-    df_obli = preprocess_INFLUENZA(df_obli)
-    progr_bar.progress(0.2, text="")
-
-    df_all_obli = get_all_oblig(df = df_obli)
-    df_can_obli = get_by_cantons_oblig(df_obli)
-    df_age_obli = get_by_agegroup_oblig(df_obli)
-    df_sex_obli = get_by_sex_oblig(df_obli)
-    df_typ_obli = get_by_type_oblig(df_obli)
-    progr_bar.progress(0.4, text="")
-
-    # merge-in '_all' info and assign to ss
-    ss["data"]["df_all_obli"] = df_all_obli
-    ss["data"]["df_can_obli"] = pd.merge(df_can_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    ss["data"]["df_age_obli"] = pd.merge(df_age_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    ss["data"]["df_sex_obli"] = pd.merge(df_sex_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    ss["data"]["df_typ_obli"] = pd.merge(df_typ_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
-    progr_bar.progress(0.7, text="")
-
-    # get the global time range
-    if ss["upar"]["date_range"] == 'initial':
-        delta_time = timedelta(days=100)
-        # concat dates from both dfs to get global min and max 
-        df_dates = df_obli['date']
-        time_options = df_dates.sort_values()
-        t_sta = time_options.min() - delta_time
-        t_sta = datetime(year = t_sta.year, month = t_sta.month, day = t_sta.day)
-        t_end = time_options.max() + delta_time
-        t_end = datetime(year = t_end.year, month = t_end.month, day = t_end.day)
-        ss["upar"]["date_range"] = (t_sta, t_end)
-        ss["upar"]["full_date_range"] = (t_sta, t_end)
-
-    progr_bar.progress(1.0, text="")
-
-
 # -----------------------------------------
 # (3) function to pre-render plotly figures
 
 @st.cache_data
-def make_line_plot(df, color_groups, color_sequence, y_title):
+def make_line_plot(df, color_groups, color_sequence, y_title, height):
     fig = px.line(
         data_frame = df, 
         color = color_groups, 
-        height = 260,
+        height = height,
         x = 'date', 
         y = 'incValue', 
         markers=True, 
@@ -230,53 +83,45 @@ def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 2
     _ = fig.for_each_trace(lambda trace: trace.update(fillcolor = trace.line.color))
     return(fig)
 
-def draw_figures(data, colseq):
+def draw_figures(data, colseq, cutoff):
     # lineplots 
-    ss["figures"]["fig_all_oblig"] = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], y_title = 'Cases per 100000 inhab', )
-    ss["figures"]["fig_can_oblig"] = make_line_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Cases per 100000 inhab', )
-    ss["figures"]["fig_age_oblig"] = make_line_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Cases per 100000 inhab',)
-    ss["figures"]["fig_sex_oblig"] = make_line_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Cases per 100000 inhab', )
-    ss["figures"]["fig_typ_oblig"] = make_line_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"], y_title = 'Cases per 100000 inhab', )
+    fig_lin = make_line_plot(data["df_all_obli"], 'georegion', colseq["fig_all_oblig"], height = 800,
+                             y_title = 'Cases per 100000 inhab')
     # area plots
-    ss["figures"]["figa_can_oblig"] = make_area_plot(data["df_can_obli"], 'georegion', colseq["fig_can_oblig"], y_title = 'Relative incidence', cutoff = ss["upar"]["cutoff_obli"])
-    ss["figures"]["figa_age_oblig"] = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], y_title = 'Relative incidence', cutoff = ss["upar"]["cutoff_obli"])
-    ss["figures"]["figa_sex_oblig"] = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], y_title = 'Relative incidence', cutoff = ss["upar"]["cutoff_obli"])
-    ss["figures"]["figa_typ_oblig"] = make_area_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"], y_title = 'Relative incidence', cutoff = ss["upar"]["cutoff_obli"])
-
-
-#----------------------------------------------------
-# (4) function to organize figures in main pannel
-
-@st.fragment
-def show_selected_plots(): 
-    # rename locally for ease of reading coed
-    sel_g = ss["upar"]["selecte_data_groupings"]
-    set_t = ss["upar"]["plot_type"]
-    with st.container(height = 'content', border=True):
-        if  'All' in sel_g:
-            st.plotly_chart(ss["figures"]["fig_all_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k001")
-
-        if 'Age' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_age_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k002")
-        if 'Age' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_age_oblig"], use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k003")
-
-        if 'Type' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_typ_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k004")
-        if 'Type' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_typ_oblig"], use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k005")
-
-        if 'Sex' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_sex_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k006")
-        if 'Sex' in sel_g and "Area" in set_t: 
-            st.plotly_chart(ss["figures"]["figa_sex_oblig"], use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k007")
-
-        if 'Region' in sel_g and "Line" in set_t:
-            st.plotly_chart(ss["figures"]["fig_can_oblig"],  use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k008")
-        if 'Region' in sel_g and "Area" in set_t:
-            st.plotly_chart(ss["figures"]["figa_can_oblig"], use_container_width=True, theme=None, config={"displayModeBar": False}, key = "k009") 
-
+    fig_age = make_area_plot(data["df_age_obli"], 'agegroup',  colseq["fig_age_oblig"], height = 400,
+                             y_title = 'Relative incidence', cutoff = cutoff)
     
+    fig_sex = make_area_plot(data["df_sex_obli"], 'sex',       colseq["fig_sex_oblig"], height = 400,
+                             y_title = 'Relative incidence', cutoff = cutoff)
+    
+    fig_typ = make_area_plot(data["df_typ_obli"], 'type',      colseq["fig_typ_oblig"],  height = 400,
+                             y_title = 'Relative incidence', cutoff = cutoff)
+
+    fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.05)
+
+    for trace in fig_lin.data:
+        fig.add_trace(trace, row=1, col=1)
+    for trace in fig_age.data:
+        fig.add_trace(trace, row=2, col=1)
+    for trace in fig_sex.data:
+        fig.add_trace(trace, row=3, col=1)
+    for trace in fig_typ.data:
+        fig.add_trace(trace, row=4, col=1)
+
+    fig.update_layout(margin=dict(l=10, r=10, t=10, b=10))
+    fig.update_layout(height=700)
+    fig.update_xaxes(matches="x")
+    fig.update_layout(hovermode="x unified")
+    fig.update_xaxes(showline = True, linewidth=0.8, mirror=True)
+    fig.update_yaxes(showline = True, linewidth=0.8, mirror=True)
+    fig.update_yaxes(range=[0.0, 1.02], row=2, col=1)
+    # fig.update_layout(legend=dict(orientation="h", x=0, xanchor="left", y=1.2, yanchor="top",))    
+
+    ss["figures"]["fig_all_oblig"] = fig    
+
+
+
+
 
 
 

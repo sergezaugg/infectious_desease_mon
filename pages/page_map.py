@@ -5,43 +5,58 @@ import streamlit as st
 from streamlit import session_state as ss
 import plotly.graph_objects as go
 import math
+import pandas as pd 
+import plotly.colors
+
+
+
 
 
 tiles = [
-    ("GE", 0, 0, "red", 120),
-    ("NE", 1, 2, "orange", 80),
-    ("JU", 2, 4, "lightblue", 40),
-    ("BS", 3, 6, "lightblue", 40),
+    ("GE", 0, 0,),
+    ("NE", 1, 2, ),
+    ("JU", 2, 4, ),
+    ("BS", 3, 6, ),
 
-    ("VD", 2, 0, "lightblue", 40),
-    ("BE", 3, 2, "lightblue", 40),
-    ("SO", 4, 4, "lightblue", 40),
-    ("BL", 5, 6, "lightblue", 40),
+    ("VD", 2, 0, ),
+    ("BE", 3, 2, ),
+    ("SO", 4, 4, ),
+    ("BL", 5, 6, ),
 
-    ("VS", 3, -2, "lightblue", 40),
-    ("FR", 4, 0, "lightblue", 40),
-    ("LU", 5, 2, "lightblue", 40),
-    ("AG", 6, 4, "lightblue", 40),
-    ("ZH", 7, 6, "lightblue", 40),
+    ("VS", 3, -2, ),
+    ("FR", 4, 0, ),
+    ("LU", 5, 2, ),
+    ("AG", 6, 4, ),
+    ("ZH", 7, 6, ),
 
-    ("OW", 5, -2, "lightblue", 40),
-    ("NW", 6, 0, "lightblue", 40),
-    ("SZ", 7, 2, "lightblue", 40),
-    ("ZG", 8, 4, "lightblue", 40),
-    ("SH", 9, 6, "lightblue", 40),
+    ("OW", 5, -2, ),
+    ("NW", 6, 0, ),
+    ("SZ", 7, 2, ),
+    ("ZG", 8, 4, ),
+    ("SH", 9, 6, ),
 
-    ("UR", 8, 0, "lightblue", 40),
-    ("AR", 9, 2, "lightblue", 40),
-    ("TG", 10, 4, "lightblue", 40),
+    ("UR", 8, 0, ),
+    ("AR", 9, 2, ),
+    ("TG", 10, 4, ),
 
-    ("TI", 9, -2, "lightblue", 40),
-    ("AI", 10, 0, "lightblue", 40),
-    ("SG", 11, 2, "lightblue", 40),
+    ("TI", 9, -2, ),
+    ("AI", 10, 0, ),
+    ("SG", 11, 2, ),
 
-    ("GL", 12, 0, "lightblue", 40),
-    ("GR", 13, 2, "lightblue", 40),
-    
+    ("GL", 12, 0, ),
+    ("GR", 13, 2, ),
+ 
 ]
+
+
+df_tiles = pd.DataFrame(tiles,columns=["georegion", "x", "y"])
+
+# data prep
+dfplot = ss.df_can[['date' , 'georegion' ,  'incValue']]
+df_latest = dfplot.loc[dfplot.groupby("georegion")["date"].idxmax()]
+dfm = df_tiles.merge(df_latest, how = "left", on = ['georegion'])
+dfm["color"] = dfm["incValue"].apply(lambda x: plotly.colors.sample_colorscale("RdYlGn",x / 5)[0])
+
 
 
 
@@ -51,11 +66,18 @@ R = 0.60
 fig = go.Figure()
 
 
-for label, cx, cy, color, value in tiles:
+
+for i,r in dfm.iterrows():
+    label = r.georegion
+    cx    = r.x
+    cy    = r.y
+    color = r.color
+    value = r.incValue
+
     angles = [math.radians(60 * i + 30) for i in range(6)]
 
-    cx = cx* 0.56
-    cy = cy* 0.48
+    cx = cx * 0.56
+    cy = cy * 0.48
 
     x = [cx + R * math.cos(a) for a in angles] 
     y = [cy + R * math.sin(a) for a in angles] 
@@ -87,10 +109,12 @@ fig.update_layout(
     yaxis=dict(visible=False, range=[-2, 5]),
 )
 
-# fig.show()
 
 st.plotly_chart(fig,  use_container_width=False, theme=None, )
 
+
+
+st.dataframe(dfm)
 
 
 

@@ -10,6 +10,7 @@ import math
 import pandas as pd 
 import plotly.colors
 
+@st.cache_data
 def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
     """ Map color-coded values to the honeycomb Switzerland (Hexagons) """
     tiles = [
@@ -97,8 +98,8 @@ def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
 
     fig.update_layout(
         title=None,
-        width=750,
-        height=550,
+        width=650,
+        height=480,
         xaxis=dict(visible=False, range=[-1, 8.5], scaleanchor="y", showline=True, linecolor="white", linewidth=2),
         yaxis=dict(visible=False, range=[-2, 4]),
         margin=dict(l=1, r=90, t=1, b=1)

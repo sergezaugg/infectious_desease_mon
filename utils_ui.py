@@ -25,6 +25,35 @@ def update_ss(kname, ssname):
 # -----------------------------------------
 # (3) function to pre-render plotly figures
 
+
+@st.cache_data
+def make_line_plot_with_vref(df, y_title, height):
+    fig = px.line(
+        data_frame = df, 
+        height = height,
+        x = 'date', 
+        y = 'incValue', 
+        markers=False, 
+        template="plotly_dark", 
+        )
+    _ = fig.update_xaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
+    _ = fig.update_yaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
+    _ = fig.update_layout(xaxis_title='Date', yaxis_title=y_title)
+    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
+    _ = fig.update_layout(margin=dict(l=1, r=1, t=1, b=1))
+    _ = fig.update_layout(xaxis_title_font_size=15)
+    _ = fig.update_layout(yaxis_title_font_size=15)
+    _ = fig.update_layout(xaxis_tickfont_size=15)
+    _ = fig.update_layout(legend_font_size=20)
+    _ = fig.update_layout(xaxis_title=None)
+    _ = fig.update_layout(yaxis_title=None)
+    _ = fig.update_yaxes(showticklabels=False)
+    _ =fig.update_xaxes(showgrid=False)
+    _ =fig.update_yaxes(showgrid=False)
+    return(fig)
+
+
+
 @st.cache_data
 def make_line_plot(df, color_groups, color_sequence, y_title, height):
     fig = px.line(

@@ -121,3 +121,12 @@ def apply_global_styles():
     }
     </style>
     """, unsafe_allow_html=True)
+
+
+
+   
+
+
+
+   
+    

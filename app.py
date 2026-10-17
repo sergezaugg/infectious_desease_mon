@@ -24,7 +24,6 @@ if 'data_di' not in ss:
     ss.df_age = c
     ss.df_sex = d
     ss.df_typ = e
-    #-------------------------------
     # non-data items
     ss.setdefault("cutoff_obli", 1.0)
     ss.setdefault("opt_dates", sorted(ss.df_can["date"].unique()))

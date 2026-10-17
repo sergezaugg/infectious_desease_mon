@@ -113,18 +113,19 @@ def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 2
     return(fig)
 
 @st.cache_data
-def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, upd = "nope"):
+def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
     # lineplots 
-    fig_lin = make_line_plot(df_all, 'georegion', ss.colo_all_oblig, height = 800,
+    # fig_lin = make_line_plot(df_all, 'georegion', ss.colo_all_oblig, height = 800,
+    fig_lin = make_line_plot(df_all, 'georegion', colo[0], height = 800,
                              y_title = 'Cases per 100000 inhab')
     # area plots
-    fig_age = make_area_plot(df_age, 'agegroup',  ss.colo_age_oblig, height = 400,
+    fig_age = make_area_plot(df_age, 'agegroup',  colo[1], height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
     
-    fig_sex = make_area_plot(df_sex, 'sex',       ss.colo_sex_oblig, height = 400,
+    fig_sex = make_area_plot(df_sex, 'sex',       colo[2], height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
     
-    fig_typ = make_area_plot(df_typ, 'type',      ss.colo_typ_oblig,  height = 400,
+    fig_typ = make_area_plot(df_typ, 'type',      colo[3], height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
 
     fig = make_subplots(rows=4, cols=1, shared_xaxes=True, row_heights=[0.3, 0.2, 0.2, 0.2],  vertical_spacing=0.05)

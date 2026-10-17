@@ -10,7 +10,7 @@ import plotly.express as px
 from utilsdataprep import download_all_data, prepare_data
 from resources.styles import apply_global_styles
 
-st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
+st.set_page_config(layout="wide", initial_sidebar_state = "expanded", page_icon='pics/z_logo_turquoise.png')
 apply_global_styles() # apply custom CSS styles 
 
 #-------------------------------

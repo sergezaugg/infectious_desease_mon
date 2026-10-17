@@ -13,7 +13,6 @@ from resources.styles import apply_global_styles
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
 apply_global_styles() # apply custom CSS styles 
 
-
 #-------------------------------
 # (1) data prep - do once on app start 
 # this is then used in multiple session via cache 
@@ -25,37 +24,21 @@ if 'data_di' not in ss:
     ss.df_age = c
     ss.df_sex = d
     ss.df_typ = e
-
-
-#-------------------------------
-# (0) set initial session state 
-# only non-data items
-
-if 'cutoff_obli' not in ss:
-    ss.cutoff_obli = 1.0
-
-if 'opt_dates' not in ss:
-    ss.opt_dates = sorted(ss.df_can['date'].unique())
-
-if 'opt_datseel' not in ss:
-    ss.opt_datseel = ss.opt_dates[-1]
-
-if 'opt_n_weeks' not in ss:
-    ss.opt_n_weeks = 4
-
-
-if 'colseq' not in ss:
-    ss["colseq"] = {
-        "fig_all_oblig" : ["#F8DDF0"],
-        "fig_can_oblig" : px.colors.qualitative.Alphabet,
-        "fig_reg_oblig" : px.colors.qualitative.Light24, 
-        "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"],
-        "fig_sex_oblig" : ["#fe21d2", "#0539F5", "#7c8584",],
-        "fig_typ_oblig" : ["#ff5e00", "#01FF51", "#7c8584",],
-        }
+    #-------------------------------
+    # non-data items
+    ss.setdefault("cutoff_obli", 1.0)
+    ss.setdefault("opt_dates", sorted(ss.df_can["date"].unique()))
+    ss.setdefault("opt_datseel", ss.opt_dates[-1])
+    ss.setdefault("opt_n_weeks", 4)
+    # color defaults 
+    ss.colo_all_oblig = ["#F8DDF0"]
+    ss.colo_can_oblig = px.colors.qualitative.Alphabet
+    ss.colo_reg_oblig = px.colors.qualitative.Light24
+    ss.colo_age_oblig = ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"]
+    ss.colo_sex_oblig = ["#fe21d2", "#0539F5", "#7c8584",]
+    ss.colo_typ_oblig = ["#ff5e00", "#01FF51", "#7c8584",]
 
 # Protects every ss key from being deleted (for multi-page consistency across clicks)
-# 
 for key in list(st.session_state.keys()):
     st.session_state[key] = st.session_state[key]
 
@@ -72,7 +55,7 @@ with st.sidebar:
 pages = [
     st.Page("pages/page_history.py",  title="Flu History"),
     st.Page("pages/page_map.py",  title="Geo-Map", default = True),
-    st.Page("pages/page01.py",  title="Colors"),
+    st.Page("pages/page_colors.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="Info"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),
     st.Page("pages/page99.py",  title="Dev"),

@@ -25,6 +25,35 @@ def update_ss(kname, ssname):
 # -----------------------------------------
 # (3) function to pre-render plotly figures
 
+
+@st.cache_data
+def make_line_plot_with_vref(df, y_title, height):
+    fig = px.line(
+        data_frame = df, 
+        height = height,
+        x = 'date', 
+        y = 'incValue', 
+        markers=False, 
+        template="plotly_dark", 
+        )
+    _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_layout(xaxis_title='Date', yaxis_title=y_title)
+    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
+    _ = fig.update_layout(margin=dict(l=7, r=7, t=1, b=1))
+    _ = fig.update_layout(xaxis_title_font_size=15)
+    _ = fig.update_layout(yaxis_title_font_size=15)
+    _ = fig.update_layout(xaxis_tickfont_size=15)
+    _ = fig.update_layout(legend_font_size=20)
+    _ = fig.update_layout(xaxis_title=None)
+    _ = fig.update_layout(yaxis_title=None)
+    _ = fig.update_yaxes(showticklabels=False)
+    _ =fig.update_xaxes(showgrid=False)
+    _ =fig.update_yaxes(showgrid=False)
+    return(fig)
+
+
+
 @st.cache_data
 def make_line_plot(df, color_groups, color_sequence, y_title, height):
     fig = px.line(
@@ -84,18 +113,19 @@ def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 2
     return(fig)
 
 @st.cache_data
-def draw_figures(df_all,df_age, df_sex, df_typ, colseq, cutoff):
+def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
     # lineplots 
-    fig_lin = make_line_plot(df_all, 'georegion', colseq["fig_all_oblig"], height = 800,
+    # fig_lin = make_line_plot(df_all, 'georegion', ss.colo_all_oblig, height = 800,
+    fig_lin = make_line_plot(df_all, 'georegion', colo[0], height = 800,
                              y_title = 'Cases per 100000 inhab')
     # area plots
-    fig_age = make_area_plot(df_age, 'agegroup',  colseq["fig_age_oblig"], height = 400,
+    fig_age = make_area_plot(df_age, 'agegroup',  colo[1], height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
     
-    fig_sex = make_area_plot(df_sex, 'sex',       colseq["fig_sex_oblig"], height = 400,
+    fig_sex = make_area_plot(df_sex, 'sex',       colo[2], height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
     
-    fig_typ = make_area_plot(df_typ, 'type',      colseq["fig_typ_oblig"],  height = 400,
+    fig_typ = make_area_plot(df_typ, 'type',      colo[3], height = 400,
                              y_title = 'Relative incidence', cutoff = cutoff)
 
     fig = make_subplots(rows=4, cols=1, shared_xaxes=True, row_heights=[0.3, 0.2, 0.2, 0.2],  vertical_spacing=0.05)
@@ -121,7 +151,7 @@ def draw_figures(df_all,df_age, df_sex, df_typ, colseq, cutoff):
     legend2=dict(orientation="v",x=1.02, y=0.45, xanchor="left", yanchor="bottom",),
     legend3=dict(orientation="v",x=1.02, y=0.25, xanchor="left", yanchor="bottom",),
     legend4=dict(orientation="v",x=1.02, y=0.0,  xanchor="left", yanchor="bottom",),
-)    
+    )    
 
 
 

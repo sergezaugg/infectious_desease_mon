@@ -59,7 +59,7 @@ with st.sidebar:
 #-------------------------------
 # (3) main navigation
 pages = [
-    st.Page("pages/page00.py",  title="Time"),
+    st.Page("pages/page00.py",  title="Flu History"),
     st.Page("pages/page_map.py",  title="Geo-Map", default = True),
     st.Page("pages/page01.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="Info"),

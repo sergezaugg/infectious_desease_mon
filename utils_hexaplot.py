@@ -11,6 +11,14 @@ import pandas as pd
 import plotly.colors
 
 @st.cache_data
+def get_cumsum_by_canton(x, resp_var):
+    """ take cumsum """
+    x = x[['date', 'georegion', resp_var]]
+    x = x.groupby("georegion", as_index=False)[resp_var].sum()
+    x = x.rename(columns={"value": resp_var})
+    return(x)
+
+@st.cache_data
 def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
     """ Map color-coded values to the honeycomb Switzerland (Hexagons) """
     tiles = [

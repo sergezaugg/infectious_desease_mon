@@ -13,28 +13,6 @@ from resources.styles import apply_global_styles
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded")
 apply_global_styles() # apply custom CSS styles 
 
-#-------------------------------
-# (0) set initial session state 
-# only non-data items
-
-if 'upar' not in ss:
-    ss["upar"] = {
-        "cutoff_obli" :  1.0,
-        }
-
-# Initialize widget keys once
-if "cutoff_obli_slider" not in ss:
-    ss["cutoff_obli_slider"] = ss["upar"]["cutoff_obli"]    
-
-if 'colseq' not in ss:
-    ss["colseq"] = {
-        "fig_all_oblig" : ["#F8DDF0"],
-        "fig_can_oblig" : px.colors.qualitative.Alphabet,
-        "fig_reg_oblig" : px.colors.qualitative.Light24, 
-        "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"],
-        "fig_sex_oblig" : ["#fe21d2", "#0539F5", "#7c8584",],
-        "fig_typ_oblig" : ["#ff5e00", "#01FF51", "#7c8584",],
-        }
 
 #-------------------------------
 # (1) data prep - do once on app start 
@@ -47,6 +25,29 @@ if 'data_di' not in ss:
     ss.df_age = c
     ss.df_sex = d
     ss.df_typ = e
+
+
+#-------------------------------
+# (0) set initial session state 
+# only non-data items
+
+if 'cutoff_obli' not in ss:
+    ss.cutoff_obli = 1.0
+if "cutoff_obli_slider" not in ss:
+    ss["cutoff_obli_slider"] = ss.cutoff_obli    
+
+
+if 'colseq' not in ss:
+    ss["colseq"] = {
+        "fig_all_oblig" : ["#F8DDF0"],
+        "fig_can_oblig" : px.colors.qualitative.Alphabet,
+        "fig_reg_oblig" : px.colors.qualitative.Light24, 
+        "fig_age_oblig" : ["#00ffd5", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"],
+        "fig_sex_oblig" : ["#fe21d2", "#0539F5", "#7c8584",],
+        "fig_typ_oblig" : ["#ff5e00", "#01FF51", "#7c8584",],
+        }
+
+
 
 #-------------------------------
 # (2) sidebar

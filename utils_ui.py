@@ -36,11 +36,11 @@ def make_line_plot_with_vref(df, y_title, height):
         markers=False, 
         template="plotly_dark", 
         )
-    _ = fig.update_xaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
-    _ = fig.update_yaxes(showline=True, linewidth=2, linecolor='white', mirror=True)
+    _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
     _ = fig.update_layout(xaxis_title='Date', yaxis_title=y_title)
     _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
-    _ = fig.update_layout(margin=dict(l=1, r=1, t=1, b=1))
+    _ = fig.update_layout(margin=dict(l=7, r=7, t=1, b=1))
     _ = fig.update_layout(xaxis_title_font_size=15)
     _ = fig.update_layout(yaxis_title_font_size=15)
     _ = fig.update_layout(xaxis_tickfont_size=15)

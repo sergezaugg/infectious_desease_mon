@@ -31,15 +31,16 @@ with st.sidebar:
 
 #-------------------------------------------------
 # user actions
-c0,c1,c2,c3 = st.columns([0.6,8,1,1])
+c0,c1,c2 = st.columns([0.8,7,1])
 with c0:
+    st.caption("Nb weeks to sum over backwards")
     st.caption("Select date to inspect")
-    st.caption("N Weeks to sum over")
 with c1:
+
+    n_weeks_selected = st.pills("Number", range(1, 16), default=3, width = "stretch", label_visibility="collapsed",)
     opt_dates = sorted(ss.df_can['date'].unique())
     date_selected = st.select_slider("Select date", options=opt_dates,value=opt_dates[-1],
         format_func=lambda d: d.strftime("%Y-%m-%d"),  label_visibility="collapsed",)
-    n_weeks_selected = st.slider("Number of weeks", min_value=1, max_value=12, value=3, step=1, label_visibility="collapsed",)
     
 
 
@@ -58,9 +59,8 @@ with c1:
     fig_lin_b = fig_lin_a.add_vrect(x0=sel_data_min, x1=sel_data_max, fillcolor="pink", opacity=0.50, line_width=2, layer="below")
     st.plotly_chart(fig_lin_b, use_container_width=True, theme=None)
 
-with c2:
-    st.caption(f"Selected Weeks:")
-    st.caption(f"{sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}")
+with c0:
+    st.caption(f"Selection: {sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}")
 
 df_incide = get_cumsum(df_opc, 'incValue')
 df_counts = get_cumsum(df_opc, 'value')

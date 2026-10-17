@@ -17,6 +17,7 @@ apply_global_styles() # apply custom CSS styles
 # (1) data prep - do once on app start 
 # this is then used in multiple session via cache 
 if 'data_di' not in ss:
+    # data items 
     ss.data_di, ss.data_ve = download_all_data()
     a,b,c,d,e = prepare_data(df_obli = ss.data_di["INFLUENZA_oblig"])
     ss.df_all = a
@@ -28,8 +29,10 @@ if 'data_di' not in ss:
     ss.setdefault("cutoff_obli", 1.0)
     ss.setdefault("opt_dates", sorted(ss.df_can["date"].unique()))
     ss.setdefault("opt_datseel", ss.opt_dates[-1])
-    ss.setdefault("opt_n_weeks", 4)
-    # color defaults 
+    ss.setdefault("opt_n_weeks", 7)
+    ss.setdefault("col_max_inc", 0.5)
+    ss.setdefault("col_max_cou", 50.0)
+    # color items 
     ss.colo_all_oblig = ["#F8DDF0"]
     ss.colo_can_oblig = px.colors.qualitative.Alphabet
     ss.colo_reg_oblig = px.colors.qualitative.Light24

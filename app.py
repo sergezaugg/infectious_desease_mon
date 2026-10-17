@@ -34,6 +34,16 @@ if 'data_di' not in ss:
 if 'cutoff_obli' not in ss:
     ss.cutoff_obli = 1.0
 
+if 'opt_dates' not in ss:
+    ss.opt_dates = sorted(ss.df_can['date'].unique())
+
+if 'opt_datseel' not in ss:
+    ss.opt_datseel = ss.opt_dates[-1]
+
+if 'opt_n_weeks' not in ss:
+    ss.opt_n_weeks = 4
+
+
 if 'colseq' not in ss:
     ss["colseq"] = {
         "fig_all_oblig" : ["#F8DDF0"],
@@ -44,7 +54,10 @@ if 'colseq' not in ss:
         "fig_typ_oblig" : ["#ff5e00", "#01FF51", "#7c8584",],
         }
 
-
+# Protects every ss key from being deleted (for multi-page consistency across clicks)
+# 
+for key in list(st.session_state.keys()):
+    st.session_state[key] = st.session_state[key]
 
 #-------------------------------
 # (2) sidebar
@@ -57,7 +70,7 @@ with st.sidebar:
 #-------------------------------
 # (3) main navigation
 pages = [
-    st.Page("pages/page00.py",  title="Flu History"),
+    st.Page("pages/page_history.py",  title="Flu History"),
     st.Page("pages/page_map.py",  title="Geo-Map", default = True),
     st.Page("pages/page01.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="Info"),

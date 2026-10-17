@@ -13,8 +13,12 @@ if 'fig_all_oblig' not in ss:
 
 with st.sidebar:
     # user input for the two thresholds
-    ss.cutoff_obli = st.slider("Area plot cutoff", min_value = 0.0, max_value = 10.0, step = 0.1, 
-        value = ss.cutoff_obli, key="cutoff_obli_slider",) 
+    ss.cutoff_obli = st.slider("Area plot cutoff", 
+        min_value = 0.0, 
+        max_value = 10.0, 
+        step = 0.1, 
+        value = ss.cutoff_obli, 
+        key="cutoff_slider",) 
     
     ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, 
         colseq = ss["colseq"], cutoff = ss.cutoff_obli)

@@ -21,10 +21,16 @@ with c0:
     st.caption("Nb weeks to sum over backwards")
     st.caption("Select date to inspect")
 with c1:
-    n_weeks_selected = st.pills("Number", range(1, 16), default=3, width = "stretch", label_visibility="collapsed",)
-    opt_dates = sorted(ss.df_can['date'].unique())
-    date_selected = st.select_slider("Select date", options=opt_dates,value=opt_dates[-1],
-        format_func=lambda d: d.strftime("%Y-%m-%d"),  label_visibility="collapsed",)
+    n_weeks_selected = st.pills("Number", label_visibility="collapsed",
+        options = range(1, 16), 
+        default = ss.opt_n_weeks, 
+        width = "stretch", 
+        key = "hexa_weeks_pills",)
+    date_selected = st.select_slider("Select date", label_visibility="collapsed",
+        options = ss.opt_dates, 
+        value = ss.opt_datseel, 
+        format_func=lambda d: d.strftime("%Y-%m-%d") ,
+        key="hexa_date_slider",)
     
 #-------------------------------------------------
 # data prep

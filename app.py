@@ -63,7 +63,6 @@ pages = [
     st.Page("pages/page_map.py",  title="Geo-Map", default = True),
     st.Page("pages/page01.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="Info"),
-    st.Page("pages/page02.py",  title="About"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),
     st.Page("pages/page99.py",  title="Dev"),
     ]

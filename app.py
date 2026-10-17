@@ -53,14 +53,14 @@ if 'data_di' not in ss:
 with st.sidebar:
     st.markdown("## :primary[**Swiss Weekly Influenza Monitoring**]") 
     st.write("Data version " + ss["data_ve"]["name"])
+    st.divider()
     st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
 
 #-------------------------------
 # (3) main navigation
 pages = [
-    st.Page("pages/page00.py",  title="Visualize"),
-    st.Page("pages/page_map.py",  title="Map"),
-
+    st.Page("pages/page00.py",  title="Time"),
+    st.Page("pages/page_map.py",  title="Geo-Map", default = True),
     st.Page("pages/page01.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="Info"),
     st.Page("pages/page02.py",  title="About"),

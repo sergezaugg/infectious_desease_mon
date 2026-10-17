@@ -5,164 +5,62 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-import plotly.graph_objects as go
-import math
 import pandas as pd 
-import plotly.colors
+from utils_hexaplot import make_hexagon_plot
+
+with st.sidebar:
+     st.markdown("""
+        Incidence values ('incValue') are normalized by canton's population while counts ('value') are not.
+        """)
 
 
-
-
-tiles = [
-    ("GE", 0, 0,),
-    ("NE", 1, 2, ),
-    ("JU", 2, 4, ),
-    ("BS", 3, 6, ),
-
-    ("VD", 2, 0, ),
-    ("BE", 3, 2, ),
-    ("SO", 4, 4, ),
-    ("BL", 5, 6, ),
-
-    ("VS", 3, -2, ),
-    ("FR", 4, 0, ),
-    ("LU", 5, 2, ),
-    ("AG", 6, 4, ),
-    ("ZH", 7, 6, ),
-
-    ("OW", 5, -2, ),
-    ("NW", 6, 0, ),
-    ("SZ", 7, 2, ),
-    ("ZG", 8, 4, ),
-    ("SH", 9, 6, ),
-
-    ("UR", 8, 0, ),
-    ("AR", 9, 2, ),
-    ("TG", 10, 4, ),
-
-    ("TI", 9, -2, ),
-    ("AI", 10, 0, ),
-    ("SG", 11, 2, ),
-
-    ("GL", 12, 0, ),
-    ("GR", 13, 2, ),
-]
-
-df_tiles = pd.DataFrame(tiles,columns=["georegion", "x", "y"])
-
-# st.write(ss.df_can)
-
-
-
+#-------------------------------------------------
+# user actions
 opt_dates = sorted(ss.df_can['date'].unique())
-
-date_selected = st.select_slider(
-    "Select date",
-    options=opt_dates,
-    value=opt_dates[-1],
-    format_func=lambda d: d.strftime("%Y-%m-%d"),
-)
-
-
-
+date_selected = st.select_slider("Select date", options=opt_dates,value=opt_dates[-1],
+    format_func=lambda d: d.strftime("%Y-%m-%d"),)
+n_weeks_selected = st.slider("Number of weeks", min_value=1, max_value=12, value=3, step=1)
 
 #-------------------------------------------------
 # data prep
 
-# resp_var = 'incValue'
-resp_var = 'value'
-# resp_var = 'pop'
+# keep only up to selected weeks 
+df_temp = ss.df_can
+df_opc = df_temp[df_temp['date']<=date_selected]
+# select N  latest from above 
+df_opc = df_opc.sort_values("date").groupby("georegion").tail(n_weeks_selected)
+sel_data_min = df_opc["date"].min().date()
+sel_data_max = df_opc["date"].max().date()
+st.caption(f"Selected Weeks: {sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}")
+# st.write(df_opc) 
+
+@st.cache_data
+def get_cumsum(x, resp_var):
+    """ take cumsum """
+    x = x[['date', 'georegion', resp_var]]
+    x = x.groupby("georegion", as_index=False)[resp_var].sum()
+    x = x.rename(columns={"value": resp_var})
+    return(x)
+
+df_incide = get_cumsum(df_opc, 'incValue')
+df_counts = get_cumsum(df_opc, 'value')
 
 
+from plotly.colors import sample_colorscale # "bluered"
+color_map_01 = sample_colorscale("rainbow", 10, low=0.5, high=0.85)
+# color_map_02 = sample_colorscale("rainbow_r", 10, low=0.90, high=1.00)
+color_map_02 = "bluered"
+
+fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', color_map = color_map_01, color_max_val = 0.50)
+fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value',    color_map = color_map_02, color_max_val = 50.0)
 
 
+c0,c1 = st.columns([4,4])
 
-dfplot = ss.df_can[['date', 'georegion', resp_var]]
-
-
-
-
-df_latest = dfplot[dfplot['date']==date_selected]
-# df_latest = dfplot.loc[dfplot.groupby("georegion")["date"].idxmax()]
-
-dfm = df_tiles.merge(df_latest, how = "left", on = ['georegion'])
-
-max_val = ss.df_can[resp_var].max()
-# max_val = dfm[resp_var].max()
-max_val = 50
-
-color_map = "RdYlGn_r"
-color_map = "bluered"
-
-dfm["color"] = dfm[resp_var].apply(lambda x: plotly.colors.sample_colorscale(color_map, x / max_val)[0])
-dfm["color"] = dfm[resp_var].apply(lambda x: plotly.colors.sample_colorscale(color_map, min(x / max_val, 1))[0])
-
-
-
-
-R = 0.59
-
-fig = go.Figure()
-
-
-
-for i,r in dfm.iterrows():
-    label = r.georegion
-    cx    = r.x
-    cy    = r.y
-    color = r.color
-    value = r[resp_var]
-
-    angles = [math.radians(60 * i + 30) for i in range(6)]
-
-    cx = cx * 0.56
-    cy = cy * 0.48
-
-    x = [cx + R * math.cos(a) for a in angles] 
-    y = [cy + R * math.sin(a) for a in angles] 
-
-    fig.add_trace(go.Scatter(
-        x=x + [x[0]],
-        y=y + [y[0]],
-        mode="lines",
-        fill="toself",
-        fillcolor=color,
-        line=dict(color="black", width=2),
-        showlegend=False,
-        hoverinfo="text",
-        text=f"{label}: {value}",
-    ))
-
-    fig.add_annotation(
-        x=cx, y=cy,
-        text=f"{label}<br>{value}",
-        showarrow=False,
-        font=dict(color="black", size=14),
-    )
-
-fig.update_layout(
-    title=None,
-    width=1000,
-    height=800,
-    xaxis=dict(visible=False, range=[-1, 8.5], scaleanchor="y", showline=True, linecolor="white", linewidth=2),
-    yaxis=dict(visible=False, range=[-2, 4]),
-)
-
-fig.add_shape(
-    type="rect",
-    xref="paper", yref="paper",
-    x0=0, y0=0, x1=1, y1=1,
-    line=dict(color="white", width=2),
-    fillcolor="rgba(0,0,0,0)",
-    layer="above",
-)
-
-
-st.plotly_chart(fig,  use_container_width=False, theme=None, )
-
-
-
-st.dataframe(dfm)
+with c0:
+    st.plotly_chart(fig_incide, use_container_width=False, theme=None, )
+with c1:
+    st.plotly_chart(fig_counts, use_container_width=False, theme=None, )
 
 
 

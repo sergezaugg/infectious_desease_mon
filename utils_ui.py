@@ -121,7 +121,7 @@ def draw_figures(df_all,df_age, df_sex, df_typ, colseq, cutoff):
     legend2=dict(orientation="v",x=1.02, y=0.45, xanchor="left", yanchor="bottom",),
     legend3=dict(orientation="v",x=1.02, y=0.25, xanchor="left", yanchor="bottom",),
     legend4=dict(orientation="v",x=1.02, y=0.0,  xanchor="left", yanchor="bottom",),
-)    
+    )    
 
 
 

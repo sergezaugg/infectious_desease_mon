@@ -33,9 +33,6 @@ if 'data_di' not in ss:
 
 if 'cutoff_obli' not in ss:
     ss.cutoff_obli = 1.0
-if "cutoff_obli_slider" not in ss:
-    ss["cutoff_obli_slider"] = ss.cutoff_obli    
-
 
 if 'colseq' not in ss:
     ss["colseq"] = {

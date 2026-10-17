@@ -37,5 +37,4 @@ with st.form("colors_form", border=False):
 
     submitted = st.form_submit_button("Save changes", type = "primary")
     if submitted:
-         ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, 
-                                         colseq = ss["colseq"], cutoff = ss.cutoff_obli)
+         ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, colseq = ss["colseq"], cutoff = ss.cutoff_obli)

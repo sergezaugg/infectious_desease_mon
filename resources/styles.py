@@ -93,7 +93,7 @@ def apply_global_styles():
             pointer-events: none;
         }
     </style>
-    <div class="app-label">CH-FLU-Explorer v1.2.2-β</div>
+    <div class="app-label">v1.2.2-β<br>© 2026 Serge Zaugg</div>
     """, unsafe_allow_html=True)
 
 

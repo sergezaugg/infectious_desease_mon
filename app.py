@@ -7,8 +7,9 @@
 import streamlit as st
 from streamlit import session_state as ss
 import plotly.express as px
-from utilsdataprep import download_all_data, prepare_data
+from src.utilsdataprep import download_all_data, prepare_data
 from resources.styles import apply_global_styles
+import pandas as pd
 
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded", page_icon='pics/z_logo_turquoise.png')
 apply_global_styles() # apply custom CSS styles 
@@ -18,7 +19,8 @@ apply_global_styles() # apply custom CSS styles
 # this is then used in multiple session via cache 
 if 'data_di' not in ss:
     # data items 
-    ss.data_di, ss.data_ve = download_all_data()
+    ss.ref_date = pd.Timestamp.today().normalize()
+    ss.data_di, ss.data_ve, ss.ts_downl = download_all_data()
     a,b,c,d,e = prepare_data(df_obli = ss.data_di["INFLUENZA_oblig"])
     ss.df_all = a
     ss.df_can = b
@@ -47,8 +49,15 @@ for key in list(st.session_state.keys()):
 #-------------------------------
 # (2) sidebar
 with st.sidebar:
-    st.markdown("## :primary[**Swiss Weekly Influenza Monitoring**]") 
-    st.write("Data version " + ss["data_ve"]["name"])
+    st.markdown("## :primary[**Swiss Influenza Monitor**]") 
+    st.markdown("""
+        <div style="line-height: 1.3; margin-bottom: 0.9em;;">
+            <div>Data Version: <code>{}</code></div>
+            <div>Downloaded: <code>{}</code></div>
+            <div>Reference date: <code>{}</code></div>
+        </div>
+    """.format(ss["data_ve"]["name"], ss.ts_downl, ss.ref_date.date()),
+    unsafe_allow_html=True)
     st.divider()
     st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
 

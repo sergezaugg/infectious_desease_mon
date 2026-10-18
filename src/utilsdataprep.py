@@ -23,13 +23,8 @@ def download_all_data():
     full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/files'
     r = requests.get(full_query_string, allow_redirects=True)
     data_file_list = r.json()
-
-    # st.write(data_file_list)
-
     # limit data to INFLUENZA_oblig
     data_file_list =[a for a in data_file_list if a == "INFLUENZA_oblig"]
-
-    n_files = len(data_file_list)
 
     data_di = {}
     for li_index in range(len(data_file_list)):
@@ -41,7 +36,9 @@ def download_all_data():
         df = pd.read_csv(io.StringIO(raw_text, newline='\n')  , sep=",")
         data_di[data_set_name] = df
 
-    return(data_di, data_version)   
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M")
+
+    return(data_di, data_version, ts)   
           
    
 

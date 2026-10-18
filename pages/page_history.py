@@ -5,7 +5,7 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-from utils_ui import draw_figures
+from src.utils_ui import draw_figures
 
 with st.sidebar:
     # user input for the two thresholds

@@ -7,7 +7,7 @@
 import streamlit as st
 from streamlit import session_state as ss
 import plotly.express as px
-from utilsdataprep import download_all_data, prepare_data
+from src.utilsdataprep import download_all_data, prepare_data
 from resources.styles import apply_global_styles
 import pandas as pd
 

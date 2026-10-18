@@ -5,9 +5,9 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-from utils_hexaplot import make_hexagon_plot, get_cumsum_by_canton
+from src.utils_hexaplot import make_hexagon_plot, get_cumsum_by_canton
 from plotly.colors import sample_colorscale 
-from utils_ui import make_line_plot_with_vref
+from src.utils_ui import make_line_plot_with_vref
 
 with st.sidebar:
      st.markdown("""

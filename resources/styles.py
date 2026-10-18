@@ -85,7 +85,7 @@ def apply_global_styles():
     <style>
         .app-label {
             position: fixed;
-            top:  17px;
+            top:  11px;
             left: 60px;
             color: #9CA3AF;
             font-size: 15px;
@@ -93,7 +93,7 @@ def apply_global_styles():
             pointer-events: none;
         }
     </style>
-    <div class="app-label">v1.2.2-β<br>© 2026 Serge Zaugg</div>
+    <div class="app-label">v1.2.3-β<br>© 2026 Serge Zaugg</div>
     """, unsafe_allow_html=True)
 
 

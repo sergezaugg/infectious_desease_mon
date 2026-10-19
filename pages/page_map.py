@@ -11,11 +11,26 @@ from src.utils_ui import make_line_plot_with_vref
 import plotly.express as px
 from streamlit_vertical_slider import vertical_slider
 
+with st.sidebar:
+    st.markdown("""
+    :primary[Top panel:] 
+    The top panel on the right shows the incidence across Switzerland over recent weeks, 
+    with the latest available week selected by default. 
+    Use the slider to explore historical data averaged over multiple weeks (pills).
+
+    :primary[Pseudo-Maps:] 
+    The hexagonal pseudo map displays incidence and case counts by canton.
+    Maps show values from the specific time period selected above.
+
+    """)
+
+
+
+
 c00,c01 = st.columns([4.0,1.5], border=False)
 
 cont01 = c00.container(border=True, height = 260)
 cont02 = c01.container(border=True, height = 260)
-
 
 #-------------------------------------------------
 # get user input 

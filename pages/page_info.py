@@ -6,14 +6,6 @@
 import streamlit as st
 from streamlit import session_state as ss
 
-st.text("""Incidence given as number of new cases per week normalized per 100000 inhabitants.""")
-st.text("""For groups, incidence is normalized within group.""")
-st.text("""Relative incidence = inc. group / sum(inc. all groups).""")
-st.text("""Area plots shown when overall incidence above cutoff (can be adjusted).""")
-
-
-import streamlit as st
-
 col_aa, col_bb, = st.columns([0.50, 0.05])
 with col_aa: 
     with st.container(border=True, ):
@@ -28,9 +20,8 @@ with col_aa:
 
 
         st.markdown(''' 
-            :primary[Created by]
-            :primary[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]    
-            :primary[[Pollito-ML](https://github.com/sergezaugg)]
+            Created by: :primary[[Serge Zaugg](https://www.linkedin.com/in/dkifh34rtn345eb5fhrthdbgf45/)]     
+            GitHub: :primary[[Pollito-ML](https://github.com/sergezaugg)]
             ''')
 
 

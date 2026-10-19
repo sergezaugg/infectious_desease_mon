@@ -32,7 +32,7 @@ if 'data_di' not in ss:
     ss.setdefault("opt_dates", sorted(ss.df_can["date"].unique()))
     ss.setdefault("opt_datseel", ss.opt_dates[-1])
     ss.setdefault("opt_n_weeks", 7)
-    ss.setdefault("col_max_inc", 0.5)
+    ss.setdefault("col_max_inc", 2.0)
     ss.setdefault("col_max_cou", 50.0)
     # color items 
     ss.colo_all_oblig = ["#F8DDF0"]
@@ -64,8 +64,8 @@ with st.sidebar:
 #-------------------------------
 # (3) main navigation
 pages = [
-    st.Page("pages/page_history.py",  title="Flu History"),
-    st.Page("pages/page_map.py",  title="Geo-Map", default = True),
+    st.Page("pages/page_map.py",  title="Monitor", default = True),
+    st.Page("pages/page_history.py",  title="Details"),
     st.Page("pages/page_colors.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="Info"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),

@@ -35,6 +35,7 @@ def make_line_plot_with_vref(df, y_title, height):
         y = 'incValue', 
         markers=False, 
         template="plotly_dark", 
+        color_discrete_sequence = ["#F25B10"]
         )
     _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
     _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)

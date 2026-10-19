@@ -11,10 +11,10 @@ import pandas as pd
 import plotly.colors
 
 @st.cache_data
-def get_cumsum_by_canton(x, resp_var):
+def get_mean_by_canton(x, resp_var):
     """ take cumsum """
     x = x[['date', 'georegion', resp_var]]
-    x = x.groupby("georegion", as_index=False)[resp_var].sum()
+    x = x.groupby("georegion", as_index=False)[resp_var].mean()
     x = x.rename(columns={"value": resp_var})
     return(x)
 
@@ -106,10 +106,10 @@ def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
 
     fig.update_layout(
         title=None,
-        width=650,
-        height=400,
-        xaxis=dict(visible=False, range=[-0.5, 8.5], scaleanchor="y", showline=True, linecolor="white", linewidth=2),
-        yaxis=dict(visible=False, range=[-1.5, 3.5]),
+        # width=650,
+        height=360,
+        xaxis=dict(visible=False, range=[-0.6, 7.8], scaleanchor="y", showline=True, linecolor="white", linewidth=2),
+        yaxis=dict(visible=False, range=[-0.9, 2.7]),
         margin=dict(l=1, r=10, t=1, b=1)
     )
 

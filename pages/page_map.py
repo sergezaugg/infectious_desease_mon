@@ -9,9 +9,7 @@ from src.utils_hexaplot import make_hexagon_plot, get_mean_by_canton
 from plotly.colors import sample_colorscale 
 from src.utils_ui import make_line_plot_with_vref
 import plotly.express as px
-
-    
-
+from streamlit_vertical_slider import vertical_slider
 
 c00,c01 = st.columns([4.0,1.5], border=False)
 
@@ -85,26 +83,22 @@ with c1:
 
 #######################################
 # second row
-
-from streamlit_vertical_slider import vertical_slider
-
-
 c0,c1,c2,c3 = st.columns([5,1,5,1], border=True)
 with c1:
-    ss.col_max_inc = st.number_input("Color threshold incValue", min_value = 1.0, max_value =20.0, 
-                            value = ss.col_max_inc, step = 0.1, key="k_col_max_inx",)
+    # ss.col_max_inc = st.number_input("Color threshold", min_value = 1.0, max_value =20.0, 
+    #                         value = ss.col_max_inc, step = 0.1, key="k_col_max_inx",)
+    ss.col_max_inc = vertical_slider("Color threshold", height=300,
+        step = 0.1, min_value=1.0, max_value=20.0,
+        default_value=ss.col_max_inc,key="k_col_max_inx",
+        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+    
 with c3:
     # ss.col_max_cou = st.slider("Color threshold counts",   min_value = 10.0, max_value =500.0 ,
     #                            value = ss.col_max_cou, step = 5.0, key="k_col_max_cou",)
-   
-    ss.col_max_cou = vertical_slider("Color threshold incValue", 
-        key="k_col_max_cou",
-        height=300,
-        step = 10.0,
-        min_value=10.0,
-        max_value=500.0,
-        default_value=ss.col_max_cou,
-    )
+    ss.col_max_cou = vertical_slider("Color threshold", height=300,
+        step = 10.0, min_value=10.0, max_value=500.0,
+        default_value=ss.col_max_cou,key="k_col_max_cou",
+        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
 
 

@@ -93,7 +93,7 @@ def apply_global_styles():
             pointer-events: none;
         }
     </style>
-    <div class="app-label">v1.2.3-β<br>© 2026 Serge Zaugg</div>
+    <div class="app-label">v1.2.4-β<br>© 2026 Serge Zaugg</div>
     """, unsafe_allow_html=True)
 
 

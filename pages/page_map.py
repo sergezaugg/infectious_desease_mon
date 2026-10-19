@@ -5,33 +5,59 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-from src.utils_hexaplot import make_hexagon_plot, get_cumsum_by_canton
+from src.utils_hexaplot import make_hexagon_plot, get_mean_by_canton
 from plotly.colors import sample_colorscale 
 from src.utils_ui import make_line_plot_with_vref
+import plotly.express as px
+from streamlit_vertical_slider import vertical_slider
 
 with st.sidebar:
-     st.markdown("""
-        Incidence values ('incValue') are normalized by canton's population while counts ('value') are not.
-        """)
+    st.markdown("""
+    :primary[Top panel:] 
+    The top panel on the right shows the incidence across Switzerland over recent weeks, 
+    with the latest available week selected by default. 
+    Use the slider to explore historical data averaged over multiple weeks (pills).
+
+    :primary[Pseudo-Maps:] 
+    The hexagonal pseudo map displays incidence and case counts by canton.
+    Maps show values from the specific time period selected above.
+
+    """)
+
+
+
+
+c00,c01 = st.columns([4.0,1.5], border=False)
+
+cont01 = c00.container(border=True, height = 260)
+cont02 = c01.container(border=True, height = 260)
 
 #-------------------------------------------------
 # get user input 
-c0,c1,c2 = st.columns([0.8,7,3], border=True)
-with c0:
-    st.caption("Nb weeks")
-    st.caption("Target date")
-with c1:
-    n_weeks_selected = st.pills("Number", label_visibility="collapsed",
-        options = range(1, 16), 
-        default = ss.opt_n_weeks, 
-        width = "stretch", 
-        key = "hexa_weeks_pills",)
-    date_selected = st.select_slider("Select date", label_visibility="collapsed",
-        options = ss.opt_dates, 
-        value = ss.opt_datseel, 
-        format_func=lambda d: d.strftime("%Y-%m-%d") ,
-        key="hexa_date_slider",)
-    
+with cont01:
+    c0,c1 = st.columns([0.8,7.0], border=False)
+    with c0:
+        st.caption("Nb previous weeks to sum")
+        st.caption("Target date")
+        st.caption(" ")
+        st.caption("Overview")
+    with c1:
+        n_weeks_selected = st.pills("Number" , label_visibility="collapsed",
+            options = range(1, 16), 
+            default = ss.opt_n_weeks, 
+            width = "stretch", 
+            key = "hexa_weeks_pills",)
+        date_selected = st.select_slider("Select date", label_visibility="collapsed",
+            options = ss.opt_dates, 
+            value = ss.opt_datseel, 
+            format_func=lambda d: d.strftime("%Y-%m-%d") ,
+            key="hexa_date_slider",)
+
+
+infotext_incide = f"Incidence averaged over {n_weeks_selected} week"
+infotext_counts = f"case counts averaged over {n_weeks_selected} week"
+
+
 #-------------------------------------------------
 # data prep
 # keep only up to selected weeks 
@@ -41,20 +67,19 @@ df_opc = df_temp[df_temp['date']<=date_selected]
 df_opc = df_opc.sort_values("date").groupby("georegion").tail(n_weeks_selected)
 sel_data_min = df_opc["date"].min().date()
 sel_data_max = df_opc["date"].max().date()
+infotext_period = f"Selected period: {sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
 # data prep II 
-df_incide = get_cumsum_by_canton(df_opc, 'incValue')
-df_counts = get_cumsum_by_canton(df_opc, 'value')
+df_incide = get_mean_by_canton(df_opc, 'incValue')
+df_counts = get_mean_by_canton(df_opc, 'value')
 
 # selected data mini-plot
-import plotly.express as px
-df_b = ss.df_all
-df_b = df_b[df_b['date']>=df_opc["date"].min()]
-df_b = df_b[df_b['date']<=df_opc["date"].max()]
-# st.write(df_b)
-with c2:
+df_b = ss.df_all.loc[ss.df_all["date"].between(df_opc["date"].min(), df_opc["date"].max())]
+with cont02:
+    st.caption(infotext_period, text_alignment  = "center")
     figm = px.line(df_b, 
         x = 'date', y = 'incValue', 
         height = 200,  markers=True, 
+        color_discrete_sequence = ["#F25B10"]
         )
     _ = figm.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
     _ = figm.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
@@ -65,20 +90,32 @@ with c2:
 
 #-------------------------------------------------
 # line-plot feedback to user 
-with c0:
-    st.caption(f"{sel_data_min:%Y-%m-%d} {sel_data_max:%Y-%m-%d}")
+# with c0:
 with c1:
     fig_lin_a = make_line_plot_with_vref(ss.df_all, height = 100, y_title = '')
     fig_lin_b = fig_lin_a.add_vrect(x0=sel_data_min, x1=sel_data_max, fillcolor="pink", opacity=0.66, line_width=2.5, line_color="white", layer="below")
     st.plotly_chart(fig_lin_b, use_container_width=True, theme=None)
 
+#######################################
+# second row
+c0,c1,c2,c3 = st.columns([5,1,5,1], border=True)
+with c1:
+    # ss.col_max_inc = st.number_input("Color threshold", min_value = 1.0, max_value =20.0, 
+    #                         value = ss.col_max_inc, step = 0.1, key="k_col_max_inx",)
+    ss.col_max_inc = vertical_slider("Color threshold", height=300,
+        step = 0.1, min_value=1.0, max_value=20.0,
+        default_value=ss.col_max_inc,key="k_col_max_inx",
+        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+    
+with c3:
+    # ss.col_max_cou = st.slider("Color threshold counts",   min_value = 10.0, max_value =500.0 ,
+    #                            value = ss.col_max_cou, step = 5.0, key="k_col_max_cou",)
+    ss.col_max_cou = vertical_slider("Color threshold", height=300,
+        step = 10.0, min_value=10.0, max_value=500.0,
+        default_value=ss.col_max_cou,key="k_col_max_cou",
+        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
-c0,c1,c2 = st.columns([4,4,2], border=True)
-with c2:
-    ss.col_max_inc = st.slider("Color threshold incValue", min_value = 0.1, max_value =10.0 ,   
-                               value = ss.col_max_inc, step = 0.1, key="k_col_max_inx",)
-    ss.col_max_cou = st.slider("Color threshold counts",   min_value = 5.0, max_value =500.0 ,
-                               value = ss.col_max_cou, step = 5.0, key="k_col_max_cou",)
+
 
 #-------------------------------------------------
 # prepare main hexagon plots 
@@ -91,8 +128,16 @@ fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value'
 # display main hexagon plots 
 with c0:
     st.plotly_chart(fig_incide, use_container_width=False, theme=None, )
-with c1:
+    ca, cb = st.columns([2,2])
+    ca.caption(infotext_period)
+    ca.caption(infotext_incide)
+    cb.caption("Incidence values ('incValue') are normalized by canton's population")
+with c2:
     st.plotly_chart(fig_counts, use_container_width=False, theme=None, )
+    ca, cb = st.columns([2,2])
+    ca.caption(infotext_period)
+    ca.caption(infotext_counts)
+    cb.caption("Counts ('value') are not normalized by canton's population")
 
 
 

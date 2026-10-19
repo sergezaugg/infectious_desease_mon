@@ -35,6 +35,7 @@ def make_line_plot_with_vref(df, y_title, height):
         y = 'incValue', 
         markers=False, 
         template="plotly_dark", 
+        color_discrete_sequence = ["#F25B10"]
         )
     _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
     _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
@@ -55,7 +56,7 @@ def make_line_plot_with_vref(df, y_title, height):
 
 
 @st.cache_data
-def make_line_plot(df, color_groups, color_sequence, y_title, height):
+def make_line_plot(df, color_groups, color_sequence, y_title = "", height = 260):
     fig = px.line(
         data_frame = df, 
         color = color_groups, 
@@ -79,7 +80,7 @@ def make_line_plot(df, color_groups, color_sequence, y_title, height):
     return(fig)
 
 @st.cache_data
-def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 260):
+def make_area_plot(df, color_groups, color_sequence, y_title = "", cutoff = 0.0, height = 260):
     # set area plot to nan whe overall incidence was too low
     df = df.copy() # to avoid orig df in ss to be cut !
     # quick fix
@@ -114,21 +115,19 @@ def make_area_plot(df, color_groups, color_sequence, y_title, cutoff, height = 2
 
 @st.cache_data
 def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
-    # lineplots 
-    # fig_lin = make_line_plot(df_all, 'georegion', ss.colo_all_oblig, height = 800,
-    fig_lin = make_line_plot(df_all, 'georegion', colo[0], height = 800,
-                             y_title = 'Cases per 100000 inhab')
+    # lineplot
+    fig_lin = make_line_plot(df_all, 'georegion', colo[0], height = 800, )
     # area plots
-    fig_age = make_area_plot(df_age, 'agegroup',  colo[1], height = 400,
-                             y_title = 'Relative incidence', cutoff = cutoff)
-    
-    fig_sex = make_area_plot(df_sex, 'sex',       colo[2], height = 400,
-                             y_title = 'Relative incidence', cutoff = cutoff)
-    
-    fig_typ = make_area_plot(df_typ, 'type',      colo[3], height = 400,
-                             y_title = 'Relative incidence', cutoff = cutoff)
+    fig_age = make_area_plot(df_age, 'agegroup',  colo[1], height = 400, cutoff = cutoff)
+    fig_sex = make_area_plot(df_sex, 'sex',       colo[2], height = 400, cutoff = cutoff)
+    fig_typ = make_area_plot(df_typ, 'type',      colo[3], height = 400, cutoff = cutoff)
 
     fig = make_subplots(rows=4, cols=1, shared_xaxes=True, row_heights=[0.3, 0.2, 0.2, 0.2],  vertical_spacing=0.05)
+
+    fig.update_yaxes(title_text="Cases per 100000 inhab", row=1, col=1)
+    fig.update_yaxes(title_text="Relative incidence", row=2, col=1)
+    fig.update_yaxes(title_text="Relative incidence", row=3, col=1)
+    fig.update_yaxes(title_text="Relative incidence", row=4, col=1)
 
     for trace in fig_lin.data:
         # trace.legend = "legend1"
@@ -153,9 +152,7 @@ def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
     legend4=dict(orientation="v",x=1.02, y=0.0,  xanchor="left", yanchor="bottom",),
     )    
 
-
-
-    fig.update_layout(margin=dict(l=30, r=35, t=1, b=30))
+    fig.update_layout(margin=dict(l=50, r=35, t=1, b=30))
     fig.update_layout(height=700)
     fig.update_xaxes(matches="x")
     fig.update_layout(hovermode="x unified")

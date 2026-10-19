@@ -1,2 +1,6 @@
 streamlit
 plotly
+# vertical-slider and dependencies
+streamlit-vertical-slider
+streamlit-toggle
+toml

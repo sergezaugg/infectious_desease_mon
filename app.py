@@ -32,7 +32,7 @@ if 'data_di' not in ss:
     ss.setdefault("opt_dates", sorted(ss.df_can["date"].unique()))
     ss.setdefault("opt_datseel", ss.opt_dates[-1])
     ss.setdefault("opt_n_weeks", 7)
-    ss.setdefault("col_max_inc", 0.5)
+    ss.setdefault("col_max_inc", 2.0)
     ss.setdefault("col_max_cou", 50.0)
     # color items 
     ss.colo_all_oblig = ["#F8DDF0"]
@@ -49,6 +49,7 @@ for key in list(st.session_state.keys()):
 #-------------------------------
 # (2) sidebar
 with st.sidebar:
+    st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
     st.markdown("## :primary[**Swiss Influenza Monitor**]") 
     st.markdown("""
         <div style="line-height: 1.3; margin-bottom: 0.9em;;">
@@ -59,15 +60,18 @@ with st.sidebar:
     """.format(ss["data_ve"]["name"], ss.ts_downl, ss.ref_date.date()),
     unsafe_allow_html=True)
     st.divider()
-    st.logo(image='pics/z_logo_blue.png', size="large", link="https://github.com/sergezaugg")
+   
+
+
+    
 
 #-------------------------------
 # (3) main navigation
 pages = [
-    st.Page("pages/page_history.py",  title="Flu History"),
-    st.Page("pages/page_map.py",  title="Geo-Map", default = True),
+    st.Page("pages/page_map.py",  title="Monitor", default = True),
+    st.Page("pages/page_history.py",  title="Details"),
     st.Page("pages/page_colors.py",  title="Colors"),
-    st.Page("pages/page_info.py",  title="Info"),
+    st.Page("pages/page_info.py",  title="About"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),
     st.Page("pages/page99.py",  title="Dev"),
     ]

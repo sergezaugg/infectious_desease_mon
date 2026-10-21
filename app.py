@@ -20,7 +20,7 @@ apply_global_styles() # apply custom CSS styles
 if 'data_di' not in ss:
     # data items 
     ss.ref_date = pd.Timestamp.today().normalize()
-    ss.data_di, ss.data_ve, ss.ts_downl = download_all_data()
+    ss.data_di, ss.data_ve, ss.ts_downl = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 
     a,b,c,d,e = prepare_data(df_obli = ss.data_di["INFLUENZA_oblig"])
     ss.df_all = a
     ss.df_can = b

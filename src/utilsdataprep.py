@@ -15,7 +15,7 @@ import io
 # must imperatively run on app stratup, Do not st.cache !!
 
 @st.cache_data(ttl=24*60*60)
-def download_all_data():
+def download_all_data(data_file):
     full_query_string = 'https://api.idd.bag.admin.ch/api/v1/data/version'
     r = requests.get(full_query_string, allow_redirects=True)
     data_version = r.json()
@@ -23,8 +23,10 @@ def download_all_data():
     full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/files'
     r = requests.get(full_query_string, allow_redirects=True)
     data_file_list = r.json()
-    # limit data to INFLUENZA_oblig
-    data_file_list =[a for a in data_file_list if a == "INFLUENZA_oblig"]
+    print("data_file_list")
+    [print(a) for a in data_file_list]
+    # limit data to one data file
+    data_file_list =[a for a in data_file_list if a in data_file]
 
     data_di = {}
     for li_index in range(len(data_file_list)):
@@ -33,7 +35,7 @@ def download_all_data():
         full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/' + data_set_name + '/csv'
         r = requests.get(full_query_string, allow_redirects=True)
         raw_text = r.text
-        df = pd.read_csv(io.StringIO(raw_text, newline='\n')  , sep=",")
+        df = pd.read_csv(io.StringIO(raw_text, newline='\n'), sep=",")
         data_di[data_set_name] = df
 
     ts = datetime.now().strftime("%Y-%m-%d %H:%M")

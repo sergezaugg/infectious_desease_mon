@@ -42,8 +42,6 @@ def download_all_data(data_file):
 
     return(data_di, data_version, ts)   
           
-   
-
 
 #---------------------------------
 # (2) function for data preparation 
@@ -54,16 +52,17 @@ def convert_iso_date_to_datetime(d):
 @st.cache_data
 def preprocess_INFLUENZA(df):
     df = df.copy()
-    # make a continuous time variable 
+    # take only weekly data
+    df = df[df["temporal_type"] == "iso_week"]
+    # make string to a continuous time variable 
     df['date'] = df["temporal"].apply(convert_iso_date_to_datetime)
-    # re-code  
+    # re-code agegroup 
     df['agegroup'] = df['agegroup'].replace(to_replace='0 - 4',   value='00-04') # ,   inplace=True)
     df['agegroup'] = df['agegroup'].replace(to_replace='5 - 14',  value='05-14') #,   inplace=True)
     df['agegroup'] = df['agegroup'].replace(to_replace='15 - 29', value='15-29') #,   inplace=True)
     df['agegroup'] = df['agegroup'].replace(to_replace='30 - 64', value='30-64') #,   inplace=True)
     df['agegroup'] = df['agegroup'].replace(to_replace='65+',     value='65+') #,     inplace=True)
     df['agegroup'] = df['agegroup'].replace(to_replace='unknown', value='Unknown') #, inplace=True)
-    # df['agegroup'] = df['agegroup'].replace(to_replace='all',     value='All') #,     inplace=True)
     return(df)
 
 @st.cache_data
@@ -117,20 +116,4 @@ def get_by_type_oblig(df):
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
-@st.cache_data
-def prepare_data(df_obli):
-    df_obli = df_obli[df_obli["temporal_type"] == "iso_week"]
-    df_obli = preprocess_INFLUENZA(df_obli)
-    df_all_obli = get_all_oblig(df_obli)
-    df_can_obli = get_by_cantons_oblig(df_obli)
-    df_age_obli = get_by_agegroup_oblig(df_obli)
-    df_sex_obli = get_by_sex_oblig(df_obli)
-    df_typ_obli = get_by_type_oblig(df_obli)
-    return (
-        df_all_obli,
-        pd.merge(df_can_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),
-        pd.merge(df_age_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),
-        pd.merge(df_sex_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),
-        pd.merge(df_typ_obli, df_all_obli[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all')),
-        )
 

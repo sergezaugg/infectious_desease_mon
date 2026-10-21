@@ -7,7 +7,8 @@
 import streamlit as st
 from streamlit import session_state as ss
 import plotly.express as px
-from src.utilsdataprep import download_all_data, prepare_data
+from src.utilsdataprep import download_all_data, preprocess_INFLUENZA
+from src.utilsdataprep import get_all_oblig,get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig,get_by_type_oblig
 from resources.styles import apply_global_styles
 import pandas as pd
 
@@ -18,15 +19,25 @@ apply_global_styles() # apply custom CSS styles
 # (1) data prep - do once on app start 
 # this is then used in multiple session via cache 
 if 'data_di' not in ss:
-    # data items 
+    
+    # download and process data 
     ss.ref_date = pd.Timestamp.today().normalize()
     ss.data_di, ss.data_ve, ss.ts_downl = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 
-    a,b,c,d,e = prepare_data(df_obli = ss.data_di["INFLUENZA_oblig"])
-    ss.df_all = a
-    ss.df_can = b
-    ss.df_age = c
-    ss.df_sex = d
-    ss.df_typ = e
+    # take weekly data, make continuous time variable, re-code agegroup 
+    df_obli = preprocess_INFLUENZA(ss.data_di["INFLUENZA_oblig"])
+    # take data for all i.e. not grouped 
+    ss.df_all = get_all_oblig(df_obli)
+    # take incidence for specific sub-groups 
+    df_can_obli = get_by_cantons_oblig(df_obli)
+    df_age_obli = get_by_agegroup_oblig(df_obli)
+    df_sex_obli = get_by_sex_oblig(df_obli)
+    df_typ_obli = get_by_type_oblig(df_obli)
+    # add incidence of ungrpouped 'all' for each date to the sub-groups df , needed to compute proportions 
+    ss.df_can = pd.merge(df_can_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss.df_age = pd.merge(df_age_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss.df_sex = pd.merge(df_sex_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    ss.df_typ = pd.merge(df_typ_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
+    
     # non-data items
     ss.setdefault("cutoff_obli", 1.0)
     ss.setdefault("opt_dates", sorted(ss.df_can["date"].unique()))
@@ -60,10 +71,6 @@ with st.sidebar:
     """.format(ss["data_ve"]["name"], ss.ts_downl, ss.ref_date.date()),
     unsafe_allow_html=True)
     st.divider()
-   
-
-
-    
 
 #-------------------------------
 # (3) main navigation
@@ -77,8 +84,4 @@ pages = [
     ]
 pg = st.navigation(pages, position = "top")
 pg.run()
-
-
-
-
 

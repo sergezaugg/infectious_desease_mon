@@ -23,37 +23,37 @@ def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
     """ Map color-coded values to the honeycomb Switzerland (Hexagons) """
     tiles = [
         ("GE", 0, 0,),
-        ("NE", 1, 2, ),
+        ("FR", 3, 2, ),
         ("JU", 2, 4, ),
         ("BS", 3, 6, ),
 
         ("VD", 2, 0, ),
-        ("BE", 3, 2, ),
+        ("BE", 4, 0, ),
         ("SO", 4, 4, ),
         ("BL", 5, 6, ),
 
         ("VS", 3, -2, ),
-        ("FR", 4, 0, ),
+        ("NE", 1, 2, ),
         ("LU", 5, 2, ),
         ("AG", 6, 4, ),
         ("ZH", 7, 6, ),
 
-        ("OW", 5, -2, ),
-        ("NW", 6, 0, ),
+        ("OW", 8, 0, ),
+        ("NW", 9, 2, ),
         ("SZ", 7, 2, ),
         ("ZG", 8, 4, ),
-        ("SH", 9, 6, ),
+        ("SH", 8, 8, ),
 
-        ("UR", 8, 0, ),
-        ("AR", 9, 2, ),
-        ("TG", 10, 4, ),
+        ("UR", 10, 0, ),
+        ("AR", 11, 6, ),
+        ("TG", 9, 6, ),
 
-        ("TI", 9, -2, ),
-        ("AI", 10, 0, ),
-        ("SG", 11, 2, ),
+        ("TI", 11, -2, ),
+        ("AI", 12, 4, ),
+        ("SG", 10, 4, ),
 
-        ("GL", 12, 0, ),
-        ("GR", 13, 2, ),
+        ("GL", 11, 2, ),
+        ("GR", 12, 0, ),
     ]
 
     df_tiles = pd.DataFrame(tiles,columns=["georegion", "x", "y"])
@@ -108,8 +108,8 @@ def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
         title=None,
         # width=650,
         height=360,
-        xaxis=dict(visible=False, range=[-0.6, 7.8], scaleanchor="y", showline=True, linecolor="white", linewidth=2),
-        yaxis=dict(visible=False, range=[-0.9, 2.7]),
+        xaxis=dict(visible=False, range=[-1.6, 8.3], scaleanchor="y", showline=True, linecolor="white", linewidth=2),
+        yaxis=dict(visible=False, range=[-0.9, 3.1]),
         margin=dict(l=1, r=10, t=1, b=1)
     )
 

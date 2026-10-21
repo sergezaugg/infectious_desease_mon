@@ -102,6 +102,7 @@ def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
             text=f"{label}<br>{value}",
             showarrow=False,
             font=dict(color="black", size=14),
+            borderwidth=0,
         )
 
     fig.update_layout(
@@ -113,15 +114,6 @@ def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
         margin=dict(l=1, r=10, t=1, b=1)
     )
 
-    # # add frame around figure 
-    # fig.add_shape(
-    #     type="rect",
-    #     xref="paper", yref="paper",
-    #     x0=0, y0=0, x1=1, y1=1,
-    #     line=dict(color="white", width=1),
-    #     fillcolor="rgba(0,0,0,0)",
-    #     layer="above",
-    # )
 
     # trick to add a colorbar 
     fig.add_trace(go.Scatter(

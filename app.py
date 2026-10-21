@@ -75,8 +75,9 @@ with st.sidebar:
 #-------------------------------
 # (3) main navigation
 pages = [
-    st.Page("pages/page_map.py",  title="Monitor", default = True),
-    st.Page("pages/page_history.py",  title="Details"),
+    st.Page("pages/page_monitor.py",  title="Latest status", default = True),
+    st.Page("pages/page_map.py",  title="History"),
+    st.Page("pages/page_subgr.py",  title="Subgroups"),
     st.Page("pages/page_colors.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="About"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),

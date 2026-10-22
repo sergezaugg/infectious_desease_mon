@@ -21,9 +21,9 @@ with st.sidebar:
 
 
 
-c0,c1 = st.columns([1,10], border=True)
+c0,c1 = st.columns([1,11], border=True)
 with c0:
-    st.text("Cutoff on incidence to draw area plots")
+    st.caption("Cutoff on inc. to draw area")
     ss.cutoff_obli = vertical_slider("", height=500,
         step = -0.1, 
         min_value=-0.1, max_value=10.0,

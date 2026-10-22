@@ -35,16 +35,25 @@ def apply_global_styles():
     # space between main region and nav bar
     st.markdown("""
         <style>
-            [data-testid="stMainBlockContainer"] {padding-top: 0rem; padding-left: 1.5rem;} /* here 
+            [data-testid="stMainBlockContainer"] {
+            padding-top: 0rem !important;
+            margin-top: -1rem !important;
+            padding-left: 1.5rem;
+            margin-top: -1rem !important;  /* pull dashboard upward */
+            } /* here 
+
+           
+            
+
         </style>
         """, unsafe_allow_html=True)
 
-    # reduce height of nav bar 
+    # height of nav bar 
     st.markdown("""
     <style>
         [data-testid="stHeader"] {
-            height: 4rem; 
-            min-height: 4rem}
+            height: 5rem; 
+            min-height: 5rem};
     </style>
     """, unsafe_allow_html=True)
 

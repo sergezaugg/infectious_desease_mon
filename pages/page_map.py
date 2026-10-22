@@ -28,7 +28,7 @@ with st.sidebar:
 #-------------------------------------------------
 # setup page layout 
 c00,c01 = st.columns([4.0,1.5], border=False)
-c0,c1,c2,c3 = st.columns([5,1,5,1], border=False)
+c1,c0,c3,c2 = st.columns([1,5,1,5], border=False)
 
 cont00 = c00.container(border=True, height = 260)
 cont01 = c01.container(border=True, height = 260)
@@ -45,7 +45,7 @@ cont13 = c3.container(border=True, height = 450)
 #-------------------------------------------------
 # get user input 
 with cx0:
-    st.caption("Averaging window (weeks)")
+    st.caption("Avg wind. (weeks)")
     st.caption("Target date")
     st.caption(" ")
     st.caption("Overview")
@@ -61,14 +61,18 @@ with cx1:
         key="hexa_date_slider",)
 
 with cont11:
-    ss.col_max_inc = vertical_slider("Color threshold", height=300,
+    st.caption("Upper Color Threshold")
+    ss.col_max_inc = vertical_slider(
+        height=300,
         step = 0.1, min_value=1.0, max_value=20.0,
         default_value=ss.k_col_max_inx,
         key="k_col_max_inx",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
     
 with cont13:
-    ss.col_max_cou = vertical_slider("Color threshold", height=300,
+    st.caption("Upper Color Threshold")
+    ss.col_max_cou = vertical_slider(
+        height=300,
         step = 10.0, min_value=10.0, max_value=500.0,
         default_value=ss.k_col_max_cou,
         key="k_col_max_cou",
@@ -91,7 +95,7 @@ df_counts = get_mean_by_canton(df_opc, 'value')
 df_b = ss.df_all.loc[ss.df_all["date"].between(df_opc["date"].min(), df_opc["date"].max())]
 
 # make short info texts
-infotext_period = f" Period: {sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
+infotext_period = f"{sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
 infotext_incide = infotext_period + "" + f" ({n_weeks_selected} W)"
 
 
@@ -99,10 +103,10 @@ infotext_incide = infotext_period + "" + f" ({n_weeks_selected} W)"
 # render figures 
 
 # render time-zoom fig
-figm = make_simple_fig(df=df_b, height = 200)
+figm = make_simple_fig(df=df_b, height = 200, colo=ss.colo_all_oblig)
 
 # render line-plot feedback to user 
-fig_lin_a = make_line_plot_with_vref(ss.df_all, height = 100, y_title = '')
+fig_lin_a = make_line_plot_with_vref(ss.df_all, y_title = '', height = 100, colo=ss.colo_all_oblig)
 fig_lin_b = fig_lin_a.add_vrect(x0=sel_data_min, x1=sel_data_max, fillcolor="pink", opacity=0.66, 
     line_width=2.5, line_color="white", layer="below")
 
@@ -115,13 +119,12 @@ fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value'
     color_map = color_map_02, color_max_val = ss.col_max_cou)
 
 
-
 #-------------------------------------------------
 # display on screen
 
 # time-zoom fig
 with cont01:
-    st.caption("Weekly Inc. all CH" + " -- " +infotext_incide, text_alignment  = "center")
+    st.caption("Weekly Inc. all CH" + " -- " +infotext_incide, text_alignment  = "left")
     st.plotly_chart(figm, use_container_width=True)
 
 # line-plot feedback to user 
@@ -130,12 +133,12 @@ with cx1:
 
 # main hexagon plots 
 with cont10:
-    st.caption("Average Weekly Incidence by canton" + " -- " + infotext_incide, text_alignment  = "center")
+    st.caption("Average Weekly Incidence by canton" + " -- " + infotext_incide, text_alignment  = "left")
     st.plotly_chart(fig_incide, use_container_width=False, theme=None, )
     st.caption("Incidence values are normalized by canton's population")
 
 with cont12:
-    st.caption("Average Weekly Count by canton" + " -- " + infotext_incide, text_alignment  = "center")
+    st.caption("Average Weekly Count by canton" + " -- " + infotext_incide, text_alignment  = "left")
     st.plotly_chart(fig_counts, use_container_width=False, theme=None, )
     st.caption("Counts are NOT normalized by canton's population")
 

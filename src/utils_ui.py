@@ -27,7 +27,7 @@ def update_ss(kname, ssname):
 
 
 @st.cache_data
-def make_line_plot_with_vref(df, y_title, height):
+def make_line_plot_with_vref(df, y_title, height, colo):
     fig = px.line(
         data_frame = df, 
         height = height,
@@ -35,7 +35,7 @@ def make_line_plot_with_vref(df, y_title, height):
         y = 'incValue', 
         markers=False, 
         template="plotly_dark", 
-        color_discrete_sequence = ["#F25B10"]
+        color_discrete_sequence = colo, 
         )
     _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
     _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
@@ -167,11 +167,11 @@ def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
 
 
 @st.cache_data
-def make_simple_fig(df, height):
+def make_simple_fig(df, height, colo):
     fig = px.line(df, 
         x = 'date', y = 'incValue', 
         height = height,  markers=True, 
-        color_discrete_sequence = ["#F25B10"]
+        color_discrete_sequence = colo ,
         )
     _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
     _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
@@ -182,6 +182,35 @@ def make_simple_fig(df, height):
     return(fig)
 
 
+@st.cache_data
+def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, height, x_lab, g_lab):
+    df[group_var] = "gr_" + df[group_var].astype(str)
+    fig = px.bar(df, y=group_var, x=resp_var, orientation = 'h',
+        text="pop_str",
+        category_orders={group_var: df[group_var].astype(str).unique().tolist()},
+        color_discrete_sequence = color_sequence,
+        height = height,
+        labels={
+        resp_var: x_lab,
+            },
+        )
+    _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
+    _ = fig.update_xaxes(showgrid=False)
+    _ = fig.update_yaxes(showgrid=False)
+    _ = fig.update_layout(margin=dict(l=60, r=20, t=20, b=40))
+    _ = fig.update_yaxes(tickangle=0, title_text="")
+    _ = fig.update_layout(showlegend=False)
+    _ = fig.update_traces(width=bar_width)
+    # re-label groups 
+    _ = fig.update_yaxes(
+        tickmode="array",
+        tickvals=list(g_lab.keys()),
+        ticktext=list(g_lab.values()),
+    )
+    
+    return fig
 
 
 

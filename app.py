@@ -59,7 +59,7 @@ if 'data_di' not in ss:
     ss.setdefault("hexa_date_slider", ss.opt_datseel)
 
     # color items 
-    ss.colo_all_oblig = ["#F8DDF0"]
+    ss.colo_all_oblig = ["#F25B10"]
     ss.colo_can_oblig = px.colors.qualitative.Alphabet
     ss.colo_reg_oblig = px.colors.qualitative.Light24
     ss.colo_age_oblig = ["#08fa20", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"]
@@ -89,8 +89,8 @@ with st.sidebar:
 # (3) main navigation
 pages = [
     st.Page("pages/page_monitor.py",  title="Latest status", default = True),
-    st.Page("pages/page_map.py",  title="History - Cantons"),
-    st.Page("pages/page_subgr.py",  title="History - Groups"),
+    st.Page("pages/page_map.py",  title="History CNT"),
+    st.Page("pages/page_subgr.py",  title="History GRP"),
     st.Page("pages/page_colors.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="About"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),

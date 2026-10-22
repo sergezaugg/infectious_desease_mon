@@ -6,6 +6,12 @@
 import streamlit as st
 from streamlit import session_state as ss
 
+with st.sidebar:
+    st.markdown("""
+    Colors can be adjusted here (will trigger re-rendering of plots).
+    """)
+
+
 co_main1, co_main2, _ = st.columns([0.4, 0.4, 0.2])  
 with co_main1:
     with st.container(border=True, height = 450):

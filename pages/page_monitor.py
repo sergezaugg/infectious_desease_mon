@@ -91,8 +91,6 @@ new_ts = ss.ref_date - pd.Timedelta(weeks=n_weeks)
 df_reduced = ss.df_all[ss.df_all["date"] >= new_ts]
 
 
-
-
 #-------------------------------------------------
 # data prep subgroups
 

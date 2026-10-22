@@ -166,6 +166,22 @@ def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
 
 
 
+@st.cache_data
+def make_simple_fig(df, height):
+    fig = px.line(df, 
+        x = 'date', y = 'incValue', 
+        height = height,  markers=True, 
+        color_discrete_sequence = ["#F25B10"]
+        )
+    _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
+    _ = fig.update_xaxes(showgrid=False)
+    _ = fig.update_yaxes(showgrid=False)
+    _ = fig.update_layout(margin=dict(l=50, r=30, t=30, b=40))
+    return(fig)
+
+
 
 
 

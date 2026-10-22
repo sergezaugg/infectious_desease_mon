@@ -76,10 +76,6 @@ def apply_global_styles():
         </style>
     """, unsafe_allow_html=True)
 
-
-   
-
-
     # All navigation tabs: same fixed width
     st.markdown("""
     <style>
@@ -110,16 +106,11 @@ def apply_global_styles():
         }
     </style>
     <div class="app-label">
-        v1.2.4-β<br>© 2026 Serge Zaugg
+        v1.2.5-β<br>© 2026 Serge Zaugg
     </div>
     """, unsafe_allow_html=True)
 
-
-
-
-
-
-    
+    # Outer frame around the entire app
     st.markdown("""
     <style>
     /* Outer frame around the entire app */

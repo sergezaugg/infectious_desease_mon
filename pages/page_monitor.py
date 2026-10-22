@@ -103,7 +103,7 @@ def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, h
         text="pop_str",
         category_orders={group_var: df[group_var].astype(str).unique().tolist()},
         color_discrete_sequence = color_sequence,
-        color=group_var,
+        # color=group_var,
         height = height,
         )
     _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
@@ -143,9 +143,12 @@ df_sex_recent_mean["pop_str"] = (df_sex_recent_mean["pop"] / 1e6).map(lambda x: 
 df_age_recent_mean["pop_str"] = (df_age_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
 
 # make barplots 
-fig_bar_typ = make_subgroup_barplots(df_typ_recent_mean, 'type', 'incValue', ss.colo_typ_oblig,  0.80, 200)
-fig_bar_sex = make_subgroup_barplots(df_sex_recent_mean, 'sex', 'incValue', ss.colo_sex_oblig,  0.80, 200)
-fig_bar_age = make_subgroup_barplots(df_age_recent_mean, 'agegroup', 'incValue', ss.colo_age_oblig, 0.80, 400)
+# fig_bar_typ = make_subgroup_barplots(df_typ_recent_mean, 'type', 'incValue', ss.colo_typ_oblig,  0.80, 200)
+# fig_bar_sex = make_subgroup_barplots(df_sex_recent_mean, 'sex', 'incValue', ss.colo_sex_oblig,  0.80, 200)
+# fig_bar_age = make_subgroup_barplots(df_age_recent_mean, 'agegroup', 'incValue', ss.colo_age_oblig, 0.80, 400)
+fig_bar_typ = make_subgroup_barplots(df_typ_recent_mean, 'type', 'incValue', ["#9BB5BE"],  0.80, 200)
+fig_bar_sex = make_subgroup_barplots(df_sex_recent_mean, 'sex', 'incValue', ["#9BB5BE"],  0.80, 200)
+fig_bar_age = make_subgroup_barplots(df_age_recent_mean, 'agegroup', 'incValue', ["#9BB5BE"], 0.80, 400)
 
 
 

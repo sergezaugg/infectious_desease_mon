@@ -27,7 +27,7 @@ with c0:
     ss.cutoff_obli = vertical_slider("", height=500,
         step = -0.1, 
         min_value=-0.1, max_value=10.0,
-        default_value=ss.cutoff_obli,key="cutoff_slider",
+        default_value=ss.cutoff_obli, key="cutoff_slider",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
     # st.write(ss.cutoff_obli)
     ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, cutoff = ss.cutoff_obli, 

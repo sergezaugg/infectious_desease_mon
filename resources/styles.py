@@ -8,6 +8,21 @@ import streamlit as st
 def apply_global_styles():
     """Apply global CSS styles to the Streamlit app."""
 
+    # enforce min and max accepted screen width via CSS
+    st.markdown("""
+        <style>
+            .block-container {
+                max-width: 1590px;
+                min-width: 1400px;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                margin-left: auto;
+                margin-right: auto;
+                box-sizing: border-box;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+
     # Reduce spacing around st.divider() 
     st.markdown("""
         <style>
@@ -61,17 +76,13 @@ def apply_global_styles():
         </style>
     """, unsafe_allow_html=True)
 
-
-   
-
-
     # All navigation tabs: same fixed width
     st.markdown("""
     <style>
         .stAppHeader a {
-            width: 100px !important;
-            min-width: 100px !important;
-            max-width: 100px !important;
+            width: 135px !important;
+            min-width: 135px !important;
+            max-width: 135px !important;
             box-sizing: border-box !important;
             justify-content: center !important;
             text-align: center !important;
@@ -80,24 +91,26 @@ def apply_global_styles():
     </style>
     """, unsafe_allow_html=True)
 
-    # text right to logo 
+    # copyright notice and version at bottom-left
     st.markdown("""
     <style>
         .app-label {
             position: fixed;
-            top:  11px;
-            left: 60px;
+            bottom: 15px;
+            left: 20px;
             color: #9CA3AF;
             font-size: 15px;
+            line-height: 1.4;
             z-index: 999999;
             pointer-events: none;
         }
     </style>
-    <div class="app-label">v1.2.4-β<br>© 2026 Serge Zaugg</div>
+    <div class="app-label">
+        v1.2.5-β<br>© 2026 Serge Zaugg
+    </div>
     """, unsafe_allow_html=True)
 
-
-    
+    # Outer frame around the entire app
     st.markdown("""
     <style>
     /* Outer frame around the entire app */

@@ -52,26 +52,26 @@ with cx0:
 
 with cx1:
     n_weeks_selected = st.pills("Number" , label_visibility="collapsed",
-        options = range(1, 20), 
-        default = ss.opt_n_weeks, 
+        options = range(1, 21), 
         width = "stretch", 
         key = "hexa_weeks_pills",)
     date_selected = st.select_slider("Select date", label_visibility="collapsed",
         options = ss.opt_dates, 
-        value = ss.opt_datseel, 
         format_func=lambda d: d.strftime("%Y-%m-%d") ,
         key="hexa_date_slider",)
 
 with cont11:
     ss.col_max_inc = vertical_slider("Color threshold", height=300,
         step = 0.1, min_value=1.0, max_value=20.0,
-        default_value=ss.col_max_inc,key="k_col_max_inx",
+        default_value=ss.k_col_max_inx,
+        key="k_col_max_inx",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
     
 with cont13:
     ss.col_max_cou = vertical_slider("Color threshold", height=300,
         step = 10.0, min_value=10.0, max_value=500.0,
-        default_value=ss.col_max_cou,key="k_col_max_cou",
+        default_value=ss.k_col_max_cou,
+        key="k_col_max_cou",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
 

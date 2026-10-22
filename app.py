@@ -39,12 +39,25 @@ if 'data_di' not in ss:
     ss.df_typ = pd.merge(df_typ_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
     
     # non-data items
-    ss.setdefault("cutoff_obli", 1.0)
     ss.setdefault("opt_dates", sorted(ss.df_can["date"].unique()))
     ss.setdefault("opt_datseel", ss.opt_dates[-1])
     ss.setdefault("opt_n_weeks", 7)
     ss.setdefault("col_max_inc", 2.0)
     ss.setdefault("col_max_cou", 50.0)
+
+    # subgroup page 
+    ss.setdefault("cutoff_obli", 1.0)
+
+    # monitop page 
+    ss.setdefault("mon_slider_window", 5)
+    ss.setdefault("mon_col_thld_1", ss.col_max_inc)
+
+    # history (map) page 
+    ss.setdefault("k_col_max_inx", ss.col_max_inc)
+    ss.setdefault("k_col_max_cou", ss.col_max_cou)
+    ss.setdefault("hexa_weeks_pills", ss.opt_n_weeks)
+    ss.setdefault("hexa_date_slider", ss.opt_datseel)
+
     # color items 
     ss.colo_all_oblig = ["#F8DDF0"]
     ss.colo_can_oblig = px.colors.qualitative.Alphabet

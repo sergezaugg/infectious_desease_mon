@@ -16,10 +16,13 @@ import pandas as pd
 with st.sidebar:
     st.markdown("""
     :primary[Top panel:] 
-    bla.
+    <coming...>.
 
     :primary[Pseudo-Maps:] 
-    bla.
+    <coming...>.
+
+    :primary[Bar-plots:] 
+    <coming...>.
 
     """)
 
@@ -43,13 +46,15 @@ cont12 = c2.container(border=True, height = 450)
 with cont00:
     n_weeks_selected = vertical_slider("Averaging window (weeks)", height=120,
         step = 1, min_value=1, max_value=20,
-        default_value=5, key="fffgggttrrr",
+        default_value=ss.mon_slider_window, 
+        key="mon_slider_window",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
 with cont11:
     ss.col_max_inc = vertical_slider("Color threshold", height=300,
         step = 0.1, min_value=1.0, max_value=20.0,
-        default_value=ss.col_max_inc,key="k_col_max_inx",
+        default_value=ss.mon_col_thld_1,
+        key="mon_col_thld_1",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
     
 

@@ -50,8 +50,8 @@ if 'data_di' not in ss:
     ss.colo_can_oblig = px.colors.qualitative.Alphabet
     ss.colo_reg_oblig = px.colors.qualitative.Light24
     ss.colo_age_oblig = ["#08fa20", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"]
-    ss.colo_sex_oblig = ["#fe21d2", "#0539F5", "#7c8584",]
-    ss.colo_typ_oblig = ["#ff5e00", "#01FF51", "#7c8584",]
+    ss.colo_sex_oblig = ["#f682df", "#51BEFD", "#7c8584",]
+    ss.colo_typ_oblig = ["#fdd26d", "#7BFB95", "#7c8584",]
 
 # Protects every ss key from being deleted (for multi-page consistency across clicks)
 for key in list(st.session_state.keys()):
@@ -76,8 +76,8 @@ with st.sidebar:
 # (3) main navigation
 pages = [
     st.Page("pages/page_monitor.py",  title="Latest status", default = True),
-    st.Page("pages/page_map.py",  title="History"),
-    st.Page("pages/page_subgr.py",  title="Subgroups"),
+    st.Page("pages/page_map.py",  title="History - Cantons"),
+    st.Page("pages/page_subgr.py",  title="History - Groups"),
     st.Page("pages/page_colors.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="About"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),

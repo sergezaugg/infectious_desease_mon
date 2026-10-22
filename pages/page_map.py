@@ -36,23 +36,23 @@ cont01 = c01.container(border=True, height = 260)
 with cont00:
     cx0,cx1 = st.columns([0.8,7.0], border=False)
 
-cont10 = c0.container(border=True, height = 500)
-cont11 = c1.container(border=True, height = 500)
-cont12 = c2.container(border=True, height = 500)
-cont13 = c3.container(border=True, height = 500)
+cont10 = c0.container(border=True, height = 450)
+cont11 = c1.container(border=True, height = 450)
+cont12 = c2.container(border=True, height = 450)
+cont13 = c3.container(border=True, height = 450)
 
 
 #-------------------------------------------------
 # get user input 
 with cx0:
-    st.caption("Nb previous weeks to sum")
+    st.caption("Averaging window (weeks)")
     st.caption("Target date")
     st.caption(" ")
     st.caption("Overview")
 
 with cx1:
     n_weeks_selected = st.pills("Number" , label_visibility="collapsed",
-        options = range(1, 16), 
+        options = range(1, 20), 
         default = ss.opt_n_weeks, 
         width = "stretch", 
         key = "hexa_weeks_pills",)
@@ -74,10 +74,6 @@ with cont13:
         default_value=ss.col_max_cou,key="k_col_max_cou",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
-    
-infotext_incide = f"Incidence averaged over {n_weeks_selected} week"
-infotext_counts = f"case counts averaged over {n_weeks_selected} week"
-
 
 #-------------------------------------------------
 # data prep
@@ -88,12 +84,15 @@ df_opc = df_temp[df_temp['date']<=date_selected]
 df_opc = df_opc.sort_values("date").groupby("georegion").tail(n_weeks_selected)
 sel_data_min = df_opc["date"].min().date()
 sel_data_max = df_opc["date"].max().date()
-infotext_period = f"Selected period: {sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
 # data prep II 
 df_incide = get_mean_by_canton(df_opc, 'incValue')
 df_counts = get_mean_by_canton(df_opc, 'value')
 # selected data mini-plot
 df_b = ss.df_all.loc[ss.df_all["date"].between(df_opc["date"].min(), df_opc["date"].max())]
+
+# make short info texts
+infotext_period = f" Period: {sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
+infotext_incide = infotext_period + "" + f" ({n_weeks_selected} W)"
 
 
 #-------------------------------------------------
@@ -122,7 +121,7 @@ fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value'
 
 # time-zoom fig
 with cont01:
-    st.caption(infotext_period, text_alignment  = "center")
+    st.caption("Weekly Inc. all CH" + " -- " +infotext_incide, text_alignment  = "center")
     st.plotly_chart(figm, use_container_width=True)
 
 # line-plot feedback to user 
@@ -131,18 +130,14 @@ with cx1:
 
 # main hexagon plots 
 with cont10:
+    st.caption("Average Weekly Incidence by canton" + " -- " + infotext_incide, text_alignment  = "center")
     st.plotly_chart(fig_incide, use_container_width=False, theme=None, )
-    ca, cb = st.columns([2,2])
-    ca.caption(infotext_period)
-    ca.caption(infotext_incide)
-    cb.caption("Incidence values ('incValue') are normalized by canton's population")
+    st.caption("Incidence values are normalized by canton's population")
 
 with cont12:
+    st.caption("Average Weekly Count by canton" + " -- " + infotext_incide, text_alignment  = "center")
     st.plotly_chart(fig_counts, use_container_width=False, theme=None, )
-    ca, cb = st.columns([2,2])
-    ca.caption(infotext_period)
-    ca.caption(infotext_counts)
-    cb.caption("Counts ('value') are not normalized by canton's population")
+    st.caption("Counts are NOT normalized by canton's population")
 
 
 

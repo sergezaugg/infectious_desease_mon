@@ -84,9 +84,9 @@ def apply_global_styles():
     st.markdown("""
     <style>
         .stAppHeader a {
-            width: 100px !important;
-            min-width: 100px !important;
-            max-width: 100px !important;
+            width: 135px !important;
+            min-width: 135px !important;
+            max-width: 135px !important;
             box-sizing: border-box !important;
             justify-content: center !important;
             text-align: center !important;
@@ -94,22 +94,6 @@ def apply_global_styles():
         }
     </style>
     """, unsafe_allow_html=True)
-
-    # # text right to logo 
-    # st.markdown("""
-    # <style>
-    #     .app-label {
-    #         position: fixed;
-    #         top:  11px;
-    #         left: 60px;
-    #         color: #9CA3AF;
-    #         font-size: 15px;
-    #         z-index: 999999;
-    #         pointer-events: none;
-    #     }
-    # </style>
-    # <div class="app-label">v1.2.4-β<br>© 2026 Serge Zaugg</div>
-    # """, unsafe_allow_html=True)
 
     # copyright notice and version at bottom-left
     st.markdown("""

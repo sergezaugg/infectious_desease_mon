@@ -13,21 +13,20 @@ from streamlit_vertical_slider import vertical_slider
 
 with st.sidebar:
     st.markdown("""
-    :primary[Top panel:] 
-    The top panel on the right shows the incidence across Switzerland over recent weeks, 
-    with the latest available week selected by default. 
-    Use the slider to explore historical data averaged over multiple weeks (pills).
+    :primary[The top-left panel] shows the incidence across Switzerland over a few weeks.
+    (latest available week selected by default) 
+    Use the slider (top-right panel) to explore historical periods and pills to define period duration.
 
-    :primary[Pseudo-Maps:] 
-    The hexagonal pseudo map displays incidence and case counts by canton.
-    Maps show values from the specific time period selected above.
+    :primary[The hexagonal pseudo-maps] show incidence and case counts by canton.
+    Maps show values from the specific period selected above.
 
     """)
 
 
 #-------------------------------------------------
 # setup page layout 
-c00,c01 = st.columns([4.0,1.5], border=False)
+# c00,c01 = st.columns([4.0,1.5], border=False)
+c01,c00 = st.columns([1.5,4.0], border=False)
 c1,c0,c3,c2 = st.columns([1,5,1,5], border=False)
 
 cont00 = c00.container(border=True, height = 260)

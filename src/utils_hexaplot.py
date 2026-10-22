@@ -38,22 +38,22 @@ def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
         ("AG", 6, 4, ),
         ("ZH", 7, 6, ),
 
-        ("OW", 8, 0, ),
+        ("OW", 8, 0, ),#
         ("NW", 9, 2, ),
         ("SZ", 7, 2, ),
         ("ZG", 8, 4, ),
         ("SH", 8, 8, ),
 
-        ("UR", 10, 0, ),
+        ("UR", 10, 0, ),#
         ("AR", 11, 6, ),
         ("TG", 9, 6, ),
 
-        ("TI", 11, -2, ),
+        ("TI", 9, -2, ),#
         ("AI", 12, 4, ),
         ("SG", 10, 4, ),
 
         ("GL", 11, 2, ),
-        ("GR", 12, 0, ),
+        ("GR", 13, 2, ),
     ]
 
     df_tiles = pd.DataFrame(tiles,columns=["georegion", "x", "y"])

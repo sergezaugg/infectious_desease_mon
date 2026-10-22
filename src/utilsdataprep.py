@@ -116,4 +116,11 @@ def get_by_type_oblig(df):
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
+@st.cache_data
+def get_mean_by_group(x, resp_var, group_var):
+    x = x[['date', group_var, resp_var]]
+    x = x.groupby(group_var, as_index=False)[resp_var].mean()
+    return(x)
+
+
 

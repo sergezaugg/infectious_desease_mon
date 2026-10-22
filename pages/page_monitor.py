@@ -16,21 +16,22 @@ import pandas as pd
 
 with st.sidebar:
     st.markdown("""
-    :primary[Top panel:] 
-    <coming...>.
+    :primary[The top-left panel] shows incidence across Switzerland for the most recent weeks. 
+    Use the slider to average incidence over a few recent weeks.
 
-    :primary[Pseudo-Maps:] 
-    <coming...>.
+    :primary[The top-right panel] shows incidence across Switzerland for the past year as a reference.
 
-    :primary[Bar-plots:] 
-    <coming...>.
+    :primary[The hexagonal pseudo-map] displays per-canton incidence for the selected recent weeks.
+    Use the slider to adjust colors to current incidence levels.
 
+    :primary[The bar charts] show incidence by age, sex, and influenza type (A or B) for the selected recent weeks.
     """)
 
 
 #-------------------------------------------------
 # setup page layout 
-c00,c01,c02 = st.columns([1,7,4], border=False)
+# c00,c01,c02 = st.columns([1,7,4], border=False)
+c00,c02,c01 = st.columns([1,4,7], border=False)
 c1, c0,c2   = st.columns([1,5,6], border=False)
 
 cont00 = c00.container(border=True, height = 260)
@@ -88,8 +89,6 @@ df_b = ss.df_all.loc[ss.df_all["date"].between(df_opc["date"].min(), df_opc["dat
 n_weeks = 52
 new_ts = ss.ref_date - pd.Timedelta(weeks=n_weeks)
 df_reduced = ss.df_all[ss.df_all["date"] >= new_ts]
-
-
 
 
 #-------------------------------------------------

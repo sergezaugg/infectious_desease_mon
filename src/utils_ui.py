@@ -21,10 +21,8 @@ def update_ss(kname, ssname):
     """
     ss["upar"][ssname] = ss[kname]      
 
-
 # -----------------------------------------
 # (3) function to pre-render plotly figures
-
 
 @st.cache_data
 def make_line_plot_with_vref(df, y_title, height, colo):
@@ -52,8 +50,6 @@ def make_line_plot_with_vref(df, y_title, height, colo):
     _ =fig.update_xaxes(showgrid=False)
     _ =fig.update_yaxes(showgrid=False)
     return(fig)
-
-
 
 @st.cache_data
 def make_line_plot(df, color_groups, color_sequence, y_title = "", height = 260):
@@ -164,8 +160,6 @@ def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
     # fig.update_layout(legend=dict(orientation="h", x=0, xanchor="left", y=1.2, yanchor="top",))    
     return(fig) 
 
-
-
 @st.cache_data
 def make_simple_fig(df, height, colo):
     fig = px.line(df, 
@@ -180,7 +174,6 @@ def make_simple_fig(df, height, colo):
     _ = fig.update_yaxes(showgrid=False)
     _ = fig.update_layout(margin=dict(l=50, r=30, t=30, b=40))
     return(fig)
-
 
 @st.cache_data
 def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, height, x_lab, g_lab):

@@ -40,31 +40,25 @@ if 'data_di' not in ss:
     
     # non-data items
     ss.setdefault("opt_dates", sorted(ss.df_can["date"].unique()))
-    ss.setdefault("opt_datseel", ss.opt_dates[-1])
-    ss.setdefault("opt_n_weeks", 7)
     ss.setdefault("col_max_inc", 2.0)
     ss.setdefault("col_max_cou", 50.0)
-
     # subgroup page 
     ss.setdefault("cutoff_obli", 1.0)
-
     # monitop page 
-    ss.setdefault("mon_slider_window", 5)
+    ss.setdefault("mon_slider_window", 10)
     ss.setdefault("mon_col_thld_1", ss.col_max_inc)
-
     # history (map) page 
     ss.setdefault("k_col_max_inx", ss.col_max_inc)
     ss.setdefault("k_col_max_cou", ss.col_max_cou)
-    ss.setdefault("hexa_weeks_pills", ss.opt_n_weeks)
-    ss.setdefault("hexa_date_slider", ss.opt_datseel)
-
+    ss.setdefault("hexa_weeks_pills", 10)
+    ss.setdefault("hexa_date_slider", ss.opt_dates[-1])
     # color items 
     ss.colo_all_oblig = ["#F25B10"]
     ss.colo_can_oblig = px.colors.qualitative.Alphabet
     ss.colo_reg_oblig = px.colors.qualitative.Light24
     ss.colo_age_oblig = ["#08fa20", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"]
-    ss.colo_sex_oblig = ["#f682df", "#51BEFD", "#7c8584",]
-    ss.colo_typ_oblig = ["#fdd26d", "#7BFB95", "#7c8584",]
+    ss.colo_sex_oblig = ["#f682df", "#37A2DF", "#7c8584",]
+    ss.colo_typ_oblig = ["#cb9923", "#2EE452", "#7c8584",]
 
 # Protects every ss key from being deleted (for multi-page consistency across clicks)
 for key in list(st.session_state.keys()):

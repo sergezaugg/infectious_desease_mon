@@ -33,11 +33,12 @@ The app will automatically download the latest data from the FOPH API and displa
 
 ## Project Structure
 
-- `app.py`   – Main Streamlit entry point and navigation.
-- `pages/`   – page.
-- `utils.py` – Data fetching, preprocessing, and plotting utilities.
-- `pics/`    – Logo images.
-- `.streamlit/` – Streamlit configuration.
+- `app.py`      – Main Streamlit entry point and navigation
+- `pages/`      – Code for interactive pages
+- `src/`        – Definition of functions use in app.py and pages
+- `pics/`       – Logo images
+- `resources/`  – CSS styling code
+- `.streamlit/` – Streamlit configuration
 
 ## Data Source
 

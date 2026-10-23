@@ -8,7 +8,7 @@ from streamlit import session_state as ss
 from src.utils_hexaplot import make_hexagon_plot, get_mean_by_canton
 from plotly.colors import sample_colorscale 
 from src.utils_ui import make_simple_fig, make_subgroup_barplots
-from src.utilsdataprep import get_mean_by_group
+from src.utilsdataprep import get_mean_by_group, prepare_data_for_barplots
 import plotly.express as px
 from streamlit_vertical_slider import vertical_slider
 import pandas as pd
@@ -46,7 +46,7 @@ cont12 = c2.container(border=True, height = 450)
 #-------------------------------------------------
 # get user input 
 with cont00:
-    st.caption("Avg wind. (weeks)")
+    st.caption("Weeks to look back")
     n_weeks_selected = vertical_slider(
         height=100,
         step = 1, min_value=1, max_value=20,
@@ -62,93 +62,50 @@ with cont11:
         default_value=ss.mon_col_thld_1,
         key="mon_col_thld_1",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
-    
 
 
 #-------------------------------------------------
-# data prep
+# data prep I
+# compute recency limit from ref date and user selection
+recency_limit_date = ss.ref_date - pd.Timedelta(weeks=n_weeks_selected)
+# get per canton data
 df_opc = ss.df_can
-
-# select N  latest from above 
-df_opc = df_opc.sort_values("date").groupby("georegion").tail(n_weeks_selected)
+# select latest 
+df_opc = df_opc[df_opc['date'] >= recency_limit_date]
+# get nb actual weeks >= recency_limit_date
+n_weeks_realized = len(df_opc['date'].unique())
 sel_data_min = df_opc["date"].min().date()
 sel_data_max = df_opc["date"].max().date()
-
 # make short info texts
 infotext_period = f"{sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
-infotext_incide = infotext_period + "" + f" ({n_weeks_selected} weeks)"
-
-
-# data prep II 
+infotext_incide = infotext_period + "" + f" ({n_weeks_realized} weeks)"
+# prep per-canton data for hexa plots 
 df_incide = get_mean_by_canton(df_opc, 'incValue')
 df_counts = get_mean_by_canton(df_opc, 'value')
-# selected data mini-plot
-df_b = ss.df_all.loc[ss.df_all["date"].between(df_opc["date"].min(), df_opc["date"].max())] 
-
-# select full past year 
+# data for time-zoom plot
+df_time_zoom = ss.df_all.loc[ss.df_all["date"].between(df_opc["date"].min(), df_opc["date"].max())] 
+#-------------------------------------------------
+# data prep II - selected data for 1-Y plot 
 n_weeks = 52
 new_ts = ss.ref_date - pd.Timedelta(weeks=n_weeks)
 df_reduced = ss.df_all[ss.df_all["date"] >= new_ts]
-
-
 #-------------------------------------------------
-# data prep subgroups
+# data prep III - subgroups
+df_typ, df_sex, df_age =  prepare_data_for_barplots(ss.df_typ, ss.df_sex, ss.df_age, recency_limit_date)
 
-# keep only needed variables 
-df_typ = ss.df_typ[['date','type','incValue','incValue_all', 'pop']]
-df_sex = ss.df_sex[['date','sex','incValue','incValue_all', 'pop']]
-df_age = ss.df_age[['date','agegroup','incValue','incValue_all', 'pop']]
-# take n latest weeks only , by type 
-df_typ_recent = df_typ.sort_values("date").groupby("type").tail(n_weeks_selected)
-df_sex_recent = df_sex.sort_values("date").groupby("sex").tail(n_weeks_selected)
-df_age_recent = df_age.sort_values("date").groupby("agegroup").tail(n_weeks_selected)
-# get mean weekly-incidence
-df_typ_recent_mean = get_mean_by_group(df_typ_recent, 'incValue', 'type')
-df_sex_recent_mean = get_mean_by_group(df_sex_recent, 'incValue', 'sex')
-df_age_recent_mean = get_mean_by_group(df_age_recent, 'incValue', 'agegroup')
-# since pop constant per group we mis-use mean to get pop
-df_typ_recent_pop = get_mean_by_group(df_typ_recent, 'pop', 'type')
-df_sex_recent_pop = get_mean_by_group(df_sex_recent, 'pop', 'sex')
-df_age_recent_pop = get_mean_by_group(df_age_recent, 'pop', 'agegroup')
-# merge-in pop 
-df_typ_recent_mean = df_typ_recent_mean.merge(df_typ_recent_pop, how = 'left', on = 'type')
-df_sex_recent_mean = df_sex_recent_mean.merge(df_sex_recent_pop, how = 'left', on = 'sex')
-df_age_recent_mean = df_age_recent_mean.merge(df_age_recent_pop, how = 'left', on = 'agegroup')
-# convert pop from int to string (in millions)
-df_typ_recent_mean["pop_str"] = (df_typ_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
-df_sex_recent_mean["pop_str"] = (df_sex_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
-df_age_recent_mean["pop_str"] = (df_age_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
-
-# make barplots 
-
-glab_typ = {"gr_A": "A Type  ","gr_B": "B Type  ","gr_unknown": "Unk",}
-glab_sex = {"gr_female": "Fema  ","gr_male": "Male  ","gr_unknown": "Unk ",}
-glab_age = {"gr_00-04": "00-04  ",
-            "gr_05-14": "05-14  ",
-            "gr_15-29": "15-29  ",
-            "gr_30-64": "30-64  ",
-            "gr_65+":   "+65    ",
-            "gr_Unknown": "Unk",}
-# st.write(df_age_recent_mean['agegroup'].unique())
-fig_bar_typ = make_subgroup_barplots(df_typ_recent_mean, 'type', 'incValue', ["#34BDEA"],  0.70, 170, "Incidence", glab_typ)
-fig_bar_sex = make_subgroup_barplots(df_sex_recent_mean, 'sex', 'incValue', ["#D996E1"],  0.70, 170, "Incidence", glab_sex)
-fig_bar_age = make_subgroup_barplots(df_age_recent_mean, 'agegroup', 'incValue', ["#E75C31"], 0.70, 360, "Incidence", glab_age)
-
-
-# st.write(df_age_recent_mean)
 
 #-------------------------------------------------
 # render figures 
 
 # full past year 
 fig_lin_a = make_simple_fig(df_reduced, height = 200, colo=ss.colo_all_oblig)
-fig_lin_b = fig_lin_a.add_vrect(x0=sel_data_min, x1=ss.ref_date, fillcolor="pink", opacity=0.30, line_width=2.5, 
+fig_lin_b = fig_lin_a.add_vrect(x0=recency_limit_date, x1=ss.ref_date, fillcolor="pink", opacity=0.30, line_width=2.5, 
     line_color="white", layer="below")
 fig_lin_b.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
     annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 
-# time-zoom 
-figm = make_simple_fig(df_b, height = 200, colo=ss.colo_all_oblig)
+# prepare time-zoom plot
+figm = make_simple_fig(df_time_zoom, height = 200, colo=ss.colo_all_oblig)
 figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
             annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 
@@ -157,6 +114,11 @@ color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
 color_map_02 = "bluered"
 fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', color_map = color_map_01, color_max_val = ss.col_max_inc)
 fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value',    color_map = color_map_02, color_max_val = ss.col_max_cou)
+
+# prepare per-group barplots 
+fig_bar_typ = make_subgroup_barplots(df_typ, 'type', 'incValue', ["#34BDEA"],  0.70, 170, "Incidence")
+fig_bar_sex = make_subgroup_barplots(df_sex, 'sex', 'incValue', ["#D996E1"],  0.70, 170, "Incidence")
+fig_bar_age = make_subgroup_barplots(df_age, 'agegroup', 'incValue', ["#E75C31"], 0.70, 360, "Incidence")
 
 
 #-------------------------------------------------

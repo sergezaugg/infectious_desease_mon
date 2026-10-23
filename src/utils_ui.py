@@ -176,7 +176,18 @@ def make_simple_fig(df, height, colo):
     return(fig)
 
 @st.cache_data
-def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, height, x_lab, g_lab):
+def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, height, x_lab, g_lab = "a"):
+
+    # define all labels 
+    g_lab = {"gr_A": "A Type  ","gr_B": "B Type  ","gr_unknown": "Unk",
+                "gr_female": "Fema  ","gr_male": "Male  ","gr_unknown": "Unk ",
+                "gr_00-04": "00-04  ",
+                "gr_05-14": "05-14  ",
+                "gr_15-29": "15-29  ",
+                "gr_30-64": "30-64  ",
+                "gr_65+":   "+65    ",
+                "gr_Unknown": "Unk",}
+
     df[group_var] = "gr_" + df[group_var].astype(str)
     fig = px.bar(df, y=group_var, x=resp_var, orientation = 'h',
         text="pop_str",

@@ -122,5 +122,28 @@ def get_mean_by_group(x, resp_var, group_var):
     x = x.groupby(group_var, as_index=False)[resp_var].mean()
     return(x)
 
-
-
+@ st.cache_data
+def prepare_data_for_barplots(df_typ, df_sex, df_age, recency_limit_date):
+    """ AAA """
+    # take latest valid weeks - per grp
+    df_typ_recent = df_typ[df_typ['date'] >= recency_limit_date]
+    df_sex_recent = df_sex[df_sex['date'] >= recency_limit_date]
+    df_age_recent = df_age[df_age['date'] >= recency_limit_date]
+    # get mean weekly-incidence
+    df_typ_recent_mean = get_mean_by_group(df_typ_recent, 'incValue', 'type')
+    df_sex_recent_mean = get_mean_by_group(df_sex_recent, 'incValue', 'sex')
+    df_age_recent_mean = get_mean_by_group(df_age_recent, 'incValue', 'agegroup')
+    # since pop constant per group we mis-use mean to get pop
+    df_typ_recent_pop = get_mean_by_group(df_typ_recent, 'pop', 'type')
+    df_sex_recent_pop = get_mean_by_group(df_sex_recent, 'pop', 'sex')
+    df_age_recent_pop = get_mean_by_group(df_age_recent, 'pop', 'agegroup')
+    # merge-in pop 
+    df_typ_recent_mean = df_typ_recent_mean.merge(df_typ_recent_pop, how = 'left', on = 'type')
+    df_sex_recent_mean = df_sex_recent_mean.merge(df_sex_recent_pop, how = 'left', on = 'sex')
+    df_age_recent_mean = df_age_recent_mean.merge(df_age_recent_pop, how = 'left', on = 'agegroup')
+    # convert pop from int to string (in millions)
+    df_typ_recent_mean["pop_str"] = (df_typ_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
+    df_sex_recent_mean["pop_str"] = (df_sex_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
+    df_age_recent_mean["pop_str"] = (df_age_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
+    # return 
+    return df_typ_recent_mean, df_sex_recent_mean, df_age_recent_mean

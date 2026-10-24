@@ -45,9 +45,10 @@ def download_all_data(data_file):
 
 #---------------------------------
 # (2) function for data preparation 
-
+# Weekly data as string "2013-W13"
+# corrected function
 def convert_iso_date_to_datetime(d):
-    return(datetime.strptime(d + '-1', "%Y-W%W-%w"))
+    return pd.to_datetime(f"{d[:4]}-W{d[-2:]}-1", format="%G-W%V-%u")
 
 @st.cache_data
 def preprocess_INFLUENZA(df):

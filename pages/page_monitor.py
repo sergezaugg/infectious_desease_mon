@@ -12,7 +12,7 @@ from src.utilsdataprep import get_mean_by_group, prepare_data_for_barplots
 import plotly.express as px
 from streamlit_vertical_slider import vertical_slider
 import pandas as pd
-
+import plotly.graph_objects as go
 
 with st.sidebar:
     st.markdown("""
@@ -72,13 +72,19 @@ recency_limit_date = ss.ref_date - pd.Timedelta(weeks=n_weeks_selected)
 df_opc = ss.df_can
 # select latest 
 df_opc = df_opc[df_opc['date'] >= recency_limit_date]
+
 # get nb actual weeks >= recency_limit_date
 n_weeks_realized = len(df_opc['date'].unique())
-sel_data_min = df_opc["date"].min().date()
-sel_data_max = df_opc["date"].max().date()
+
+# legacy
+# sel_data_min = df_opc["date"].min().date()
+# sel_data_max = df_opc["date"].max().date()
+# infotext_period = f"{sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
+
 # make short info texts
-infotext_period = f"{sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
-infotext_incide = infotext_period + "" + f" ({n_weeks_realized} weeks)"
+infotext_period = f"{recency_limit_date:%Y-%m-%d} to {ss.ref_date:%Y-%m-%d}" # use absolute time from ref
+# st.write(infotext_period)
+infotext_incide = infotext_period # + "" + f" ({n_weeks_realized} weeks)"
 # prep per-canton data for hexa plots 
 df_incide = get_mean_by_canton(df_opc, 'incValue')
 df_counts = get_mean_by_canton(df_opc, 'value')
@@ -112,8 +118,12 @@ figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
 # prepare main hexagon plots 
 color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
 color_map_02 = "bluered"
-fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', color_map = color_map_01, color_max_val = ss.col_max_inc)
-fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value',    color_map = color_map_02, color_max_val = ss.col_max_cou)
+if n_weeks_realized > 0:
+    fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', color_map = color_map_01, color_max_val = ss.col_max_inc)
+    fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value',    color_map = color_map_02, color_max_val = ss.col_max_cou)
+else:
+    fig_incide = go.Figure() 
+    fig_counts = go.Figure()
 
 # prepare per-group barplots 
 fig_bar_typ = make_subgroup_barplots(df_typ, 'type', 'incValue', ["#34BDEA"],  0.70, 170, "Incidence")

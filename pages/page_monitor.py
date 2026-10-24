@@ -83,7 +83,7 @@ n_weeks_realized = len(df_opc['date'].unique())
 
 # make short info texts
 infotext_period = f"{recency_limit_date:%Y-%m-%d} to {ss.ref_date:%Y-%m-%d}" # use absolute time from ref
-st.write(infotext_period)
+# st.write(infotext_period)
 infotext_incide = infotext_period # + "" + f" ({n_weeks_realized} weeks)"
 # prep per-canton data for hexa plots 
 df_incide = get_mean_by_canton(df_opc, 'incValue')

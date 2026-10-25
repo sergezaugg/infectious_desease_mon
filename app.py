@@ -13,7 +13,7 @@ from resources.styles import apply_global_styles
 import pandas as pd
 from plotly.colors import sample_colorscale 
 
-st.set_page_config(layout="wide", initial_sidebar_state = "expanded", page_icon='pics/z_logo_turquoise.png')
+st.set_page_config(layout="wide", initial_sidebar_state = "expanded", page_title = "Swiss Influenza Monitor", page_icon='pics/z_logo_turquoise.png')
 apply_global_styles() # apply custom CSS styles 
 
 #-------------------------------

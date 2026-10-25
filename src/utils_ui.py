@@ -120,10 +120,10 @@ def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
 
     fig = make_subplots(rows=4, cols=1, shared_xaxes=True, row_heights=[0.3, 0.2, 0.2, 0.2],  vertical_spacing=0.05)
 
-    fig.update_yaxes(title_text="Cases per 100000 inhab", row=1, col=1)
-    fig.update_yaxes(title_text="Relative incidence", row=2, col=1)
-    fig.update_yaxes(title_text="Relative incidence", row=3, col=1)
-    fig.update_yaxes(title_text="Relative incidence", row=4, col=1)
+    fig.update_yaxes(title_text="Incidence", row=1, col=1)
+    fig.update_yaxes(title_text="Relative Incidence", row=2, col=1)
+    fig.update_yaxes(title_text="Relative Incidence", row=3, col=1)
+    fig.update_yaxes(title_text="Relative Incidence", row=4, col=1)
 
     for trace in fig_lin.data:
         # trace.legend = "legend1"
@@ -166,6 +166,7 @@ def make_simple_fig(df, height, colo):
         x = 'date', y = 'incValue', 
         height = height,  markers=True, 
         color_discrete_sequence = colo ,
+        labels = {'date' :'Date', 'incValue': 'Incidence'}
         )
     _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
     _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)

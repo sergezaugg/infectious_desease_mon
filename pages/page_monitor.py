@@ -119,16 +119,18 @@ figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
 color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
 color_map_02 = "bluered"
 if n_weeks_realized > 0:
-    fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', color_map = color_map_01, color_max_val = ss.col_max_inc)
-    fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value',    color_map = color_map_02, color_max_val = ss.col_max_cou)
+    fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', resp_label = "Average Incidence",
+        color_map = color_map_01, color_max_val = ss.col_max_inc)
+    # fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value', resp_label = "Average Case Count",   
+    #     color_map = color_map_02, color_max_val = ss.col_max_cou)
 else:
     fig_incide = go.Figure() 
-    fig_counts = go.Figure()
+    # fig_counts = go.Figure()
 
 # prepare per-group barplots 
-fig_bar_typ = make_subgroup_barplots(df_typ, 'type', 'incValue', ["#34BDEA"],  0.70, 170, "Incidence")
-fig_bar_sex = make_subgroup_barplots(df_sex, 'sex', 'incValue', ["#D996E1"],  0.70, 170, "Incidence")
-fig_bar_age = make_subgroup_barplots(df_age, 'agegroup', 'incValue', ["#E75C31"], 0.70, 360, "Incidence")
+fig_bar_typ = make_subgroup_barplots(df_typ, 'type', 'incValue', ["#34BDEA"],  0.70, 170, "Average Incidence")
+fig_bar_sex = make_subgroup_barplots(df_sex, 'sex', 'incValue', ["#D996E1"],  0.70, 170, "Average Incidence")
+fig_bar_age = make_subgroup_barplots(df_age, 'agegroup', 'incValue', ["#E75C31"], 0.70, 360, "Average Incidence")
 
 
 #-------------------------------------------------

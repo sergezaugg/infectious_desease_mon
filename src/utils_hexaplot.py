@@ -19,7 +19,7 @@ def get_mean_by_canton(x, resp_var):
     return(x)
 
 @st.cache_data
-def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
+def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val, resp_label):
     """ Map color-coded values to the honeycomb Switzerland (Hexagons) """
     tiles = [
         ("GE", 0, 0,),
@@ -126,7 +126,11 @@ def make_hexagon_plot(df_one_per_canton, resp_var, color_map, color_max_val):
         cmax=color_max_val,
         showscale=True,
         colorbar=dict(
-            title=resp_var,
+            # title = resp_label, # resp_var,
+            title=dict(
+                text=resp_label,
+                side="right",
+            ),
             tickvals=[0, color_max_val],
             ticktext=["0", str(color_max_val)],
         ),

@@ -41,10 +41,6 @@ def apply_global_styles():
             padding-left: 1.5rem;
             margin-top: -1rem !important;  /* pull dashboard upward */
             } /* here 
-
-           
-            
-
         </style>
         """, unsafe_allow_html=True)
 
@@ -115,7 +111,7 @@ def apply_global_styles():
         }
     </style>
     <div class="app-label">
-        v1.2.9-β<br>© 2026 Serge Zaugg
+        v1.2.10-β<br>© 2026 Serge Zaugg
     </div>
     """, unsafe_allow_html=True)
 

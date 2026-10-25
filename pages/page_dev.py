@@ -18,7 +18,7 @@ with c1:
                 download_all_data.clear()
                 st.rerun()
 
-with st.expander("Session state"):
-    st.write(sorted(st.session_state.keys()))
+# with st.expander("Session state"):
+#     st.write(sorted(st.session_state.keys()))
 
 

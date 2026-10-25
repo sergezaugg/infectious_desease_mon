@@ -116,13 +116,11 @@ figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
             annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 
 # prepare main hexagon plots 
-color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
-color_map_02 = "bluered"
 if n_weeks_realized > 0:
     fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', resp_label = "Average Incidence",
-        color_map = color_map_01, color_max_val = ss.col_max_inc)
+        color_map = ss.color_map_01, color_max_val = ss.col_max_inc)
     # fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value', resp_label = "Average Case Count",   
-    #     color_map = color_map_02, color_max_val = ss.col_max_cou)
+    #     color_map = ss.color_map_02, color_max_val = ss.col_max_cou)
 else:
     fig_incide = go.Figure() 
     # fig_counts = go.Figure()

@@ -110,12 +110,10 @@ fig_lin_b = fig_lin_a.add_vrect(x0=sel_data_min, x1=sel_data_max, fillcolor="pin
     line_width=2.5, line_color="white", layer="below")
 
 # prepare main hexagon plots 
-color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
-color_map_02 = "bluered"
 fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', resp_label = "Average Incidence",
-    color_map = color_map_01, color_max_val = ss.col_max_inc)
+    color_map = ss.color_map_01, color_max_val = ss.col_max_inc)
 fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value',  resp_label = "Average Case Count", 
-    color_map = color_map_02, color_max_val = ss.col_max_cou)
+    color_map = ss.color_map_02, color_max_val = ss.col_max_cou)
 
 
 #-------------------------------------------------

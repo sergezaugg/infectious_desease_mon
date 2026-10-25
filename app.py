@@ -11,6 +11,7 @@ from src.utilsdataprep import download_all_data, preprocess_INFLUENZA
 from src.utilsdataprep import get_all_oblig,get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig,get_by_type_oblig
 from resources.styles import apply_global_styles
 import pandas as pd
+from plotly.colors import sample_colorscale 
 
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded", page_icon='pics/z_logo_turquoise.png')
 apply_global_styles() # apply custom CSS styles 
@@ -59,6 +60,9 @@ if 'data_di' not in ss:
     ss.colo_age_oblig = ["#08fa20", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"]
     ss.colo_sex_oblig = ["#f682df", "#37A2DF", "#7c8584",]
     ss.colo_typ_oblig = ["#cb9923", "#2EE452", "#7c8584",]
+    # color maps
+    ss.color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
+    ss.color_map_02 = "bluered"
 
 # Protects every ss key from being deleted (for multi-page consistency across clicks)
 for key in list(st.session_state.keys()):
@@ -71,9 +75,9 @@ with st.sidebar:
     st.markdown("## :primary[**Swiss Influenza Monitor**]") 
     st.markdown("""
         <div style="line-height: 1.3; margin-bottom: 0.9em;;">
-            <div>Data Version: <code>{}</code></div>
-            <div>Downloaded: <code>{}</code></div>
-            <div>Reference date: <code>{}</code></div>
+            <div>Data Version: <code style="color:cyan">{}</code></div>
+            <div>Downloaded: <code style="color:cyan">{}</code></div>
+            <div>Reference date: <code style="color:cyan">{}</code></div>
         </div>
     """.format(ss["data_ve"]["name"], ss.ts_downl, ss.ref_date.date()),
     unsafe_allow_html=True)

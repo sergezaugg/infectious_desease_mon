@@ -9,6 +9,7 @@ from datetime import datetime
 from streamlit import session_state as ss
 import requests
 import io
+import pickle
 
 #---------------------------------
 # (1) function for data download 
@@ -16,31 +17,41 @@ import io
 
 @st.cache_data(ttl=24*60*60)
 def download_all_data(data_file):
-    full_query_string = 'https://api.idd.bag.admin.ch/api/v1/data/version'
-    r = requests.get(full_query_string, allow_redirects=True)
-    data_version = r.json()
 
-    full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/files'
-    r = requests.get(full_query_string, allow_redirects=True)
-    data_file_list = r.json()
-    print("data_file_list")
-    [print(a) for a in data_file_list]
-    # limit data to one data file
-    data_file_list =[a for a in data_file_list if a in data_file]
-
-    data_di = {}
-    for li_index in range(len(data_file_list)):
-        print(li_index)
-        data_set_name = data_file_list[li_index]
-        full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/' + data_set_name + '/csv'
+    try:
+        full_query_string = 'https://api.idd.bag.admin.ch/api/v1/data/version'
         r = requests.get(full_query_string, allow_redirects=True)
-        raw_text = r.text
-        df = pd.read_csv(io.StringIO(raw_text, newline='\n'), sep=",")
-        data_di[data_set_name] = df
+        data_version = r.json()
 
-    ts = datetime.now().strftime("%Y-%m-%d %H:%M")
+        full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/files'
+        r = requests.get(full_query_string, allow_redirects=True)
+        data_file_list = r.json()
+        print("data_file_list")
+        [print(a) for a in data_file_list]
+        # limit data to one data file
+        data_file_list =[a for a in data_file_list if a in data_file]
 
-    return(data_di, data_version, ts)   
+        data_di = {}
+        for li_index in range(len(data_file_list)):
+            print(li_index)
+            data_set_name = data_file_list[li_index]
+            full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/' + data_set_name + '/csv'
+            r = requests.get(full_query_string, allow_redirects=True)
+            raw_text = r.text
+            df = pd.read_csv(io.StringIO(raw_text, newline='\n'), sep=",")
+            data_di[data_set_name] = df
+
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M")
+        data_source = "✅ Sucessfully downloaded"
+
+    except:
+        print("Warning: fall back to historical_data!")
+        with open("historical_data/bag_flu_data_20261025.pkl", "rb") as f:
+            di_reloded = pickle.load(f)
+        data_di, data_version, ts = di_reloded
+        data_source = "⚠️ Historical data fallback"
+
+    return(data_di, data_version, ts, data_source)   
           
 
 #---------------------------------

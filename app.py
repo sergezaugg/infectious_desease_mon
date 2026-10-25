@@ -23,7 +23,7 @@ if 'data_di' not in ss:
     
     # download and process data 
     ss.ref_date = pd.Timestamp.today().normalize()
-    ss.data_di, ss.data_ve, ss.ts_downl = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 
+    ss.data_di, ss.data_ve, ss.ts_downl, ss.dl_status = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 
     # take weekly data, make continuous time variable, re-code agegroup 
     df_obli = preprocess_INFLUENZA(ss.data_di["INFLUENZA_oblig"])
     # take data for all i.e. not grouped 
@@ -81,6 +81,7 @@ with st.sidebar:
         </div>
     """.format(ss["data_ve"]["name"], ss.ts_downl, ss.ref_date.date()),
     unsafe_allow_html=True)
+    st.caption(ss.dl_status)
     st.divider()
 
 #-------------------------------

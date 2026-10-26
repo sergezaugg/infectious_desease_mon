@@ -21,9 +21,9 @@ apply_global_styles() # apply custom CSS styles
 # this is then used in multiple session via cache 
 if 'data_di' not in ss:
     
-    # download and process data 
-    ss.ref_date = pd.Timestamp.today().normalize()
+    # download and pre-process data 
     ss.data_di, ss.data_ve, ss.ts_downl, ss.dl_status = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 
+    ss.ref_date = pd.Timestamp.today().normalize()
     # take weekly data, make continuous time variable, re-code agegroup 
     df_obli = preprocess_INFLUENZA(ss.data_di["INFLUENZA_oblig"])
     # take data for all i.e. not grouped 
@@ -45,21 +45,24 @@ if 'data_di' not in ss:
     ss.setdefault("col_max_cou", 50.0)
     # subgroup page 
     ss.setdefault("cutoff_obli", 1.0)
-    # monitop page 
+    # monitor page 
     ss.setdefault("mon_slider_window", 10)
     ss.setdefault("mon_col_thld_1", ss.col_max_inc)
+    
     # history (map) page 
     ss.setdefault("k_col_max_inx", ss.col_max_inc)
     ss.setdefault("k_col_max_cou", ss.col_max_cou)
     ss.setdefault("hexa_weeks_pills", 10)
     ss.setdefault("hexa_date_slider", ss.opt_dates[-1])
+    
     # color items 
     ss.colo_all_oblig = ["#F25B10"]
     ss.colo_can_oblig = px.colors.qualitative.Alphabet
     ss.colo_reg_oblig = px.colors.qualitative.Light24
-    ss.colo_age_oblig = ["#08fa20", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"]
+    ss.colo_age_oblig = ["#08fa20", "#bbff00", "#edd131", "#d77921", "#d12121", "#7c8584", "#ffffff"]
     ss.colo_sex_oblig = ["#f682df", "#37A2DF", "#7c8584",]
-    ss.colo_typ_oblig = ["#cb9923", "#2EE452", "#7c8584",]
+    ss.colo_typ_oblig = ["#df951d", "#17DB3E", "#7c8584",]
+    
     # color maps
     ss.color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
     ss.color_map_02 = "bluered"

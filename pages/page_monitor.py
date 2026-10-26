@@ -6,7 +6,7 @@
 import streamlit as st
 from streamlit import session_state as ss
 from src.utils_hexaplot import make_hexagon_plot, get_mean_by_canton
-from plotly.colors import sample_colorscale 
+# from plotly.colors import sample_colorscale 
 from src.utils_ui import make_simple_fig, make_subgroup_barplots
 from src.utilsdataprep import get_mean_by_group, prepare_data_for_barplots
 import plotly.express as px
@@ -35,12 +35,12 @@ cont01 = c01.container(border=True, height = 260)
 cont02 = c02.container(border=True, height = 260)
 
 cont10 = c0.container(border=True, height = 450)
-# cont11 = c1.container(border=True, height = 450)
-cont12 = c2.container(border=True, height = 450)
-
 with c1:
     cont11a = st.container(border=True, height = 130)
     cont11b = st.container(border=True, height = 300)
+cont12 = c2.container(border=True, height = 450)
+
+
 
 
 #-------------------------------------------------
@@ -93,9 +93,7 @@ df_opc = df_opc[df_opc['date'] >= recency_limit_date]
 n_weeks_realized = len(df_opc['date'].unique())
 
 # make short info texts
-infotext_period = f"{recency_limit_date:%Y-%m-%d} to {ss.ref_date:%Y-%m-%d}" # use absolute time from ref
-# st.write(infotext_period)
-infotext_incide = infotext_period # + "" + f" ({n_weeks_realized} weeks)"
+infotext_incide = f"{recency_limit_date:%Y-%m-%d} to {ss.ref_date:%Y-%m-%d}" # use absolute time from ref
 # prep per-canton data for hexa plots 
 df_incide = get_mean_by_canton(df_opc, 'incValue')
 df_counts = get_mean_by_canton(df_opc, 'value')
@@ -110,6 +108,7 @@ df_reduced = ss.df_all[ss.df_all["date"] >= new_ts]
 # data prep III - subgroups
 df_typ_inc, df_sex_inc, df_age_inc =  prepare_data_for_barplots(ss.df_typ, ss.df_sex, ss.df_age, recency_limit_date, 'incValue')
 df_typ_cou, df_sex_cou, df_age_cou =  prepare_data_for_barplots(ss.df_typ, ss.df_sex, ss.df_age, recency_limit_date, 'value')
+
 
 #-------------------------------------------------
 # render figures 
@@ -142,10 +141,14 @@ if n_weeks_realized > 0:
         fig_bar_sex = make_subgroup_barplots(df_sex_cou, 'sex', 'value', ["#D996E1"],  0.70, 170, "Average Case Count")
         fig_bar_age = make_subgroup_barplots(df_age_cou, 'agegroup', 'value', ["#E75C31"], 0.70, 360, "Average Case Count")
 else:
-    fig_map = go.Figure() 
-    fig_bar_typ = go.Figure() 
-    fig_bar_sex = go.Figure() 
-    fig_bar_age = go.Figure() 
+    # fig_map = go.Figure() 
+    # fig_bar_typ = go.Figure() 
+    # fig_bar_sex = go.Figure() 
+    # fig_bar_age = go.Figure() 
+    fig_map = None
+    fig_bar_typ = dict()
+    fig_bar_sex = dict()
+    fig_bar_age = dict()
 
 
 #-------------------------------------------------
@@ -156,22 +159,26 @@ with cont01:
     st.caption("Weekly Inc. all CH" + " -- " + "one year back", text_alignment  = "left")
     st.plotly_chart(fig_lin_b, use_container_width=True, theme=None)
 
-# display time-zoom 
-with cont02:
-    st.caption("Weekly Inc. all CH" + " -- " +infotext_incide, text_alignment  = "left")
-    st.plotly_chart(figm, use_container_width=True, theme=None)
+if fig_map is  None:
+    with cont02:
+            st.caption("Time window too recent, please select more backwards weeks with slider.", text_alignment  = "left")
+else:    
+    # display time-zoom 
+    with cont02:
+        st.caption("Weekly Inc. all CH" + " -- " +infotext_incide, text_alignment  = "left")
+        st.plotly_chart(figm, use_container_width=True, theme=None)
+    # display main hexagon plots 
+    with cont10:
+        st.caption("Weekly Average by canton" + " -- " + infotext_incide, text_alignment  = "left")
+        st.plotly_chart(fig_map, use_container_width=False, theme=None, )
+    # display bar-plots    
+    with cont12:
+        st.caption("Weekly Average by subgroups" + " -- " + infotext_incide, text_alignment  = "left")
+        x1,x2 = st.columns(2)
+        x1.plotly_chart(fig_bar_typ, use_container_width=False, theme=None, key = "adfbweqodfb")
+        x1.plotly_chart(fig_bar_sex, use_container_width=False, theme=None, key = "adffgbvbdfb")
+        x2.plotly_chart(fig_bar_age, use_container_width=False, theme=None, key = "addfbnfbdfb")
 
-# display main hexagon plots 
-with cont10:
-    st.caption("Weekly Average by canton" + " -- " + infotext_incide, text_alignment  = "left")
-    st.plotly_chart(fig_map, use_container_width=False, theme=None, )
-    
-with cont12:
-    st.caption("Weekly Average by subgroups" + " -- " + infotext_incide, text_alignment  = "left")
-    x1,x2 = st.columns(2)
-    x1.plotly_chart(fig_bar_typ, use_container_width=False, theme=None, key = "adfbweqodfb")
-    x1.plotly_chart(fig_bar_sex, use_container_width=False, theme=None, key = "adffgbvbdfb")
-    x2.plotly_chart(fig_bar_age, use_container_width=False, theme=None, key = "addfbnfbdfb")
 
 
 

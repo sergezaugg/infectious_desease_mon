@@ -1,10 +1,12 @@
-# Swiss Influenza Monitoring Visualization
+# Swiss Influenza Monitor
 
 ### Features
+- Interactive web-app 
+- Allows Precise selection of reference look-back time.
 - Visualizes weekly incidence rates of Influenza (flu) in Switzerland.
-- Interactive plots by age, sex, region, and influenza type.
-- Customizable color schemes and area plot thresholds.
-- Data is fetched from the official FOPH API.
+- Plots by age, sex, region, and influenza type.
+- Customizable color schemes and area plots.
+- Weekly data updates fetched from the official FOPH API.
 
 ### Dependencies
 - Python 3.12 

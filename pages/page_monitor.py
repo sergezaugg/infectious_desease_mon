@@ -16,15 +16,11 @@ import plotly.graph_objects as go
 
 with st.sidebar:
     st.markdown("""
-    :primary[The top-left panel] shows incidence across Switzerland for the most recent weeks. 
-    Use the slider to average incidence over a few recent weeks.
-
-    :primary[The top-right panel] shows incidence across Switzerland for the past year as a reference.
-
-    :primary[The hexagonal pseudo-map] displays per-canton incidence for the selected recent weeks.
-    Use the slider to adjust colors to current incidence levels.
-
-    :primary[The bar charts] show incidence by age, sex, and influenza type (A or B) for the selected recent weeks.
+    :primary[Top panels:] Incidence across Switzerland. 
+    Use slider to select nb of recent weeks for averaging (shown on bottom panels). 
+    
+    :primary[Bottom panels:] Incidence or Case Count by canton, age, sex, and influenza type for the selected recent weeks.
+    Use slider to adjust colors.
     """)
 
 
@@ -70,21 +66,19 @@ with cont11b:
     st.caption("Upper Color Threshold")
     if ss.mon_outcome == "Incid":
         ss.col_max_inc = vertical_slider(
-            height=160,
+            height=140,
             step = 0.1, min_value=1.0, max_value=20.0,
             default_value=ss.mon_col_thld_1,
             key="mon_col_thld_1",
             track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
     if ss.mon_outcome == "Count":
         ss.col_max_cou = vertical_slider(
-            height=160,
+            height=140,
             step = 10.0, min_value=10.0, max_value=500.0,
             default_value=ss.k_col_max_cou,
             key="k_col_max_cou",
             track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
-
-# st.write(ss.mon_outcome)
 
 #-------------------------------------------------
 # data prep I
@@ -117,21 +111,18 @@ df_reduced = ss.df_all[ss.df_all["date"] >= new_ts]
 df_typ_inc, df_sex_inc, df_age_inc =  prepare_data_for_barplots(ss.df_typ, ss.df_sex, ss.df_age, recency_limit_date, 'incValue')
 df_typ_cou, df_sex_cou, df_age_cou =  prepare_data_for_barplots(ss.df_typ, ss.df_sex, ss.df_age, recency_limit_date, 'value')
 
-st.write(df_typ_inc)
-
-
 #-------------------------------------------------
 # render figures 
 
 # full past year 
-fig_lin_a = make_simple_fig(df_reduced, height = 200, colo=ss.colo_all_oblig)
+fig_lin_a = make_simple_fig(df_reduced, height = 190, colo=ss.colo_all_oblig)
 fig_lin_b = fig_lin_a.add_vrect(x0=recency_limit_date, x1=ss.ref_date, fillcolor="pink", opacity=0.30, line_width=2.5, 
     line_color="white", layer="below")
 fig_lin_b.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
     annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 
 # prepare time-zoom plot
-figm = make_simple_fig(df_time_zoom, height = 200, colo=ss.colo_all_oblig)
+figm = make_simple_fig(df_time_zoom, height = 190, colo=ss.colo_all_oblig)
 figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
             annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 

@@ -143,6 +143,9 @@ if n_weeks_realized > 0:
         fig_bar_age = make_subgroup_barplots(df_age_cou, 'agegroup', 'value', ["#E75C31"], 0.70, 360, "Average Case Count")
 else:
     fig_map = go.Figure() 
+    fig_bar_typ = go.Figure() 
+    fig_bar_sex = go.Figure() 
+    fig_bar_age = go.Figure() 
 
 
 #-------------------------------------------------
@@ -166,9 +169,9 @@ with cont10:
 with cont12:
     st.caption("Weekly Average by subgroups" + " -- " + infotext_incide, text_alignment  = "left")
     x1,x2 = st.columns(2)
-    x1.plotly_chart(fig_bar_typ, use_container_width=False, theme=None, )
-    x1.plotly_chart(fig_bar_sex, use_container_width=False, theme=None, )
-    x2.plotly_chart(fig_bar_age, use_container_width=False, theme=None, )
+    x1.plotly_chart(fig_bar_typ, use_container_width=False, theme=None, key = "adfbweqodfb")
+    x1.plotly_chart(fig_bar_sex, use_container_width=False, theme=None, key = "adffgbvbdfb")
+    x2.plotly_chart(fig_bar_age, use_container_width=False, theme=None, key = "addfbnfbdfb")
 
 
 

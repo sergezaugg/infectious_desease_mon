@@ -5,14 +5,15 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-from src.utils_hexaplot import make_hexagon_plot, get_mean_by_canton
-# from plotly.colors import sample_colorscale 
-from src.utils_ui import make_simple_fig, make_subgroup_barplots
-from src.utilsdataprep import get_mean_by_group, prepare_data_for_barplots
-import plotly.express as px
 from streamlit_vertical_slider import vertical_slider
+
+from src.utils_hexaplot import make_hexagon_plot
+from src.utils_ui import make_simple_fig, make_subgroup_barplots
+from src.utilsdataprep import get_mean_by_canton, prepare_data_for_barplots
+
 import pandas as pd
-import plotly.graph_objects as go
+# import plotly.express as px
+# import plotly.graph_objects as go
 
 with st.sidebar:
     st.markdown("""

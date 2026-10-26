@@ -13,7 +13,6 @@ import pickle
 
 #---------------------------------
 # (1) function for data download 
-# must imperatively run on app stratup, Do not st.cache !!
 
 @st.cache_data(ttl=24*60*60)
 def download_all_data(data_file):
@@ -77,6 +76,8 @@ def preprocess_INFLUENZA(df):
     df['agegroup'] = df['agegroup'].replace(to_replace='unknown', value='Unknown') #, inplace=True)
     return(df)
 
+# filter rows 
+
 @st.cache_data
 def get_all_oblig(df):
     df = df[df["type"]  == 'all']
@@ -128,11 +129,23 @@ def get_by_type_oblig(df):
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
+# aggregate
+
 @st.cache_data
 def get_mean_by_group(x, resp_var, group_var):
     x = x[['date', group_var, resp_var]]
     x = x.groupby(group_var, as_index=False)[resp_var].mean()
     return(x)
+
+@st.cache_data
+def get_mean_by_canton(x, resp_var):
+    """ take cumsum """
+    x = x[['date', 'georegion', resp_var]]
+    x = x.groupby("georegion", as_index=False)[resp_var].mean()
+    x = x.rename(columns={"value": resp_var})
+    return(x)
+
+# spec
 
 @ st.cache_data
 def prepare_data_for_barplots(df_typ, df_sex, df_age, recency_limit_date, resp_var):
@@ -159,3 +172,7 @@ def prepare_data_for_barplots(df_typ, df_sex, df_age, recency_limit_date, resp_v
     df_age_recent_mean["pop_str"] = (df_age_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
     # return 
     return df_typ_recent_mean, df_sex_recent_mean, df_age_recent_mean
+
+
+
+

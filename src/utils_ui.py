@@ -10,17 +10,6 @@ import plotly.graph_objects as go
 import streamlit as st
 from streamlit import session_state as ss
 
-#---------------------------------
-# (0) general function  
-
-def update_ss(kname, ssname):
-    """
-    description : helper callback function to implement stateful apps
-    kname : key name of widget
-    ssname : key name of variable in session state (ss)
-    """
-    ss["upar"][ssname] = ss[kname]      
-
 # -----------------------------------------
 # (3) function to pre-render plotly figures
 

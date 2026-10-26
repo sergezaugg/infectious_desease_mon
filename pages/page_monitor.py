@@ -39,8 +39,12 @@ cont01 = c01.container(border=True, height = 260)
 cont02 = c02.container(border=True, height = 260)
 
 cont10 = c0.container(border=True, height = 450)
-cont11 = c1.container(border=True, height = 450)
+# cont11 = c1.container(border=True, height = 450)
 cont12 = c2.container(border=True, height = 450)
+
+with c1:
+    cont11a = st.container(border=True, height = 130)
+    cont11b = st.container(border=True, height = 300)
 
 
 #-------------------------------------------------
@@ -54,15 +58,33 @@ with cont00:
         key="mon_slider_window",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
-with cont11:
-    st.caption("Upper Color Threshold")
-    ss.col_max_inc = vertical_slider(
-        height=300,
-        step = 0.1, min_value=1.0, max_value=20.0,
-        default_value=ss.mon_col_thld_1,
-        key="mon_col_thld_1",
-        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+with cont11a:
+    ss.mon_outcome= st.radio(
+        "Outcome",
+        options = ["Incid","Count"],
+        key="mon_radio_1", 
+        # label_visibility="hidden",
+        horizontal=True)
 
+with cont11b:
+    st.caption("Upper Color Threshold")
+    if ss.mon_outcome == "Incid":
+        ss.col_max_inc = vertical_slider(
+            height=160,
+            step = 0.1, min_value=1.0, max_value=20.0,
+            default_value=ss.mon_col_thld_1,
+            key="mon_col_thld_1",
+            track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+    if ss.mon_outcome == "Count":
+        ss.col_max_cou = vertical_slider(
+            height=160,
+            step = 10.0, min_value=10.0, max_value=500.0,
+            default_value=ss.k_col_max_cou,
+            key="k_col_max_cou",
+            track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+
+
+# st.write(ss.mon_outcome)
 
 #-------------------------------------------------
 # data prep I
@@ -75,11 +97,6 @@ df_opc = df_opc[df_opc['date'] >= recency_limit_date]
 
 # get nb actual weeks >= recency_limit_date
 n_weeks_realized = len(df_opc['date'].unique())
-
-# legacy
-# sel_data_min = df_opc["date"].min().date()
-# sel_data_max = df_opc["date"].max().date()
-# infotext_period = f"{sel_data_min:%Y-%m-%d} to {sel_data_max:%Y-%m-%d}"
 
 # make short info texts
 infotext_period = f"{recency_limit_date:%Y-%m-%d} to {ss.ref_date:%Y-%m-%d}" # use absolute time from ref
@@ -97,7 +114,10 @@ new_ts = ss.ref_date - pd.Timedelta(weeks=n_weeks)
 df_reduced = ss.df_all[ss.df_all["date"] >= new_ts]
 #-------------------------------------------------
 # data prep III - subgroups
-df_typ, df_sex, df_age =  prepare_data_for_barplots(ss.df_typ, ss.df_sex, ss.df_age, recency_limit_date)
+df_typ_inc, df_sex_inc, df_age_inc =  prepare_data_for_barplots(ss.df_typ, ss.df_sex, ss.df_age, recency_limit_date, 'incValue')
+df_typ_cou, df_sex_cou, df_age_cou =  prepare_data_for_barplots(ss.df_typ, ss.df_sex, ss.df_age, recency_limit_date, 'value')
+
+st.write(df_typ_inc)
 
 
 #-------------------------------------------------
@@ -117,18 +137,21 @@ figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
 
 # prepare main hexagon plots 
 if n_weeks_realized > 0:
-    fig_incide = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', resp_label = "Average Incidence",
-        color_map = ss.color_map_01, color_max_val = ss.col_max_inc)
-    # fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value', resp_label = "Average Case Count",   
-    #     color_map = ss.color_map_02, color_max_val = ss.col_max_cou)
-else:
-    fig_incide = go.Figure() 
-    # fig_counts = go.Figure()
+    if ss.mon_outcome == "Incid":
+        fig_map = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', resp_label = "Average Incidence",
+            color_map = ss.color_map_01, color_max_val = ss.col_max_inc)
+        fig_bar_typ = make_subgroup_barplots(df_typ_inc, 'type', 'incValue', ["#34BDEA"],  0.70, 170, "Average Incidence")
+        fig_bar_sex = make_subgroup_barplots(df_sex_inc, 'sex', 'incValue', ["#D996E1"],  0.70, 170, "Average Incidence")
+        fig_bar_age = make_subgroup_barplots(df_age_inc, 'agegroup', 'incValue', ["#E75C31"], 0.70, 360, "Average Incidence")
 
-# prepare per-group barplots 
-fig_bar_typ = make_subgroup_barplots(df_typ, 'type', 'incValue', ["#34BDEA"],  0.70, 170, "Average Incidence")
-fig_bar_sex = make_subgroup_barplots(df_sex, 'sex', 'incValue', ["#D996E1"],  0.70, 170, "Average Incidence")
-fig_bar_age = make_subgroup_barplots(df_age, 'agegroup', 'incValue', ["#E75C31"], 0.70, 360, "Average Incidence")
+    if ss.mon_outcome == "Count":
+        fig_map = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value', resp_label = "Average Case Count",   
+            color_map = ss.color_map_02, color_max_val = ss.col_max_cou)
+        fig_bar_typ = make_subgroup_barplots(df_typ_cou, 'type', 'value', ["#34BDEA"],  0.70, 170, "Average Case Count")
+        fig_bar_sex = make_subgroup_barplots(df_sex_cou, 'sex', 'value', ["#D996E1"],  0.70, 170, "Average Case Count")
+        fig_bar_age = make_subgroup_barplots(df_age_cou, 'agegroup', 'value', ["#E75C31"], 0.70, 360, "Average Case Count")
+else:
+    fig_map = go.Figure() 
 
 
 #-------------------------------------------------
@@ -146,11 +169,11 @@ with cont02:
 
 # display main hexagon plots 
 with cont10:
-    st.caption("Average Weekly Incidence by canton" + " -- " + infotext_incide, text_alignment  = "left")
-    st.plotly_chart(fig_incide, use_container_width=False, theme=None, )
+    st.caption("Weekly Average by canton" + " -- " + infotext_incide, text_alignment  = "left")
+    st.plotly_chart(fig_map, use_container_width=False, theme=None, )
     
 with cont12:
-    st.caption("Average Weekly Incidence by subgroups" + " -- " + infotext_incide, text_alignment  = "left")
+    st.caption("Weekly Average by subgroups" + " -- " + infotext_incide, text_alignment  = "left")
     x1,x2 = st.columns(2)
     x1.plotly_chart(fig_bar_typ, use_container_width=False, theme=None, )
     x1.plotly_chart(fig_bar_sex, use_container_width=False, theme=None, )

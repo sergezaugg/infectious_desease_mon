@@ -191,7 +191,7 @@ def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, h
 
     df[group_var] = "gr_" + df[group_var].astype(str)
     fig = px.bar(df, y=group_var, x=resp_var, orientation = 'h',
-        text="pop_str",
+        # text="pop_str",
         category_orders={group_var: df[group_var].astype(str).unique().tolist()},
         color_discrete_sequence = color_sequence,
         height = height,

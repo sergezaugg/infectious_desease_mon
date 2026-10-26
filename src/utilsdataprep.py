@@ -135,16 +135,16 @@ def get_mean_by_group(x, resp_var, group_var):
     return(x)
 
 @ st.cache_data
-def prepare_data_for_barplots(df_typ, df_sex, df_age, recency_limit_date):
+def prepare_data_for_barplots(df_typ, df_sex, df_age, recency_limit_date, resp_var):
     """ AAA """
     # take latest valid weeks - per grp
     df_typ_recent = df_typ[df_typ['date'] >= recency_limit_date]
     df_sex_recent = df_sex[df_sex['date'] >= recency_limit_date]
     df_age_recent = df_age[df_age['date'] >= recency_limit_date]
     # get mean weekly-incidence
-    df_typ_recent_mean = get_mean_by_group(df_typ_recent, 'incValue', 'type')
-    df_sex_recent_mean = get_mean_by_group(df_sex_recent, 'incValue', 'sex')
-    df_age_recent_mean = get_mean_by_group(df_age_recent, 'incValue', 'agegroup')
+    df_typ_recent_mean = get_mean_by_group(df_typ_recent, resp_var, 'type')
+    df_sex_recent_mean = get_mean_by_group(df_sex_recent, resp_var, 'sex')
+    df_age_recent_mean = get_mean_by_group(df_age_recent, resp_var, 'agegroup')
     # since pop constant per group we mis-use mean to get pop
     df_typ_recent_pop = get_mean_by_group(df_typ_recent, 'pop', 'type')
     df_sex_recent_pop = get_mean_by_group(df_sex_recent, 'pop', 'sex')

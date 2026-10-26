@@ -16,10 +16,10 @@ import plotly.graph_objects as go
 
 with st.sidebar:
     st.markdown("""
-    :primary[Top panels:] Incidence across Switzerland. 
+    :primary[Top panels:] Weekly incidence across Switzerland. 
     Use slider to select nb of recent weeks for averaging (shown on bottom panels). 
     
-    :primary[Bottom panels:] Incidence or Case Count by canton, age, sex, and influenza type for the selected recent weeks.
+    :primary[Bottom panels:] Average weekly incidence or Case Count by canton, age, sex, and influenza type for the selected recent weeks.
     Use slider to adjust colors.
     """)
 

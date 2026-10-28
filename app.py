@@ -67,6 +67,9 @@ if 'data_di' not in ss:
     ss.color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
     ss.color_map_02 = "bluered"
 
+
+st.write(ss.data_di["INFLUENZA_oblig"])
+
 # Protects every ss key from being deleted (for multi-page consistency across clicks)
 for key in list(st.session_state.keys()):
     st.session_state[key] = st.session_state[key]

@@ -11,10 +11,15 @@ import streamlit as st
 from streamlit import session_state as ss
 
 # -----------------------------------------
-# (3) function to pre-render plotly figures
+# custom function to pre-render plotly figures, not for general use
 
 @st.cache_data
 def make_line_plot_with_vref(df, y_title, height, colo):
+    """Make a simple line plot  
+    Args:
+        df: a data frame
+    Returns: A single plotly figure   
+    """ 
     fig = px.line(
         data_frame = df, 
         height = height,
@@ -42,6 +47,11 @@ def make_line_plot_with_vref(df, y_title, height, colo):
 
 @st.cache_data
 def make_line_plot(df, color_groups, color_sequence, y_title = "", height = 260):
+    """Make a simple formatted line plot  
+    Args:
+        df: a data frame
+    Returns: A single plotly figure   
+    """ 
     fig = px.line(
         data_frame = df, 
         color = color_groups, 
@@ -66,6 +76,12 @@ def make_line_plot(df, color_groups, color_sequence, y_title = "", height = 260)
 
 @st.cache_data
 def make_area_plot(df, color_groups, color_sequence, y_title = "", cutoff = 0.0, height = 260):
+    """Make a formatted area plot, suppressing plotting if "incValue_all" < cutoff
+    Args:
+        df: a data frame with columns "date", "incValue", and "incValue_all"
+        cutoff : (float) suppressing plotting if "incValue_all" < cutoff
+    Returns: A single plotly figure   
+    """ 
     # set area plot to nan whe overall incidence was too low
     df = df.copy() # to avoid orig df in ss to be cut !
     # quick fix
@@ -99,7 +115,12 @@ def make_area_plot(df, color_groups, color_sequence, y_title = "", cutoff = 0.0,
     return(fig)
 
 @st.cache_data
-def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
+def draw_figures(df_all, df_age, df_sex, df_typ, cutoff, colo):
+    """Custom wrapper function to create a single multi-facet plot (1 line + 3 area plots) 
+    Args:
+        df_all, df_age, df_sex, df_typ: 4 custom data frames  
+    Returns: A single plotly figure   
+    """
     # lineplot
     fig_lin = make_line_plot(df_all, 'georegion', colo[0], height = 800, )
     # area plots
@@ -151,6 +172,9 @@ def draw_figures(df_all,df_age, df_sex, df_typ, cutoff, colo):
 
 @st.cache_data
 def make_simple_fig(df, height, colo):
+    """Make simple formatted line plot  
+    Returns: A single plotly figure 
+    """  
     fig = px.line(df, 
         x = 'date', y = 'incValue', 
         height = height,  markers=True, 
@@ -167,7 +191,9 @@ def make_simple_fig(df, height, colo):
 
 @st.cache_data
 def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, height, x_lab, g_lab = "a"):
-
+    """Make a custom formatted bar plot 
+    Returns: A single plotly figure 
+    """  
     # define all labels 
     g_lab = {"gr_A": "A Type  ","gr_B": "B Type  ","gr_unknown": "Unk",
                 "gr_female": "Fema  ","gr_male": "Male  ","gr_unknown": "Unk ",

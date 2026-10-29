@@ -63,8 +63,7 @@ def download_all_data(data_file):
 
 #---------------------------------
 # (2) function for data preparation 
-# Weekly data as string "2013-W13"
-# corrected function
+
 def convert_iso_date_to_datetime(d):
     """Converts pd columns with strings like '2013-W01' to pd timestamp representing Monday of ISO weeks
     """
@@ -95,55 +94,54 @@ def preprocess_INFLUENZA(df):
 # filter rows 
 
 @st.cache_data
+def get_cases(df):
+    """remove summary data and keep only case-related rows"""
+    df = df[df["valueCategory"]  == 'cases']
+    return(df)
+
+@st.cache_data
 def get_all_oblig(df):
     """Custom filering rows of a df"""
     df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
     df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     return(df)
 
 @st.cache_data
-def get_by_cantons_oblig(df):
+def get_by_cantons(df):
     """Custom filering rows of a df"""
     df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
-    df = df[df["georegion"] != 'CHFL']
-    df = df[df["georegion"] != 'CH']
-    df = df[df["georegion"] != 'FL']
+    df = df[~df["georegion"].isin(["CHFL", "CH", "FL"])] # negation!
     df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["georegion", 'date'], ascending=True)
     return(df)
 
 @st.cache_data
-def get_by_agegroup_oblig(df):
+def get_by_agegroup(df):
     """Custom filering rows of a df"""
     df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  != 'all']
+    df = df[df["agegroup"]  != 'all'] # negation!
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["agegroup", 'date'], ascending=True)
     return(df)
 
 @st.cache_data
-def get_by_sex_oblig(df):
+def get_by_sex(df):
     """Custom filering rows of a df"""
     df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
     df = df[df["agegroup"]  == 'all']
-    df = df[df["sex"]  != 'all']
+    df = df[df["sex"]  != 'all'] # negation!
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
 @st.cache_data
-def get_by_type_oblig(df):
+def get_by_type(df):
     """Custom filering rows of a df"""
-    df = df[df["type"] != 'all']
-    df = df[df["valueCategory"]  == 'cases']
+    df = df[df["type"] != 'all'] # negation!
     df = df[df["georegion"] == 'CHFL']
     df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']

@@ -7,8 +7,8 @@
 import streamlit as st
 from streamlit import session_state as ss
 import plotly.express as px
-from src.utils_dataprep import download_all_data, preprocess_INFLUENZA
-from src.utils_dataprep import get_all_oblig,get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig, get_by_type_oblig
+from src.utils_dataprep import download_all_data, preprocess_INFLUENZA, get_cases
+from src.utils_dataprep import get_all_oblig,get_by_cantons, get_by_agegroup, get_by_sex, get_by_type
 from resources.styles import apply_global_styles
 import pandas as pd
 from plotly.colors import sample_colorscale 
@@ -25,14 +25,15 @@ if 'data_di' not in ss:
     ss.data_di, ss.data_ve, ss.ts_downl, ss.dl_status = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 
     ss.ref_date = pd.Timestamp.today().normalize()
     # take weekly data, make continuous time variable, re-code agegroup 
-    df_obli = preprocess_INFLUENZA(ss.data_di["INFLUENZA_oblig"])
+    ss.df_obli = preprocess_INFLUENZA(ss.data_di["INFLUENZA_oblig"])
+    ss.df_obli = get_cases(ss.df_obli)
     # take data for all i.e. not grouped 
-    ss.df_all = get_all_oblig(df_obli)
+    ss.df_all = get_all_oblig(ss.df_obli)
     # take incidence for specific sub-groups 
-    df_can_obli = get_by_cantons_oblig(df_obli)
-    df_age_obli = get_by_agegroup_oblig(df_obli)
-    df_sex_obli = get_by_sex_oblig(df_obli)
-    df_typ_obli = get_by_type_oblig(df_obli)
+    df_can_obli = get_by_cantons(ss.df_obli)
+    df_age_obli = get_by_agegroup(ss.df_obli)
+    df_sex_obli = get_by_sex(ss.df_obli)
+    df_typ_obli = get_by_type(ss.df_obli)
     # add incidence of ungrpouped 'all' for each date to the sub-groups df, needed to compute proportions 
     ss.df_can = pd.merge(df_can_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
     ss.df_age = pd.merge(df_age_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
@@ -67,6 +68,9 @@ if 'data_di' not in ss:
     # color maps
     ss.color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
     ss.color_map_02 = "bluered"
+
+# de-bug
+# st.write(ss.df_obli["georegion"].value_counts())
 
 # Protects every ss key from being deleted (for multi-page consistency across clicks)
 for key in list(st.session_state.keys()):

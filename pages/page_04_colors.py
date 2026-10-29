@@ -11,29 +11,32 @@ with st.sidebar:
     Colors can be adjusted here (will trigger re-rendering of plots).
     """)
 
-co_main1, co_main2, _ = st.columns([0.4, 0.4, 0.2])  
+co_main1, co_main2, _ = st.columns([0.4, 0.2, 0.2])  
 with co_main1:
-    with st.container(border=True, height = 450):
+    with st.container(border=True, height = 550):
         cols_b = st.columns(6)   
-        ss.colo_all_oblig[0] = cols_b[0].color_picker("All",  ss.colo_all_oblig[0])   
+        ss.colo_all_oblig[0] = cols_b[0].color_picker("Line-All",  ss.colo_all_oblig[0], key = "u1b")   
+        ss.colo_sex_bar[0]   = cols_b[1].color_picker("Bar-Sex",  ss.colo_sex_bar[0], key = "u2b")  
+        ss.colo_typ_bar[0]   = cols_b[2].color_picker("Bar-Type", ss.colo_typ_bar[0], key = "u3b")    
+        ss.colo_age_bar[0]   = cols_b[3].color_picker("Bar-Age", ss.colo_age_bar[0], key = "u4b")    
         st.text("  ")  
         cols_b = st.columns(6)   
-        ss.colo_sex_oblig[0] = cols_b[0].color_picker("Female",  ss.colo_sex_oblig[0], key = "u2")   
-        ss.colo_sex_oblig[1] = cols_b[1].color_picker("Male",    ss.colo_sex_oblig[1], key = "u3")   
-        ss.colo_sex_oblig[2] = cols_b[2].color_picker("Unknown", ss.colo_sex_oblig[2], key = "u4")   
+        ss.colo_sex_oblig[0] = cols_b[0].color_picker("Area-Female",  ss.colo_sex_oblig[0], key = "u2")   
+        ss.colo_sex_oblig[1] = cols_b[1].color_picker("Area-Male",    ss.colo_sex_oblig[1], key = "u3")   
+        ss.colo_sex_oblig[2] = cols_b[2].color_picker("Area-Unkn", ss.colo_sex_oblig[2], key = "u4")   
         st.text("  ")  
         cols_b = st.columns(6)   
-        ss.colo_typ_oblig[0] = cols_b[0].color_picker("Type A",  ss.colo_typ_oblig[0], key = "u5")   
-        ss.colo_typ_oblig[1] = cols_b[1].color_picker("Type B",  ss.colo_typ_oblig[1], key = "u6")   
-        ss.colo_typ_oblig[2] = cols_b[2].color_picker("Unknown", ss.colo_typ_oblig[2], key = "u7")   
+        ss.colo_typ_oblig[0] = cols_b[0].color_picker("Area-Type-A",  ss.colo_typ_oblig[0], key = "u5")   
+        ss.colo_typ_oblig[1] = cols_b[1].color_picker("Area-Type-B",  ss.colo_typ_oblig[1], key = "u6")   
+        ss.colo_typ_oblig[2] = cols_b[2].color_picker("Area-Unkn", ss.colo_typ_oblig[2], key = "u7")   
         st.text("  ")  
         cols_b = st.columns(6)   
-        ss.colo_age_oblig[0] = cols_b[0].color_picker("00-04",   ss.colo_age_oblig[0], key = "u8")   
-        ss.colo_age_oblig[1] = cols_b[1].color_picker("05-14",   ss.colo_age_oblig[1], key = "u9")   
-        ss.colo_age_oblig[2] = cols_b[2].color_picker("15-29",   ss.colo_age_oblig[2], key = "u10")   
-        ss.colo_age_oblig[3] = cols_b[3].color_picker("30-64",   ss.colo_age_oblig[3], key = "u11")   
-        ss.colo_age_oblig[4] = cols_b[4].color_picker("65+",     ss.colo_age_oblig[4], key = "u12")   
-        ss.colo_age_oblig[5] = cols_b[5].color_picker("Unknown", ss.colo_age_oblig[5], key = "u13") 
+        ss.colo_age_oblig[0] = cols_b[0].color_picker("Area-00-04",   ss.colo_age_oblig[0], key = "u8")   
+        ss.colo_age_oblig[1] = cols_b[1].color_picker("Area-05-14",   ss.colo_age_oblig[1], key = "u9")   
+        ss.colo_age_oblig[2] = cols_b[2].color_picker("Area-15-29",   ss.colo_age_oblig[2], key = "u10")   
+        ss.colo_age_oblig[3] = cols_b[3].color_picker("Area-30-64",   ss.colo_age_oblig[3], key = "u11")   
+        ss.colo_age_oblig[4] = cols_b[4].color_picker("Area-65+",     ss.colo_age_oblig[4], key = "u12")   
+        ss.colo_age_oblig[5] = cols_b[5].color_picker("Area-Unkn", ss.colo_age_oblig[5], key = "u13") 
 
    
 

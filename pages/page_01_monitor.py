@@ -131,16 +131,16 @@ if n_weeks_realized > 0:
     if ss.mon_outcome == "Incid":
         fig_map = make_hexagon_plot(df_one_per_canton = df_incide, resp_var = 'incValue', resp_label = "Average Incidence",
             color_map = ss.color_map_01, color_max_val = ss.col_max_inc)
-        fig_bar_typ = make_subgroup_barplots(df_typ_inc, 'type', 'incValue', ["#34BDEA"],  0.70, 170, "Average Incidence")
-        fig_bar_sex = make_subgroup_barplots(df_sex_inc, 'sex', 'incValue', ["#D996E1"],  0.70, 170, "Average Incidence")
-        fig_bar_age = make_subgroup_barplots(df_age_inc, 'agegroup', 'incValue', ["#DFC625"], 0.70, 360, "Average Incidence")
+        fig_bar_typ = make_subgroup_barplots(df_typ_inc, 'type', 'incValue', ss.colo_typ_bar,  0.70, 170, "Average Incidence")
+        fig_bar_sex = make_subgroup_barplots(df_sex_inc, 'sex', 'incValue', ss.colo_sex_bar,  0.70, 170, "Average Incidence")
+        fig_bar_age = make_subgroup_barplots(df_age_inc, 'agegroup', 'incValue', ss.colo_age_bar, 0.70, 360, "Average Incidence")
 
     if ss.mon_outcome == "Count":
         fig_map = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value', resp_label = "Average Case Count",   
             color_map = ss.color_map_02, color_max_val = ss.col_max_cou)
-        fig_bar_typ = make_subgroup_barplots(df_typ_cou, 'type', 'value', ["#34BDEA"],  0.70, 170, "Average Case Count")
-        fig_bar_sex = make_subgroup_barplots(df_sex_cou, 'sex', 'value', ["#D996E1"],  0.70, 170, "Average Case Count")
-        fig_bar_age = make_subgroup_barplots(df_age_cou, 'agegroup', 'value', ["#DFC625"], 0.70, 360, "Average Case Count")
+        fig_bar_typ = make_subgroup_barplots(df_typ_cou, 'type', 'value', ss.colo_typ_bar,  0.70, 170, "Average Case Count")
+        fig_bar_sex = make_subgroup_barplots(df_sex_cou, 'sex', 'value', ss.colo_sex_bar,  0.70, 170, "Average Case Count")
+        fig_bar_age = make_subgroup_barplots(df_age_cou, 'agegroup', 'value', ss.colo_age_bar, 0.70, 360, "Average Case Count")
 else:
     # fig_map = go.Figure() 
     # fig_bar_typ = go.Figure() 

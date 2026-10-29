@@ -16,34 +16,34 @@
 ### Dependencies Data Source
 - [FOPH Infectious Disease Data API](https://www.idd.bag.admin.ch/en/portal-data).
 
-
 ### Installation
-1. **Clone the repository**  
-2. **Create and activate a virtual environment**  
-3. **Install dependencies**  
-```bash
-pip install -r requirements.txt
-```
+1. Clone the repository  
+2. Create and activate a Python venv
+3. Install dependencies with ```pip install -r requirements.txt```
 
-### Usage
-Start the dashboard locally with:
-```bash
-streamlit run stmain.py
-```
+### Usage (Easy with VS Code)
+1. Open this repo with "Open Folder..."
+2. Activate virtual environment (CTRL-SHIFT-P, "Python Select Interpreter") 
+3. Open a terminal and type: ```streamlit run app.py```
+
+### Usage (With CMD terminal under windows)
+1. Open cmd and navigate to root dir of this repo
+3. Activate venv with ```[full-path-to-venv-dir]\Scripts\activate.bat```
+4. type: ```streamlit run app.py```
 
 ### Project Structure
 ```text
 infectious_desease_mon/
-├── app.py               # Main app's entry point
-├── pages/               # Pages for frontend 
-├── src/                 # Data processing and reusable utilities
 ├── .streamlit/          # Streamlit configuration and theme
-├── resources/           # CSS styles and static codebooks  
 ├── historical_data/     # Historical 'fall-back' data files
+├── pages/               # Pages for frontend 
 ├── pics/                # Images and logos
-├── requirements.txt     # Python dependencies
+├── resources/           # CSS styles and static codebooks  
+├── src/                 # Data processing and reusable utilities
 ├── .gitignore           # Git ignore rules
+├── app.py               # Main app's entry point
 ├── LICENSE              # MIT License
+├── requirements.txt     # Python dependencies
 └── README.md            # Project documentation
 ```
 
@@ -52,7 +52,6 @@ infectious_desease_mon/
 - Web-app concept, analytics and implementation by Serge Zaugg ([Pollito-ML](https://github.com/sergezaugg))
 
 ### License
-
 [MIT License](LICENSE)
 
 

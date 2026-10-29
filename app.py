@@ -56,13 +56,13 @@ if 'data_di' not in ss:
     ss.setdefault("hexa_date_slider", ss.opt_dates[-1])
     
     # color items 
-    ss.colo_all_oblig = ["#F25B10"]
+    ss.colo_all_line  = ["#F25B10"]
     ss.colo_sex_bar   = ["#2198cf"]
     ss.colo_typ_bar   = ["#2198cf"]
     ss.colo_age_bar   = ["#2198cf"]
-    ss.colo_sex_oblig = ["#f51c90", "#2380E3", "#7c8584",]
-    ss.colo_typ_oblig = ["#dbb416", "#0921D7", "#7c8584",]
-    ss.colo_age_oblig = ["#1AC12B", "#bbff00", "#edd131", "#d77921", "#d83737", "#7c8584", "#ffffff"]
+    ss.colo_sex_area  = ["#f51c90", "#2380E3", "#7c8584",]
+    ss.colo_typ_area  = ["#dbb416", "#0921D7", "#7c8584",]
+    ss.colo_age_area  = ["#1AC12B", "#bbff00", "#edd131", "#d77921", "#d83737", "#7c8584", "#ffffff"]
     
     # color maps
     ss.color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)

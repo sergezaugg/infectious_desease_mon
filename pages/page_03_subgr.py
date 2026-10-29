@@ -31,7 +31,7 @@ with c0:
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
     # st.write(ss.cutoff_obli)
     ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, cutoff = ss.cutoff_obli, 
-        colo = [ss.colo_all_oblig, ss.colo_age_oblig , ss.colo_sex_oblig, ss.colo_typ_oblig])
+        colo = [ss.colo_all_line, ss.colo_age_area , ss.colo_sex_area, ss.colo_typ_area])
     # plot the cutoff as a line 
     ss.fig_all_oblig.add_hline(y=ss.cutoff_obli, line_dash="dot", line_color="grey", line_width=1, row = 1)
   

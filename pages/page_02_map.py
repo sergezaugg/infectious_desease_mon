@@ -102,10 +102,10 @@ infotext_incide = infotext_period + "" + f" ({n_weeks_selected} W)"
 # render figures 
 
 # render time-zoom fig
-figm = make_simple_fig(df=df_b, height = 200, colo=ss.colo_all_oblig)
+figm = make_simple_fig(df=df_b, height = 200, colo=ss.colo_all_line)
 
 # render line-plot feedback to user 
-fig_lin_a = make_line_plot_with_vref(ss.df_all, y_title = '', height = 100, colo=ss.colo_all_oblig)
+fig_lin_a = make_line_plot_with_vref(ss.df_all, y_title = '', height = 100, colo=ss.colo_all_line)
 fig_lin_b = fig_lin_a.add_vrect(x0=sel_data_min, x1=sel_data_max, fillcolor="pink", opacity=0.66, 
     line_width=2.5, line_color="white", layer="below")
 

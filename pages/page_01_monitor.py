@@ -115,14 +115,14 @@ df_typ_cou, df_sex_cou, df_age_cou =  prepare_data_for_barplots(ss.df_typ, ss.df
 # render figures 
 
 # full past year 
-fig_lin_a = make_simple_fig(df_reduced, height = 190, colo=ss.colo_all_oblig)
+fig_lin_a = make_simple_fig(df_reduced, height = 190, colo=ss.colo_all_line)
 fig_lin_b = fig_lin_a.add_vrect(x0=recency_limit_date, x1=ss.ref_date, fillcolor="pink", opacity=0.30, line_width=2.5, 
     line_color="white", layer="below")
 fig_lin_b.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
     annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 
 # prepare time-zoom plot
-figm = make_simple_fig(df_time_zoom, height = 190, colo=ss.colo_all_oblig)
+figm = make_simple_fig(df_time_zoom, height = 190, colo=ss.colo_all_line)
 figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
             annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 

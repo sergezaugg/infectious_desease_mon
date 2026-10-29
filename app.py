@@ -7,8 +7,8 @@
 import streamlit as st
 from streamlit import session_state as ss
 import plotly.express as px
-from src.utilsdataprep import download_all_data, preprocess_INFLUENZA
-from src.utilsdataprep import get_all_oblig,get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig,get_by_type_oblig
+from src.utils_dataprep import download_all_data, preprocess_INFLUENZA, get_cases
+from src.utils_dataprep import get_all_oblig,get_by_cantons, get_by_agegroup, get_by_sex, get_by_type
 from resources.styles import apply_global_styles
 import pandas as pd
 from plotly.colors import sample_colorscale 
@@ -21,19 +21,20 @@ apply_global_styles() # apply custom CSS styles
 # this is then used in multiple session via cache 
 if 'data_di' not in ss:
     
-    # download and process data 
-    ss.ref_date = pd.Timestamp.today().normalize()
+    # download and pre-process data 
     ss.data_di, ss.data_ve, ss.ts_downl, ss.dl_status = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 
+    ss.ref_date = pd.Timestamp.today().normalize()
     # take weekly data, make continuous time variable, re-code agegroup 
-    df_obli = preprocess_INFLUENZA(ss.data_di["INFLUENZA_oblig"])
+    ss.df_obli = preprocess_INFLUENZA(ss.data_di["INFLUENZA_oblig"])
+    ss.df_obli = get_cases(ss.df_obli)
     # take data for all i.e. not grouped 
-    ss.df_all = get_all_oblig(df_obli)
+    ss.df_all = get_all_oblig(ss.df_obli)
     # take incidence for specific sub-groups 
-    df_can_obli = get_by_cantons_oblig(df_obli)
-    df_age_obli = get_by_agegroup_oblig(df_obli)
-    df_sex_obli = get_by_sex_oblig(df_obli)
-    df_typ_obli = get_by_type_oblig(df_obli)
-    # add incidence of ungrpouped 'all' for each date to the sub-groups df , needed to compute proportions 
+    df_can_obli = get_by_cantons(ss.df_obli)
+    df_age_obli = get_by_agegroup(ss.df_obli)
+    df_sex_obli = get_by_sex(ss.df_obli)
+    df_typ_obli = get_by_type(ss.df_obli)
+    # add incidence of ungrpouped 'all' for each date to the sub-groups df, needed to compute proportions (area plots) 
     ss.df_can = pd.merge(df_can_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
     ss.df_age = pd.merge(df_age_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
     ss.df_sex = pd.merge(df_sex_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
@@ -45,7 +46,7 @@ if 'data_di' not in ss:
     ss.setdefault("col_max_cou", 50.0)
     # subgroup page 
     ss.setdefault("cutoff_obli", 1.0)
-    # monitop page 
+    # monitor page 
     ss.setdefault("mon_slider_window", 10)
     ss.setdefault("mon_col_thld_1", ss.col_max_inc)
     # history (map) page 
@@ -53,16 +54,22 @@ if 'data_di' not in ss:
     ss.setdefault("k_col_max_cou", ss.col_max_cou)
     ss.setdefault("hexa_weeks_pills", 10)
     ss.setdefault("hexa_date_slider", ss.opt_dates[-1])
+    
     # color items 
-    ss.colo_all_oblig = ["#F25B10"]
-    ss.colo_can_oblig = px.colors.qualitative.Alphabet
-    ss.colo_reg_oblig = px.colors.qualitative.Light24
-    ss.colo_age_oblig = ["#08fa20", "#bbff00", "#ffd900", "#ff7b00", "#ff0000", "#7c8584", "#ffffff"]
-    ss.colo_sex_oblig = ["#f682df", "#37A2DF", "#7c8584",]
-    ss.colo_typ_oblig = ["#cb9923", "#2EE452", "#7c8584",]
+    ss.colo_all_line  = ["#F25B10"]
+    ss.colo_sex_bar   = ["#2198cf"]
+    ss.colo_typ_bar   = ["#2198cf"]
+    ss.colo_age_bar   = ["#2198cf"]
+    ss.colo_sex_area  = ["#f51c90", "#2380E3", "#7c8584",]
+    ss.colo_typ_area  = ["#dbb416", "#0921D7", "#7c8584",]
+    ss.colo_age_area  = ["#1AC12B", "#bbff00", "#edd131", "#d77921", "#d83737", "#7c8584", "#ffffff"]
+    
     # color maps
     ss.color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)
     ss.color_map_02 = "bluered"
+
+# de-bug
+# st.write(ss.df_can)
 
 # Protects every ss key from being deleted (for multi-page consistency across clicks)
 for key in list(st.session_state.keys()):
@@ -87,10 +94,10 @@ with st.sidebar:
 #-------------------------------
 # (3) main navigation
 pages = [
-    st.Page("pages/page_monitor.py",  title="Latest status", default = True),
-    st.Page("pages/page_map.py",  title="History CNT"),
-    st.Page("pages/page_subgr.py",  title="History GRP"),
-    st.Page("pages/page_colors.py",  title="Colors"),
+    st.Page("pages/page_01_monitor.py",  title="Latest status", default = True),
+    st.Page("pages/page_02_map.py",  title="History CNT"),
+    st.Page("pages/page_03_subgr.py",  title="History GRP"),
+    st.Page("pages/page_04_colors.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="About"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),
     st.Page("pages/page_dev.py",  title="Dev"),

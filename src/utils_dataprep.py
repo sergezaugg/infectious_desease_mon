@@ -13,11 +13,18 @@ import pickle
 
 #---------------------------------
 # (1) function for data download 
-# must imperatively run on app stratup, Do not st.cache !!
 
 @st.cache_data(ttl=24*60*60)
 def download_all_data(data_file):
-
+    """Download a subset of FOPH disease dataset via API, returns fallback data if download fails
+    Args:
+        data_file: list of strings with the dataset to be downloaded, e.g. ["INFLUENZA_oblig", "INFLUENZA_sentinella"] 
+    Returns:
+        data_di: a dict containing the datasets
+        data_version: a string with FOPH data version
+        ts: a timestamp generated just after download
+        data_source: s string indicating if download or fallback data returned
+    """ 
     try:
         full_query_string = 'https://api.idd.bag.admin.ch/api/v1/data/version'
         r = requests.get(full_query_string, allow_redirects=True)
@@ -56,13 +63,20 @@ def download_all_data(data_file):
 
 #---------------------------------
 # (2) function for data preparation 
-# Weekly data as string "2013-W13"
-# corrected function
+
 def convert_iso_date_to_datetime(d):
+    """Converts pd columns with strings like '2013-W01' to pd timestamp representing Monday of ISO weeks
+    """
     return pd.to_datetime(f"{d[:4]}-W{d[-2:]}-1", format="%G-W%V-%u")
 
 @st.cache_data
 def preprocess_INFLUENZA(df):
+    """Filter only weekly data, creates 'date' (date of Monday of ISO weeks) and recodes 'agegroup'
+    Args:
+        df: A single dataframe in dict returned by download_all_data()
+    Returns:
+        The processed data frame.
+    """
     df = df.copy()
     # take only weekly data
     df = df[df["temporal_type"] == "iso_week"]
@@ -77,74 +91,110 @@ def preprocess_INFLUENZA(df):
     df['agegroup'] = df['agegroup'].replace(to_replace='unknown', value='Unknown') #, inplace=True)
     return(df)
 
+# filter rows 
+
+@st.cache_data
+def get_cases(df):
+    """remove summary data and keep only case-related rows"""
+    df = df[df["valueCategory"]  == 'cases']
+    return(df)
+
 @st.cache_data
 def get_all_oblig(df):
+    """Custom filering rows of a df"""
     df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
     df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     return(df)
 
 @st.cache_data
-def get_by_cantons_oblig(df):
+def get_by_cantons(df):
+    """Custom filering rows of a df"""
     df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
-    df = df[df["georegion"] != 'CHFL']
-    df = df[df["georegion"] != 'CH']
-    df = df[df["georegion"] != 'FL']
+    df = df[~df["georegion"].isin(["CHFL", "CH", "FL"])] # negation!
     df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["georegion", 'date'], ascending=True)
     return(df)
 
 @st.cache_data
-def get_by_agegroup_oblig(df):
+def get_by_agegroup(df):
+    """Custom filering rows of a df"""
     df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
-    df = df[df["agegroup"]  != 'all']
+    df = df[df["agegroup"]  != 'all'] # negation!
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["agegroup", 'date'], ascending=True)
     return(df)
 
 @st.cache_data
-def get_by_sex_oblig(df):
+def get_by_sex(df):
+    """Custom filering rows of a df"""
     df = df[df["type"]  == 'all']
-    df = df[df["valueCategory"]  == 'cases']
     df = df[df["georegion"] == 'CHFL']
     df = df[df["agegroup"]  == 'all']
-    df = df[df["sex"]  != 'all']
+    df = df[df["sex"]  != 'all'] # negation!
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
 @st.cache_data
-def get_by_type_oblig(df):
-    df = df[df["type"] != 'all']
-    df = df[df["valueCategory"]  == 'cases']
+def get_by_type(df):
+    """Custom filering rows of a df"""
+    df = df[df["type"] != 'all'] # negation!
     df = df[df["georegion"] == 'CHFL']
     df = df[df["agegroup"]  == 'all']
     df = df[df["sex"]  == 'all']
     df = df.sort_values(by=["sex", 'date'], ascending=True)
     return(df)
 
+# aggregate
+
 @st.cache_data
 def get_mean_by_group(x, resp_var, group_var):
-    x = x[['date', group_var, resp_var]]
+    """Take mean of resp_var by levels of group_var
+    Args: 
+        x: a data frame 
+        resp_var & group_var: (strings) names of response and grouping variables
+    Returns: a data frame
+    """
+    # x = x[['date', group_var, resp_var]]
+    x = x[[group_var, resp_var]]
     x = x.groupby(group_var, as_index=False)[resp_var].mean()
     return(x)
 
+@st.cache_data
+def get_mean_by_canton(x, resp_var):
+    """Take mean of resp_var by levels of georegion (cantons)
+    Args: 
+        x: a data frame 
+        resp_var: (string) name of response variable
+    Returns: a data frame
+    """
+    x = x[['date', 'georegion', resp_var]]
+    x = x.groupby("georegion", as_index=False)[resp_var].mean()
+    x = x.rename(columns={"value": resp_var})
+    return(x)
+
+# spec
+
 @ st.cache_data
-def prepare_data_for_barplots(df_typ, df_sex, df_age, recency_limit_date):
-    """ AAA """
+def prepare_data_for_barplots(df_typ, df_sex, df_age, recency_limit_date, resp_var):
+    """Custom processing steps wrapped in a function for convenience and caching 
+    Args: 
+        df_typ, df_sex, df_age: data frames
+        recency_limit_date : (scalar) pd.datetime 
+        resp_var: (string) name of response variable
+    Returns: A tupple with 3 data frames
+    """
     # take latest valid weeks - per grp
     df_typ_recent = df_typ[df_typ['date'] >= recency_limit_date]
     df_sex_recent = df_sex[df_sex['date'] >= recency_limit_date]
     df_age_recent = df_age[df_age['date'] >= recency_limit_date]
     # get mean weekly-incidence
-    df_typ_recent_mean = get_mean_by_group(df_typ_recent, 'incValue', 'type')
-    df_sex_recent_mean = get_mean_by_group(df_sex_recent, 'incValue', 'sex')
-    df_age_recent_mean = get_mean_by_group(df_age_recent, 'incValue', 'agegroup')
+    df_typ_recent_mean = get_mean_by_group(df_typ_recent, resp_var, 'type')
+    df_sex_recent_mean = get_mean_by_group(df_sex_recent, resp_var, 'sex')
+    df_age_recent_mean = get_mean_by_group(df_age_recent, resp_var, 'agegroup')
     # since pop constant per group we mis-use mean to get pop
     df_typ_recent_pop = get_mean_by_group(df_typ_recent, 'pop', 'type')
     df_sex_recent_pop = get_mean_by_group(df_sex_recent, 'pop', 'sex')
@@ -159,3 +209,7 @@ def prepare_data_for_barplots(df_typ, df_sex, df_age, recency_limit_date):
     df_age_recent_mean["pop_str"] = (df_age_recent_mean["pop"] / 1e6).map(lambda x: f"{x:.1f}M")
     # return 
     return df_typ_recent_mean, df_sex_recent_mean, df_age_recent_mean
+
+
+
+

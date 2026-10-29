@@ -5,20 +5,20 @@
 
 import streamlit as st
 from streamlit import session_state as ss
-from src.utils_hexaplot import make_hexagon_plot, get_mean_by_canton
-from plotly.colors import sample_colorscale 
+from src.utils_hexaplot import make_hexagon_plot
+from src.utils_dataprep import get_mean_by_canton
 from src.utils_ui import make_line_plot_with_vref, make_simple_fig
+from plotly.colors import sample_colorscale 
 import plotly.express as px
 from streamlit_vertical_slider import vertical_slider
 
 with st.sidebar:
     st.markdown("""
-    :primary[The top-left panel] shows the incidence across Switzerland over a few weeks.
-    (latest available week selected by default) 
-    Use the slider (top-right panel) to explore historical periods and pills to define period duration.
+    :primary[Top panel:] Weekly incidence across Switzerland over historical periods of a a few weeks
+    selected with slider (period end) and pills (nb weeks).
 
-    :primary[The hexagonal pseudo-maps] show incidence and case counts by canton.
-    Maps show values from the specific period selected above.
+    :primary[Bottom panel:] Average weekly incidence and Case Count by canton for selected period.
+    Use slider to adjust colors.
 
     """)
 
@@ -102,10 +102,10 @@ infotext_incide = infotext_period + "" + f" ({n_weeks_selected} W)"
 # render figures 
 
 # render time-zoom fig
-figm = make_simple_fig(df=df_b, height = 200, colo=ss.colo_all_oblig)
+figm = make_simple_fig(df=df_b, height = 200, colo=ss.colo_all_line)
 
 # render line-plot feedback to user 
-fig_lin_a = make_line_plot_with_vref(ss.df_all, y_title = '', height = 100, colo=ss.colo_all_oblig)
+fig_lin_a = make_line_plot_with_vref(ss.df_all, y_title = '', height = 100, colo=ss.colo_all_line)
 fig_lin_b = fig_lin_a.add_vrect(x0=sel_data_min, x1=sel_data_max, fillcolor="pink", opacity=0.66, 
     line_width=2.5, line_color="white", layer="below")
 

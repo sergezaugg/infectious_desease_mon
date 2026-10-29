@@ -6,14 +6,11 @@
 import streamlit as st
 from streamlit import session_state as ss
 from streamlit_vertical_slider import vertical_slider
-
 from src.utils_hexaplot import make_hexagon_plot
 from src.utils_ui import make_simple_fig, make_subgroup_barplots
 from src.utils_dataprep import get_mean_by_canton, prepare_data_for_barplots
-
 import pandas as pd
-# import plotly.express as px
-# import plotly.graph_objects as go
+
 
 with st.sidebar:
     st.markdown("""
@@ -123,6 +120,8 @@ fig_lin_b.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_wid
 
 # prepare time-zoom plot
 figm = make_simple_fig(df_time_zoom, height = 190, colo=ss.colo_all_line)
+# figm = figm.add_vrect(x0=recency_limit_date, x1=ss.ref_date, fillcolor="pink", opacity=0.20, line_width=2.5, 
+#     line_color="white", layer="below")
 figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
             annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 

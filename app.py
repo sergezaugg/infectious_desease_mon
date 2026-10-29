@@ -34,7 +34,7 @@ if 'data_di' not in ss:
     df_age_obli = get_by_agegroup(ss.df_obli)
     df_sex_obli = get_by_sex(ss.df_obli)
     df_typ_obli = get_by_type(ss.df_obli)
-    # add incidence of ungrpouped 'all' for each date to the sub-groups df, needed to compute proportions 
+    # add incidence of ungrpouped 'all' for each date to the sub-groups df, needed to compute proportions (area plots) 
     ss.df_can = pd.merge(df_can_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
     ss.df_age = pd.merge(df_age_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
     ss.df_sex = pd.merge(df_sex_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
@@ -49,7 +49,6 @@ if 'data_di' not in ss:
     # monitor page 
     ss.setdefault("mon_slider_window", 10)
     ss.setdefault("mon_col_thld_1", ss.col_max_inc)
-    
     # history (map) page 
     ss.setdefault("k_col_max_inx", ss.col_max_inc)
     ss.setdefault("k_col_max_cou", ss.col_max_cou)
@@ -70,7 +69,7 @@ if 'data_di' not in ss:
     ss.color_map_02 = "bluered"
 
 # de-bug
-# st.write(ss.df_obli["georegion"].value_counts())
+# st.write(ss.df_can)
 
 # Protects every ss key from being deleted (for multi-page consistency across clicks)
 for key in list(st.session_state.keys()):

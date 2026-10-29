@@ -1,5 +1,5 @@
 
-from src.utilsdataprep import download_all_data, preprocess_INFLUENZA
+from src.utils_dataprep import download_all_data, preprocess_INFLUENZA
 import pickle
 
 di_downloded = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 

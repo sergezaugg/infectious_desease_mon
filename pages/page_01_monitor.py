@@ -9,7 +9,7 @@ from streamlit_vertical_slider import vertical_slider
 
 from src.utils_hexaplot import make_hexagon_plot
 from src.utils_ui import make_simple_fig, make_subgroup_barplots
-from src.utilsdataprep import get_mean_by_canton, prepare_data_for_barplots
+from src.utils_dataprep import get_mean_by_canton, prepare_data_for_barplots
 
 import pandas as pd
 # import plotly.express as px

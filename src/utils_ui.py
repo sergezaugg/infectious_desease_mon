@@ -10,8 +10,9 @@ import plotly.graph_objects as go
 import streamlit as st
 from streamlit import session_state as ss
 
+
 # -----------------------------------------
-# custom function to pre-render plotly figures, not for general use
+# custom function to pre-render plotly figures (p01 and p02)
 
 @st.cache_data
 def make_line_plot_with_vref(df, y_title, height, colo):
@@ -44,6 +45,72 @@ def make_line_plot_with_vref(df, y_title, height, colo):
     _ =fig.update_xaxes(showgrid=False)
     _ =fig.update_yaxes(showgrid=False)
     return(fig)
+
+@st.cache_data
+def make_simple_fig(df, height, colo):
+    """Make simple formatted line plot  
+    Returns: A single plotly figure 
+    """  
+    fig = px.line(df, 
+        x = 'date', y = 'incValue', 
+        height = height,  markers=True, 
+        color_discrete_sequence = colo ,
+        labels = {'date' :'Date', 'incValue': 'Incidence'}
+        )
+    _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
+    _ = fig.update_xaxes(showgrid=False)
+    _ = fig.update_yaxes(showgrid=False)
+    _ = fig.update_layout(margin=dict(l=50, r=30, t=30, b=40))
+    return(fig)
+
+@st.cache_data
+def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, height, x_lab, g_lab = "a"):
+    """Make a custom formatted bar plot 
+    Returns: A single plotly figure 
+    """  
+    # define all labels 
+    g_lab = {"gr_A": "A Type  ","gr_B": "B Type  ","gr_unknown": "Unk",
+                "gr_female": "Fema  ","gr_male": "Male  ","gr_unknown": "Unk ",
+                "gr_00-04": "00-04  ",
+                "gr_05-14": "05-14  ",
+                "gr_15-29": "15-29  ",
+                "gr_30-64": "30-64  ",
+                "gr_65+":   "+65    ",
+                "gr_Unknown": "Unk",}
+
+    df[group_var] = "gr_" + df[group_var].astype(str)
+    fig = px.bar(df, y=group_var, x=resp_var, orientation = 'h',
+        # text="pop_str",
+        category_orders={group_var: df[group_var].astype(str).unique().tolist()},
+        color_discrete_sequence = color_sequence,
+        height = height,
+        labels={
+        resp_var: x_lab,
+            },
+        )
+    _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
+    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
+    _ = fig.update_xaxes(showgrid=False)
+    _ = fig.update_yaxes(showgrid=False)
+    _ = fig.update_layout(margin=dict(l=60, r=20, t=20, b=40))
+    _ = fig.update_yaxes(tickangle=0, title_text="")
+    _ = fig.update_layout(showlegend=False)
+    _ = fig.update_traces(width=bar_width)
+    # re-label groups 
+    _ = fig.update_yaxes(
+        tickmode="array",
+        tickvals=list(g_lab.keys()),
+        ticktext=list(g_lab.values()),
+    )
+    
+    return fig
+
+
+# -----------------------------------------
+# custom function to pre-render plotly figures (p03)
 
 @st.cache_data
 def make_line_plot(df, color_groups, color_sequence, y_title = "", height = 260):
@@ -169,75 +236,4 @@ def draw_figures(df_all, df_age, df_sex, df_typ, cutoff, colo):
     fig.update_yaxes(range=[0.0, 1.00], row=4, col=1)
     # fig.update_layout(legend=dict(orientation="h", x=0, xanchor="left", y=1.2, yanchor="top",))    
     return(fig) 
-
-@st.cache_data
-def make_simple_fig(df, height, colo):
-    """Make simple formatted line plot  
-    Returns: A single plotly figure 
-    """  
-    fig = px.line(df, 
-        x = 'date', y = 'incValue', 
-        height = height,  markers=True, 
-        color_discrete_sequence = colo ,
-        labels = {'date' :'Date', 'incValue': 'Incidence'}
-        )
-    _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
-    _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
-    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
-    _ = fig.update_xaxes(showgrid=False)
-    _ = fig.update_yaxes(showgrid=False)
-    _ = fig.update_layout(margin=dict(l=50, r=30, t=30, b=40))
-    return(fig)
-
-@st.cache_data
-def make_subgroup_barplots(df, group_var, resp_var, color_sequence, bar_width, height, x_lab, g_lab = "a"):
-    """Make a custom formatted bar plot 
-    Returns: A single plotly figure 
-    """  
-    # define all labels 
-    g_lab = {"gr_A": "A Type  ","gr_B": "B Type  ","gr_unknown": "Unk",
-                "gr_female": "Fema  ","gr_male": "Male  ","gr_unknown": "Unk ",
-                "gr_00-04": "00-04  ",
-                "gr_05-14": "05-14  ",
-                "gr_15-29": "15-29  ",
-                "gr_30-64": "30-64  ",
-                "gr_65+":   "+65    ",
-                "gr_Unknown": "Unk",}
-
-    df[group_var] = "gr_" + df[group_var].astype(str)
-    fig = px.bar(df, y=group_var, x=resp_var, orientation = 'h',
-        # text="pop_str",
-        category_orders={group_var: df[group_var].astype(str).unique().tolist()},
-        color_discrete_sequence = color_sequence,
-        height = height,
-        labels={
-        resp_var: x_lab,
-            },
-        )
-    _ = fig.update_xaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
-    _ = fig.update_yaxes(showline=True, linewidth=1, linecolor='white', mirror=True)
-    _ = fig.update_layout(paper_bgcolor="#000000") # "#350030"
-    _ = fig.update_xaxes(showgrid=False)
-    _ = fig.update_yaxes(showgrid=False)
-    _ = fig.update_layout(margin=dict(l=60, r=20, t=20, b=40))
-    _ = fig.update_yaxes(tickangle=0, title_text="")
-    _ = fig.update_layout(showlegend=False)
-    _ = fig.update_traces(width=bar_width)
-    # re-label groups 
-    _ = fig.update_yaxes(
-        tickmode="array",
-        tickvals=list(g_lab.keys()),
-        ticktext=list(g_lab.values()),
-    )
-    
-    return fig
-
-
-
-
-
-
-
-
-
 

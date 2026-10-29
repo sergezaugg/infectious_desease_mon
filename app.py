@@ -7,8 +7,8 @@
 import streamlit as st
 from streamlit import session_state as ss
 import plotly.express as px
-from src.utilsdataprep import download_all_data, preprocess_INFLUENZA
-from src.utilsdataprep import get_all_oblig,get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig,get_by_type_oblig
+from src.utils_dataprep import download_all_data, preprocess_INFLUENZA
+from src.utils_dataprep import get_all_oblig,get_by_cantons_oblig, get_by_agegroup_oblig, get_by_sex_oblig, get_by_type_oblig
 from resources.styles import apply_global_styles
 import pandas as pd
 from plotly.colors import sample_colorscale 
@@ -90,10 +90,10 @@ with st.sidebar:
 #-------------------------------
 # (3) main navigation
 pages = [
-    st.Page("pages/page_monitor.py",  title="Latest status", default = True),
-    st.Page("pages/page_map.py",  title="History CNT"),
-    st.Page("pages/page_subgr.py",  title="History GRP"),
-    st.Page("pages/page_colors.py",  title="Colors"),
+    st.Page("pages/page_01_monitor.py",  title="Latest status", default = True),
+    st.Page("pages/page_02_map.py",  title="History CNT"),
+    st.Page("pages/page_03_subgr.py",  title="History GRP"),
+    st.Page("pages/page_04_colors.py",  title="Colors"),
     st.Page("pages/page_info.py",  title="About"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer"),
     st.Page("pages/page_dev.py",  title="Dev"),

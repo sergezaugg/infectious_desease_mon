@@ -59,12 +59,12 @@ if 'data_di' not in ss:
     ss.colo_all_oblig = ["#F25B10"]
     # ss.colo_can_oblig = px.colors.qualitative.Alphabet
     # ss.colo_reg_oblig = px.colors.qualitative.Light24
-    ss.colo_sex_bar   = ["#9f14f5"]
-    ss.colo_typ_bar   = ["#1eb047"]
-    ss.colo_age_bar   = ["#d59f14"]
+    ss.colo_sex_bar   = ["#2198cf"]
+    ss.colo_typ_bar   = ["#2198cf"]
+    ss.colo_age_bar   = ["#2198cf"]
     ss.colo_sex_oblig = ["#f51c90", "#2380E3", "#7c8584",]
     ss.colo_typ_oblig = ["#dbb416", "#0921D7", "#7c8584",]
-    ss.colo_age_oblig = ["#08fa20", "#bbff00", "#edd131", "#d77921", "#d12121", "#7c8584", "#ffffff"]
+    ss.colo_age_oblig = ["#1AC12B", "#bbff00", "#edd131", "#d77921", "#d83737", "#7c8584", "#ffffff"]
     
     # color maps
     ss.color_map_01 = sample_colorscale("rainbow", 10, low=0.45, high=0.85)

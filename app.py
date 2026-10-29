@@ -33,7 +33,7 @@ if 'data_di' not in ss:
     df_age_obli = get_by_agegroup_oblig(df_obli)
     df_sex_obli = get_by_sex_oblig(df_obli)
     df_typ_obli = get_by_type_oblig(df_obli)
-    # add incidence of ungrpouped 'all' for each date to the sub-groups df , needed to compute proportions 
+    # add incidence of ungrpouped 'all' for each date to the sub-groups df, needed to compute proportions 
     ss.df_can = pd.merge(df_can_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
     ss.df_age = pd.merge(df_age_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
     ss.df_sex = pd.merge(df_sex_obli, ss.df_all[['date', 'incValue']], how='inner', on='date', suffixes=('', '_all'))
@@ -57,8 +57,6 @@ if 'data_di' not in ss:
     
     # color items 
     ss.colo_all_oblig = ["#F25B10"]
-    # ss.colo_can_oblig = px.colors.qualitative.Alphabet
-    # ss.colo_reg_oblig = px.colors.qualitative.Light24
     ss.colo_sex_bar   = ["#2198cf"]
     ss.colo_typ_bar   = ["#2198cf"]
     ss.colo_age_bar   = ["#2198cf"]

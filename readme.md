@@ -21,6 +21,10 @@
 2. Create and activate a Python venv
 3. Install dependencies with ```pip install -r requirements.txt```
 
+### Set a maintenance code (facultative)
+1. In root dir create a file ```.streamlit/secrets.toml``` with one key: ```maintenancecode```
+2. The value is a string with you code.
+
 ### Usage (Easy with VS Code)
 1. Open this repo with "Open Folder..."
 2. Activate virtual environment (CTRL-SHIFT-P, "Python Select Interpreter") 

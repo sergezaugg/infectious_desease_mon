@@ -29,15 +29,16 @@ def download_all_data(data_file):
     """
 
     try:
-        full_query_string = FOPH_DATA_VERSION_URL
-        r = requests.get(full_query_string, allow_redirects=True)
-        data_version = r.json()
-    except (requests.exceptions.RequestException, requests.exceptions.HTTPError, ValueError) as e:
-        data_version = {'name': 'Not found'}
-    if r.status_code != 200:   
-        data_version = {'name': 'Not found'}
 
-    try:
+        try:
+            full_query_string = FOPH_DATA_VERSION_URL
+            r = requests.get(full_query_string, allow_redirects=True)
+            data_version = r.json()
+            if r.status_code != 200:   
+                data_version = {'name': 'Not found'}
+        except (requests.exceptions.RequestException, requests.exceptions.HTTPError, ValueError) as e:
+            data_version = {'name': 'Not found'}
+    
         data_di = {}
         for li_index in range(len(data_file)):
             print(li_index)

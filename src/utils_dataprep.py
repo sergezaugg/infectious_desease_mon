@@ -11,6 +11,8 @@ import requests
 import io
 import pickle
 
+from config import FOPH_DATA_VERSION_URL, FOPH_LATEST_DATA_URL
+
 #---------------------------------
 # (1) function for data download 
 
@@ -24,34 +26,37 @@ def download_all_data(data_file):
         data_version: a string with FOPH data version
         ts: a timestamp generated just after download
         data_source: s string indicating if download or fallback data returned
-    """ 
+    """
+
     try:
-        full_query_string = 'https://api.idd.bag.admin.ch/api/v1/data/version'
+        full_query_string = FOPH_DATA_VERSION_URL
         r = requests.get(full_query_string, allow_redirects=True)
         data_version = r.json()
+    except (requests.exceptions.RequestException, requests.exceptions.HTTPError, ValueError) as e:
+        data_version = {'name': 'Not found'}
+    if r.status_code != 200:   
+        data_version = {'name': 'Not found'}
 
-        full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/files'
-        r = requests.get(full_query_string, allow_redirects=True)
-        data_file_list = r.json()
-        print("data_file_list")
-        [print(a) for a in data_file_list]
-        # limit data to one data file
-        data_file_list =[a for a in data_file_list if a in data_file]
-
+    try:
         data_di = {}
-        for li_index in range(len(data_file_list)):
+        for li_index in range(len(data_file)):
             print(li_index)
-            data_set_name = data_file_list[li_index]
-            full_query_string = 'https://api.idd.bag.admin.ch/api/v1/export/latest/' + data_set_name + '/csv'
+            data_set_name = data_file[li_index]
+            full_query_string = FOPH_LATEST_DATA_URL + data_set_name + '/csv'
             r = requests.get(full_query_string, allow_redirects=True)
-            raw_text = r.text
+            if r.status_code != 200: 
+                raw_text = None # trigger error with pd.read_csv
+            else:    
+                raw_text = r.text
             df = pd.read_csv(io.StringIO(raw_text, newline='\n'), sep=",")
             data_di[data_set_name] = df
 
         ts = datetime.now().strftime("%Y-%m-%d %H:%M")
         data_source = "✅ Sucessfully downloaded"
 
-    except:
+    # except:
+    except (requests.exceptions.RequestException, requests.exceptions.HTTPError, ValueError,
+            requests.RequestException, pd.errors.ParserError) as e:
         print("Warning: fall back to historical_data!")
         with open("historical_data/bag_flu_data_20261025.pkl", "rb") as f:
             di_reloded = pickle.load(f)

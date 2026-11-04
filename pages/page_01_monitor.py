@@ -24,8 +24,8 @@ with st.sidebar:
 
 #-------------------------------------------------
 # setup page layout 
-# c00,c01,c02 = st.columns([1,7,4], border=False)
-c00,c02,c01 = st.columns([1,4,7], border=False)
+c00,c01,c02 = st.columns([1,7,4], border=False)
+# c00,c02,c01 = st.columns([1,4,7], border=False)
 c1, c0,c2   = st.columns([1,5,6], border=False)
 
 cont00 = c00.container(border=True, height = 260)

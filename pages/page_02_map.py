@@ -14,14 +14,10 @@ from streamlit_vertical_slider import vertical_slider
 
 with st.sidebar:
     st.markdown("""
-    :primary[Top panel:] Weekly incidence across Switzerland over historical periods of a a few weeks
-    selected with slider (period end) and pills (nb weeks).
-
-    :primary[Bottom panel:] Average weekly incidence and Case Count by canton for selected period.
-    Use slider to adjust colors.
-
+    :primary[Summary:] Explore incidence over **historical periods**.
+    Top slider & pills: Select historical date and period duration.
+    Bottom panels: Average weekly incidence / case count.
     """)
-
 
 #-------------------------------------------------
 # setup page layout 

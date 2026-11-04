@@ -10,13 +10,9 @@ from streamlit_vertical_slider import vertical_slider
 
 with st.sidebar:
     st.markdown("""
-    :primary[Incidence:] Weekly number of new cases per 100'000 inhabitants. For subgroup analyses, incidence is normalized 
-    to the population of the respective subgroup.  
-
-    :primary[Relative incidence:] Incidence in a subgroup group divided by the sum of incidences across all subgroup.  
-    
-    :primary[Area plots] shown when overall incidence above adjustable cutoff (slider).
-    with very low incidence values the relative incidence cannot be reliably estimated.
+    :primary[Summary:] Relative incidence* in subgroups. 
+    Slider: Area plots shown when overall incidence above cutoff.
+    *Incidence in subgroup divided by the sum of incidences across all subgroup.  
     """)
 
 

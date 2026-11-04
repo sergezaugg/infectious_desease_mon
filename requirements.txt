@@ -1,5 +1,5 @@
-streamlit
-plotly
+plotly==7.1.0
+streamlit==1.64.0
 # vertical-slider and dependencies
 streamlit-vertical-slider
 streamlit-toggle

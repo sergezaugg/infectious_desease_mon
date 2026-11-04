@@ -14,19 +14,15 @@ from streamlit_vertical_slider import vertical_slider
 
 with st.sidebar:
     st.markdown("""
-    :primary[Top panel:] Weekly incidence across Switzerland over historical periods of a a few weeks
-    selected with slider (period end) and pills (nb weeks).
-
-    :primary[Bottom panel:] Average weekly incidence and Case Count by canton for selected period.
-    Use slider to adjust colors.
-
+    :primary[Summary:] Explore incidence over **historical periods**.
+    Top slider & pills: Select historical date and period duration.
+    Bottom panels: Average weekly incidence / case count.
     """)
-
 
 #-------------------------------------------------
 # setup page layout 
-# c00,c01 = st.columns([4.0,1.5], border=False)
-c01,c00 = st.columns([1.5,4.0], border=False)
+c00,c01 = st.columns([3.5, 1.8], border=False)
+# c01,c00 = st.columns([1.5,4.0], border=False)
 c1,c0,c3,c2 = st.columns([1,5,1,5], border=False)
 
 cont00 = c00.container(border=True, height = 260)
@@ -102,7 +98,7 @@ infotext_incide = infotext_period + "" + f" ({n_weeks_selected} W)"
 # render figures 
 
 # render time-zoom fig
-figm = make_simple_fig(df=df_b, height = 200, colo=ss.colo_all_line)
+figm = make_simple_fig(df=df_b, height = 190, colo=ss.colo_all_line)
 
 # render line-plot feedback to user 
 fig_lin_a = make_line_plot_with_vref(ss.df_all, y_title = '', height = 100, colo=ss.colo_all_line)
@@ -122,7 +118,7 @@ fig_counts = make_hexagon_plot(df_one_per_canton = df_counts, resp_var = 'value'
 # time-zoom fig
 with cont01:
     st.caption("Weekly Inc. all CH" + " -- " +infotext_incide, text_alignment  = "left")
-    st.plotly_chart(figm, use_container_width=True)
+    st.plotly_chart(figm, use_container_width=True, theme=None)
 
 # line-plot feedback to user 
 with cx1:

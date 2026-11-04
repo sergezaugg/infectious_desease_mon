@@ -14,18 +14,16 @@ import pandas as pd
 
 with st.sidebar:
     st.markdown("""
-    :primary[Top panels:] Weekly incidence across Switzerland. 
-    Use slider to select nb of recent weeks for averaging (shown on bottom panels). 
-    
-    :primary[Bottom panels:] Average weekly incidence or Case Count by canton, age, sex, and influenza type for the selected recent weeks.
-    Use slider to adjust colors.
+    :primary[Summary:] Incidence across Switzerland from **recent weeks**. 
+    Top slider: Select nb of weeks to look back for averaging. 
+    Bottom panels show average weekly incidence / case count.
     """)
 
 
 #-------------------------------------------------
 # setup page layout 
-# c00,c01,c02 = st.columns([1,7,4], border=False)
-c00,c02,c01 = st.columns([1,4,7], border=False)
+c00,c01,c02 = st.columns([1,7,4], border=False)
+# c00,c02,c01 = st.columns([1,4,7], border=False)
 c1, c0,c2   = st.columns([1,5,6], border=False)
 
 cont00 = c00.container(border=True, height = 260)
@@ -156,7 +154,7 @@ else:
 
 # display full past year 
 with cont01:
-    st.caption("Weekly Inc. all CH" + " -- " + "one year back", text_alignment  = "left")
+    st.caption("Weekly Inc. all CH" + " -- " + "Past 12 months", text_alignment  = "left")
     st.plotly_chart(fig_lin_b, use_container_width=True, theme=None)
 
 if fig_map is  None:

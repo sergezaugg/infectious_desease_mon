@@ -58,7 +58,7 @@ with cx1:
 with cont11:
     st.caption("Upper Color Threshold")
     ss.col_max_inc = vertical_slider(
-        height=300,
+        height=290,
         step = 0.1, min_value=1.0, max_value=20.0,
         default_value=ss.k_col_max_inx,
         key="k_col_max_inx",
@@ -67,7 +67,7 @@ with cont11:
 with cont13:
     st.caption("Upper Color Threshold")
     ss.col_max_cou = vertical_slider(
-        height=300,
+        height=290,
         step = 10.0, min_value=10.0, max_value=500.0,
         default_value=ss.k_col_max_cou,
         key="k_col_max_cou",
@@ -128,12 +128,12 @@ with cx1:
 with cont10:
     st.caption("Average Weekly Incidence by canton" + " -- " + infotext_incide, text_alignment  = "left")
     st.plotly_chart(fig_incide, use_container_width=False, theme=None, )
-    st.caption("Incidence values are normalized by canton's population")
+    # st.caption("Incidence values are normalized by canton's population")
 
 with cont12:
     st.caption("Average Weekly Count by canton" + " -- " + infotext_incide, text_alignment  = "left")
     st.plotly_chart(fig_counts, use_container_width=False, theme=None, )
-    st.caption("Counts are NOT normalized by canton's population")
+    # st.caption("Counts are NOT normalized by canton's population")
 
 
 

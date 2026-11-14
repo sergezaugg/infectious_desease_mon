@@ -12,7 +12,7 @@ def apply_global_styles():
     st.markdown("""
         <style>
             .block-container {
-                max-width: 1590px;
+                max-width: 1500px;
                 min-width: 1400px;
                 padding-left: 2rem;
                 padding-right: 2rem;
@@ -37,7 +37,6 @@ def apply_global_styles():
         <style>
             [data-testid="stMainBlockContainer"] {
             padding-top: 0rem !important;
-            margin-top: -1rem !important;
             padding-left: 1.5rem;
             margin-top: -1rem !important;  /* pull dashboard upward */
             } /* here 
@@ -140,23 +139,7 @@ def apply_global_styles():
     </style>
     """, unsafe_allow_html=True)
 
-    # # Formats of sidebar links  
-    # st.markdown("""
-    # <style>
-    # /* Sidebar page links */
-    # [data-testid="stSidebar"] [data-testid="stPageLink"] a {
-    #     display: flex;
-    #     align-items: center;
-    #     width: 100%;
-    #     min-height: 2px;
-    #     padding: 8px 4px;
-    #     box-sizing: border-box;
-    # }
-    # [data-testid="stSidebar"] [data-testid="stPageLink"] a > div {
-    #     align-items: center;
-    # }
-    # </style>
-    # """, unsafe_allow_html=True)
+   
 
 
 

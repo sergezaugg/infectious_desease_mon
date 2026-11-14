@@ -45,7 +45,7 @@ with cont00:
     st.caption("Weeks to look back")
     n_weeks_selected = vertical_slider(
         height=100,
-        step = 1, min_value=1, max_value=20,
+        step = 1, min_value=2, max_value=20,
         default_value=ss.mon_slider_window, 
         key="mon_slider_window",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )

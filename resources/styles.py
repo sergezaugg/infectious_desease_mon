@@ -85,9 +85,9 @@ def apply_global_styles():
     st.markdown("""
     <style>
         .stAppHeader a {
-            width: 135px !important;
-            min-width: 135px !important;
-            max-width: 135px !important;
+            width: 145px !important;
+            min-width: 145px !important;
+            max-width: 145px !important;
             box-sizing: border-box !important;
             justify-content: center !important;
             text-align: center !important;
@@ -139,6 +139,24 @@ def apply_global_styles():
     }
     </style>
     """, unsafe_allow_html=True)
+
+    # # Formats of sidebar links  
+    # st.markdown("""
+    # <style>
+    # /* Sidebar page links */
+    # [data-testid="stSidebar"] [data-testid="stPageLink"] a {
+    #     display: flex;
+    #     align-items: center;
+    #     width: 100%;
+    #     min-height: 2px;
+    #     padding: 8px 4px;
+    #     box-sizing: border-box;
+    # }
+    # [data-testid="stSidebar"] [data-testid="stPageLink"] a > div {
+    #     align-items: center;
+    # }
+    # </style>
+    # """, unsafe_allow_html=True)
 
 
 

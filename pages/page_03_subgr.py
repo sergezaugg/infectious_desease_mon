@@ -15,8 +15,6 @@ with st.sidebar:
     *Incidence in subgroup divided by the sum of incidences across all subgroup.  
     """)
 
-
-
 c0,c1 = st.columns([1,11], border=True)
 with c0:
     st.caption("Cutoff on inc. to draw area")

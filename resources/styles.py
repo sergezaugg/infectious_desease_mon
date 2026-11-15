@@ -56,7 +56,7 @@ def apply_global_styles():
     st.markdown("""
         <style>
         /* Header background */
-        .stAppHeader {background-color: #0E1117;}
+        .stAppHeader {background-color: #000000;}
 
         /* Default tab background */
         .stAppHeader a {background-color: #000000 !important;}
@@ -84,9 +84,9 @@ def apply_global_styles():
     st.markdown("""
     <style>
         .stAppHeader a {
-            width: 145px !important;
-            min-width: 145px !important;
-            max-width: 145px !important;
+            width: 160px !important;
+            min-width: 160px !important;
+            max-width: 160px !important;
             box-sizing: border-box !important;
             justify-content: center !important;
             text-align: center !important;
@@ -110,7 +110,7 @@ def apply_global_styles():
         }
     </style>
     <div class="app-label">
-        v1.3.2<br>© 2026 Serge Zaugg
+        v1.3.3<br>© 2026 Serge Zaugg
     </div>
     """, unsafe_allow_html=True)
 

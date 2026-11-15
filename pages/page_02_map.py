@@ -8,7 +8,6 @@ from streamlit import session_state as ss
 from src.utils_hexaplot import make_hexagon_plot
 from src.utils_dataprep import get_mean_by_canton
 from src.utils_ui import make_line_plot_with_vref, make_simple_fig
-from plotly.colors import sample_colorscale 
 import plotly.express as px
 from streamlit_vertical_slider import vertical_slider
 

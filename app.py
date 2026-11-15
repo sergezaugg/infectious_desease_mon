@@ -95,13 +95,22 @@ with st.sidebar:
 # (3) main navigation
 pages = [
     st.Page("pages/page_01_monitor.py",  title="Latest status", default = True),
-    st.Page("pages/page_02_map.py",  title="History CNT"),
-    st.Page("pages/page_03_subgr.py",  title="History GRP"),
-    st.Page("pages/page_04_colors.py",  title="Colors"),
+    st.Page("pages/page_02_map.py",  title="History by Cantons"),
+    st.Page("pages/page_03_subgr.py",  title="History by Groups"),
+    st.Page("pages/page_04_colors.py",  title="Colors", visibility="hidden"),
     st.Page("pages/page_info.py",  title="About"),
-    st.Page("pages/page_disclaimer.py",  title="Disclaimer"),
-    st.Page("pages/page_dev.py",  title="Dev"),
+    st.Page("pages/page_disclaimer.py",  title="Disclaimer", visibility="hidden"),
+    st.Page("pages/page_dev.py",  title="Maintenance", visibility="hidden"),
     ]
+
+with st.sidebar:
+    st.page_link(pages[3], label="Adjust Colors", icon=":material/palette:", use_container_width=True)
+    st.page_link(pages[5], label="Disclaimer", icon=":material/info:", use_container_width=True)
+    st.page_link(pages[6], label="Maintenance", icon=":material/handyman:", use_container_width=True)
+    st.caption(" ") # small trick to have above text and link-regions aligned
+    st.divider()
+
 pg = st.navigation(pages, position = "top")
+
 pg.run()
 

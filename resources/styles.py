@@ -12,7 +12,7 @@ def apply_global_styles():
     st.markdown("""
         <style>
             .block-container {
-                max-width: 1590px;
+                max-width: 1500px;
                 min-width: 1400px;
                 padding-left: 2rem;
                 padding-right: 2rem;
@@ -37,7 +37,6 @@ def apply_global_styles():
         <style>
             [data-testid="stMainBlockContainer"] {
             padding-top: 0rem !important;
-            margin-top: -1rem !important;
             padding-left: 1.5rem;
             margin-top: -1rem !important;  /* pull dashboard upward */
             } /* here 
@@ -57,7 +56,7 @@ def apply_global_styles():
     st.markdown("""
         <style>
         /* Header background */
-        .stAppHeader {background-color: #0E1117;}
+        .stAppHeader {background-color: #000000;}
 
         /* Default tab background */
         .stAppHeader a {background-color: #000000 !important;}
@@ -85,9 +84,9 @@ def apply_global_styles():
     st.markdown("""
     <style>
         .stAppHeader a {
-            width: 135px !important;
-            min-width: 135px !important;
-            max-width: 135px !important;
+            width: 160px !important;
+            min-width: 160px !important;
+            max-width: 160px !important;
             box-sizing: border-box !important;
             justify-content: center !important;
             text-align: center !important;
@@ -111,7 +110,7 @@ def apply_global_styles():
         }
     </style>
     <div class="app-label">
-        v1.3.2<br>© 2026 Serge Zaugg
+        v1.3.3<br>© 2026 Serge Zaugg
     </div>
     """, unsafe_allow_html=True)
 
@@ -139,6 +138,8 @@ def apply_global_styles():
     }
     </style>
     """, unsafe_allow_html=True)
+
+   
 
 
 

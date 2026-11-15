@@ -11,14 +11,12 @@ from src.utils_ui import make_simple_fig, make_subgroup_barplots
 from src.utils_dataprep import get_mean_by_canton, prepare_data_for_barplots
 import pandas as pd
 
-
 with st.sidebar:
     st.markdown("""
     :primary[Summary:] Incidence across Switzerland from **recent weeks**. 
     Top slider: Select nb of weeks to look back for averaging. 
     Bottom panels show average weekly incidence / case count.
     """)
-
 
 #-------------------------------------------------
 # setup page layout 
@@ -32,7 +30,7 @@ cont02 = c02.container(border=True, height = 260)
 
 cont10 = c0.container(border=True, height = 450)
 with c1:
-    cont11a = st.container(border=True, height = 130)
+    cont11a = st.container(border=True, height = 134)
     cont11b = st.container(border=True, height = 300)
 cont12 = c2.container(border=True, height = 450)
 
@@ -45,7 +43,7 @@ with cont00:
     st.caption("Weeks to look back")
     n_weeks_selected = vertical_slider(
         height=100,
-        step = 1, min_value=1, max_value=20,
+        step = 1, min_value=2, max_value=20,
         default_value=ss.mon_slider_window, 
         key="mon_slider_window",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
@@ -118,8 +116,6 @@ fig_lin_b.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_wid
 
 # prepare time-zoom plot
 figm = make_simple_fig(df_time_zoom, height = 190, colo=ss.colo_all_line)
-# figm = figm.add_vrect(x0=recency_limit_date, x1=ss.ref_date, fillcolor="pink", opacity=0.20, line_width=2.5, 
-#     line_color="white", layer="below")
 figm.add_vline(x=ss.ref_date, line_color="green", line_dash="dot", line_width=2,
             annotation_text="Reference date", annotation_position="top", annotation_font_color="green")
 
@@ -139,10 +135,6 @@ if n_weeks_realized > 0:
         fig_bar_sex = make_subgroup_barplots(df_sex_cou, 'sex', 'value', ss.colo_sex_bar,  0.70, 170, "Average Case Count")
         fig_bar_age = make_subgroup_barplots(df_age_cou, 'agegroup', 'value', ss.colo_age_bar, 0.70, 360, "Average Case Count")
 else:
-    # fig_map = go.Figure() 
-    # fig_bar_typ = go.Figure() 
-    # fig_bar_sex = go.Figure() 
-    # fig_bar_age = go.Figure() 
     fig_map = None
     fig_bar_typ = dict()
     fig_bar_sex = dict()

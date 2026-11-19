@@ -95,7 +95,7 @@ df_counts = get_mean_by_canton(df_opc, 'value')
 df_time_zoom = ss.df_all.loc[ss.df_all["date"].between(df_opc["date"].min(), df_opc["date"].max())] 
 #-------------------------------------------------
 # data prep II - selected data for 1-Y plot 
-n_weeks = 52
+n_weeks = 26 # 52
 new_ts = ss.ref_date - pd.Timedelta(weeks=n_weeks)
 df_reduced = ss.df_all[ss.df_all["date"] >= new_ts]
 #-------------------------------------------------
@@ -146,7 +146,7 @@ else:
 
 # display full past year 
 with cont01:
-    st.caption("Weekly Inc. all CH" + " -- " + "Past 12 months", text_alignment  = "left")
+    st.caption("Weekly Incidence (All CH)" + " -- " + "Past 6 months", text_alignment  = "left")
     st.plotly_chart(fig_lin_b, use_container_width=True, theme=None)
 
 if fig_map is  None:
@@ -155,7 +155,7 @@ if fig_map is  None:
 else:    
     # display time-zoom 
     with cont02:
-        st.caption("Weekly Inc. all CH" + " -- " +infotext_incide, text_alignment  = "left")
+        st.caption("Weekly Incidence (All CH)" + " -- " +infotext_incide, text_alignment  = "left")
         st.plotly_chart(figm, use_container_width=True, theme=None)
     # display main hexagon plots 
     with cont10:

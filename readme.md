@@ -8,6 +8,9 @@
 - Customizable color schemes and area plots.
 - Weekly data updates fetched from the official FOPH API.
 
+### Preview
+<img src="pics/app_screenshot.png" width="500">
+
 ### Dependencies
 - Python 3.12 
 - Streamlit 1.64.0
@@ -56,8 +59,7 @@ infectious_desease_mon/
 - Web-app concept, analytics and implementation by Serge Zaugg ([Pollito-ML](https://github.com/sergezaugg))
 
 ### License
-[MIT License](LICENSE)
-
+[MIT License - © 2026 Serge Zaugg](LICENSE)
 
 
 

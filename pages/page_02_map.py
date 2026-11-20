@@ -21,7 +21,6 @@ with st.sidebar:
 #-------------------------------------------------
 # setup page layout 
 c00,c01 = st.columns([3.5, 1.8], border=False)
-# c01,c00 = st.columns([1.5,4.0], border=False)
 c1,c0,c3,c2 = st.columns([1,5,1,5], border=False)
 
 cont00 = c00.container(border=True, height = 260)
@@ -46,7 +45,7 @@ with cx0:
 
 with cx1:
     n_weeks_selected = st.pills("Number" , label_visibility="collapsed",
-        options = range(1, 21), 
+        options = range(1, 17), 
         width = "stretch", 
         key = "hexa_weeks_pills",)
     date_selected = st.select_slider("Select date", label_visibility="collapsed",
@@ -58,7 +57,7 @@ with cont11:
     st.caption("Upper Color Threshold")
     ss.col_max_inc = vertical_slider(
         height=290,
-        step = 0.1, min_value=1.0, max_value=20.0,
+        step = 0.1, min_value=1.0, max_value=ss.upper_col_thld_incid,
         default_value=ss.k_col_max_inx,
         key="k_col_max_inx",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
@@ -67,7 +66,7 @@ with cont13:
     st.caption("Upper Color Threshold")
     ss.col_max_cou = vertical_slider(
         height=290,
-        step = 10.0, min_value=10.0, max_value=500.0,
+        step = 10.0, min_value=10.0, max_value=ss.upper_col_thld_count,
         default_value=ss.k_col_max_cou,
         key="k_col_max_cou",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )

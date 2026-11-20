@@ -5,13 +5,13 @@
 #--------------------
 
 import streamlit as st
+import pandas as pd
 from streamlit import session_state as ss
 import plotly.express as px
+from plotly.colors import sample_colorscale 
 from src.utils_dataprep import download_all_data, preprocess_INFLUENZA, get_cases
 from src.utils_dataprep import get_all_oblig,get_by_cantons, get_by_agegroup, get_by_sex, get_by_type
 from resources.styles import apply_global_styles
-import pandas as pd
-from plotly.colors import sample_colorscale 
 
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded", page_title = "Swiss Influenza Monitor", page_icon='pics/z_logo_turquoise.png')
 apply_global_styles() # apply custom CSS styles 
@@ -20,7 +20,13 @@ apply_global_styles() # apply custom CSS styles
 # (1) data prep - do once on app start 
 # this is then used in multiple session via cache 
 if 'data_di' not in ss:
-    
+
+    # initialize session state (constant values)
+    ss.n_weeks_overview_plot = 26 # 52
+    ss.n_weeks_window_max = 26
+    ss.upper_col_thld_incid = 20.0
+    ss.upper_col_thld_count = 500.0
+
     # download and pre-process data 
     ss.data_di, ss.data_ve, ss.ts_downl, ss.dl_status = download_all_data(data_file = ["INFLUENZA_oblig", "INFLUENZA_sentinella"]) 
     ss.ref_date = pd.Timestamp.today().normalize()
@@ -98,7 +104,7 @@ pages = [
     st.Page("pages/page_02_map.py",  title="History by Cantons"),
     st.Page("pages/page_03_subgr.py",  title="History by Groups"),
     st.Page("pages/page_04_colors.py",  title="Colors", visibility="hidden"),
-    st.Page("pages/page_info.py",  title="About"),
+    st.Page("pages/page_info.py",  title="About", visibility="hidden"),
     st.Page("pages/page_disclaimer.py",  title="Disclaimer", visibility="hidden"),
     st.Page("pages/page_dev.py",  title="Maintenance", visibility="hidden"),
     ]
@@ -107,6 +113,7 @@ with st.sidebar:
     st.page_link(pages[3], label="Adjust Colors", icon=":material/palette:", use_container_width=True)
     st.page_link(pages[5], label="Disclaimer", icon=":material/info:", use_container_width=True)
     st.page_link(pages[6], label="Maintenance", icon=":material/handyman:", use_container_width=True)
+    st.page_link(pages[4], label="About", icon=":material/menu_book:", use_container_width=True)
     st.caption(" ") # small trick to have above text and link-regions aligned
     st.divider()
 

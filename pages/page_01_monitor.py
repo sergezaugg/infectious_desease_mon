@@ -43,7 +43,7 @@ with cont00:
     st.caption("Weeks to look back")
     n_weeks_selected = vertical_slider(
         height=100,
-        step = 1, min_value=2, max_value=20,
+        step = 1, min_value=2, max_value=ss.n_weeks_window_max,
         default_value=ss.mon_slider_window, 
         key="mon_slider_window",
         track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
@@ -61,14 +61,14 @@ with cont11b:
     if ss.mon_outcome == "Incid":
         ss.col_max_inc = vertical_slider(
             height=140,
-            step = 0.1, min_value=1.0, max_value=20.0,
+            step = 0.1, min_value=1.0, max_value=ss.upper_col_thld_incid,
             default_value=ss.mon_col_thld_1,
             key="mon_col_thld_1",
             track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
     if ss.mon_outcome == "Count":
         ss.col_max_cou = vertical_slider(
             height=140,
-            step = 10.0, min_value=10.0, max_value=500.0,
+            step = 10.0, min_value=10.0, max_value=ss.upper_col_thld_count,
             default_value=ss.k_col_max_cou,
             key="k_col_max_cou",
             track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
@@ -95,8 +95,7 @@ df_counts = get_mean_by_canton(df_opc, 'value')
 df_time_zoom = ss.df_all.loc[ss.df_all["date"].between(df_opc["date"].min(), df_opc["date"].max())] 
 #-------------------------------------------------
 # data prep II - selected data for 1-Y plot 
-n_weeks = 26 # 52
-new_ts = ss.ref_date - pd.Timedelta(weeks=n_weeks)
+new_ts = ss.ref_date - pd.Timedelta(weeks=ss.n_weeks_overview_plot)
 df_reduced = ss.df_all[ss.df_all["date"] >= new_ts]
 #-------------------------------------------------
 # data prep III - subgroups

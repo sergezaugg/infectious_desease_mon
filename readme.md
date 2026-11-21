@@ -45,7 +45,7 @@ infectious_desease_mon/
 ├── historical_data/     # Historical 'fall-back' data files
 ├── pages/               # Pages for frontend 
 ├── pics/                # Images and logos
-├── resources/           # CSS styles and static codebooks  
+├── styles/              # CSS styles   
 ├── src/                 # Data processing and reusable utilities
 ├── .gitignore           # Git ignore rules
 ├── app.py               # Main app's entry point

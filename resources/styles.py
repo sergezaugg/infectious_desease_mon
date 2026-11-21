@@ -139,6 +139,21 @@ def apply_global_styles():
     </style>
     """, unsafe_allow_html=True)
 
+
+
+    # style of custom vertical slider info
+    st.html("""
+        <style>
+            .vertical-text {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            margin: auto;
+            font-size: 0.90rem;
+            color: rgba(150, 150, 150, 1.0);
+            }
+        </style>
+        """)
+
    
 
 

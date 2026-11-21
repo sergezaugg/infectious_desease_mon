@@ -54,22 +54,40 @@ with cx1:
         key="hexa_date_slider",)
 
 with cont11:
-    st.caption("Upper Color Threshold")
-    ss.col_max_inc = vertical_slider(
-        height=290,
-        step = 0.1, min_value=1.0, max_value=ss.upper_col_thld_incid,
-        default_value=ss.k_col_max_inx,
-        key="k_col_max_inx",
-        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+    cc1, cc2 = st.columns([3,6])
+    with cc1:
+        # custom slider info
+        st.html("""
+            <div style="height:350px; display:flex;">
+            <div class="vertical-text">Upper Color Threshold</div>
+            </div>
+            """)
+    with cc2:
+        ss.col_max_inc = vertical_slider(
+            height=350,
+            step = 0.1, min_value=1.0, max_value=ss.upper_col_thld_incid,
+            default_value=ss.k_col_max_inx,
+            key="k_col_max_inx",
+            value_always_visible = True,
+            track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
     
 with cont13:
-    st.caption("Upper Color Threshold")
-    ss.col_max_cou = vertical_slider(
-        height=290,
-        step = 10.0, min_value=10.0, max_value=ss.upper_col_thld_count,
-        default_value=ss.k_col_max_cou,
-        key="k_col_max_cou",
-        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+    cc1, cc2 = st.columns([3,6])
+    with cc1:
+        # custom slider info
+        st.html("""
+            <div style="height:350px; display:flex;">
+            <div class="vertical-text">Upper Color Threshold</div>
+            </div>
+            """)
+    with cc2:    
+        ss.col_max_cou = vertical_slider(
+            height=350,
+            step = 10.0, min_value=10.0, max_value=ss.upper_col_thld_count,
+            default_value=ss.k_col_max_cou,
+            key="k_col_max_cou",
+            value_always_visible = True,
+            track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
 
 #-------------------------------------------------

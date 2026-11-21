@@ -17,12 +17,22 @@ with st.sidebar:
 
 c0,c1 = st.columns([1,11], border=True)
 with c0:
-    st.caption("Cutoff on inc. to draw area")
-    ss.cutoff_obli = vertical_slider("", height=500,
-        step = -0.1, 
-        min_value=-0.1, max_value=10.0,
-        default_value=ss.cutoff_obli, key="cutoff_slider",
-        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+    # st.caption("Cutoff on inc. to draw area")
+    cc1, cc2 = st.columns([3,6])
+    with cc1:
+        # custom slider info
+        st.html("""
+            <div style="height:600px; display:flex;">
+            <div class="vertical-text">Cutoff on Incidence to Draw Area</div>
+            </div>
+            """)
+    with cc2:        
+        ss.cutoff_obli = vertical_slider("", height=600,
+            step = -0.1, 
+            min_value=-0.1, max_value=10.0,
+            default_value=ss.cutoff_obli, key="cutoff_slider",
+            track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+            
     # st.write(ss.cutoff_obli)
     ss.fig_all_oblig = draw_figures(ss.df_all, ss.df_age, ss.df_sex, ss.df_typ, cutoff = ss.cutoff_obli, 
         colo = [ss.colo_all_line, ss.colo_age_area , ss.colo_sex_area, ss.colo_typ_area])

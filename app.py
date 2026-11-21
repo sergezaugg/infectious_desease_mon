@@ -6,15 +6,26 @@
 
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 from streamlit import session_state as ss
 import plotly.express as px
 from plotly.colors import sample_colorscale 
 from src.utils_dataprep import download_all_data, preprocess_INFLUENZA, get_cases
 from src.utils_dataprep import get_all_oblig,get_by_cantons, get_by_agegroup, get_by_sex, get_by_type
-from resources.styles import apply_global_styles
+# from resources.styles import apply_global_styles
 
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded", page_title = "Swiss Influenza Monitor", page_icon='pics/z_logo_turquoise.png')
-apply_global_styles() # apply custom CSS styles 
+
+
+
+# apply_global_styles() # apply custom CSS styles 
+
+css = Path("resources/styles.css").read_text(encoding="utf-8")
+st.html(f"<style>{css}</style>")
+
+st.markdown("""<div class="app-label">v1.3.4-css-test<br>© 2026 Serge Zaugg</div>""", unsafe_allow_html=True)
+
+
 
 #-------------------------------
 # (1) data prep - do once on app start 

@@ -6,15 +6,21 @@
 
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 from streamlit import session_state as ss
 import plotly.express as px
 from plotly.colors import sample_colorscale 
 from src.utils_dataprep import download_all_data, preprocess_INFLUENZA, get_cases
 from src.utils_dataprep import get_all_oblig,get_by_cantons, get_by_agegroup, get_by_sex, get_by_type
-from resources.styles import apply_global_styles
 
 st.set_page_config(layout="wide", initial_sidebar_state = "expanded", page_title = "Swiss Influenza Monitor", page_icon='pics/z_logo_turquoise.png')
-apply_global_styles() # apply custom CSS styles 
+
+# load styles 
+css = Path("styles/styles.css").read_text(encoding="utf-8")
+st.html(f"<style>{css}</style>")
+
+# include custom v&© tag
+st.markdown("""<div class="app-label">v1.3.4<br>© 2026 Serge Zaugg</div>""", unsafe_allow_html=True)
 
 #-------------------------------
 # (1) data prep - do once on app start 
@@ -110,10 +116,10 @@ pages = [
     ]
 
 with st.sidebar:
+    st.page_link(pages[4], label="About", icon=":material/menu_book:", use_container_width=True)
     st.page_link(pages[3], label="Adjust Colors", icon=":material/palette:", use_container_width=True)
     st.page_link(pages[5], label="Disclaimer", icon=":material/info:", use_container_width=True)
     st.page_link(pages[6], label="Maintenance", icon=":material/handyman:", use_container_width=True)
-    st.page_link(pages[4], label="About", icon=":material/menu_book:", use_container_width=True)
     st.caption(" ") # small trick to have above text and link-regions aligned
     st.divider()
 

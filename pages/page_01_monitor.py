@@ -40,13 +40,22 @@ cont12 = c2.container(border=True, height = 450)
 #-------------------------------------------------
 # get user input 
 with cont00:
-    st.caption("Weeks to look back")
-    n_weeks_selected = vertical_slider(
-        height=100,
-        step = 1, min_value=2, max_value=ss.n_weeks_window_max,
-        default_value=ss.mon_slider_window, 
-        key="mon_slider_window",
-        track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+    cc1, cc2 = st.columns([3,6])
+    with cc1:
+        # custom slider info
+        st.html("""
+            <div style="height:200px; display:flex;">
+            <div class="vertical-text">Look Back (Weeks)</div>
+            </div>
+            """)
+    with cc2:
+        n_weeks_selected = vertical_slider(
+            height=160,
+            step = 1, min_value=2, max_value=ss.n_weeks_window_max,
+            default_value=ss.mon_slider_window, 
+            key="mon_slider_window",
+            value_always_visible = True,
+            track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
 with cont11a:
     ss.mon_outcome= st.radio(
@@ -57,21 +66,35 @@ with cont11a:
         horizontal=True)
 
 with cont11b:
-    st.caption("Upper Color Threshold")
-    if ss.mon_outcome == "Incid":
-        ss.col_max_inc = vertical_slider(
-            height=140,
-            step = 0.1, min_value=1.0, max_value=ss.upper_col_thld_incid,
-            default_value=ss.mon_col_thld_1,
-            key="mon_col_thld_1",
-            track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
-    if ss.mon_outcome == "Count":
-        ss.col_max_cou = vertical_slider(
-            height=140,
-            step = 10.0, min_value=10.0, max_value=ss.upper_col_thld_count,
-            default_value=ss.k_col_max_cou,
-            key="k_col_max_cou",
-            track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+    # st.caption("Upper Color Threshold")
+
+    cc1, cc2 = st.columns([3,6])
+
+    with cc1:
+        # custom slider info
+        st.html("""
+            <div style="height:250px; display:flex;">
+            <div class="vertical-text">Upper Color Threshold</div>
+            </div>
+            """)
+
+    with cc2:
+        if ss.mon_outcome == "Incid":
+            ss.col_max_inc = vertical_slider(
+                height=200,
+                step = 0.1, min_value=1.0, max_value=ss.upper_col_thld_incid,
+                default_value=ss.mon_col_thld_1,
+                key="mon_col_thld_1",
+                value_always_visible = True,
+                track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
+        if ss.mon_outcome == "Count":
+            ss.col_max_cou = vertical_slider(
+                height=200,
+                step = 10.0, min_value=10.0, max_value=ss.upper_col_thld_count,
+                default_value=ss.k_col_max_cou,
+                key="k_col_max_cou",
+                value_always_visible = True,
+                track_color = "#222222", slider_color = "#2198cf", thumb_color= "#2198cf", )
 
 
 #-------------------------------------------------

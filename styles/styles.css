@@ -1,0 +1,113 @@
+/*------------------------------------------------
+  Author      : Serge Zaugg
+  Description : Overall page styles (all pages)
+------------------------------------------------*/
+
+/* Main page container */
+.block-container {
+    max-width: 1500px;
+    min-width: 1400px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+/* Reduce spacing around st.divider() */
+div[data-testid="stElementContainer"]:has([data-testid="stMarkdownContainer"] hr) {
+    margin-top: -1.9rem !important;
+    margin-bottom: -1.0rem !important;
+}
+
+/* Main content area */
+[data-testid="stMainBlockContainer"] {
+    padding-top: 3rem !important;
+    padding-left: 1.5rem;
+    margin-top: 3rem !important;
+}
+
+/* Navigation header height */
+[data-testid="stHeader"] {
+    height: 5rem;
+    min-height: 5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Navigation bar background */
+.stAppHeader {
+    background-color: #000000;
+}
+
+/* Navigation tabs */
+.stAppHeader a {
+    background-color: #000000 !important;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    margin: 2px 4px;
+    padding: 4px 10px;
+
+    /* Fixed tab width */
+    width: 160px !important;
+    min-width: 160px !important;
+    max-width: 160px !important;
+    box-sizing: border-box !important;
+
+    /* Text alignment */
+    justify-content: center !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+}
+
+/* Navigation hover state */
+.stAppHeader a:hover {
+    background-color: #3b4d63 !important;
+}
+
+/* Navigation click state */
+.stAppHeader a:active {
+    background-color: #dddddd !important;
+}
+
+/* Active page */
+.stAppHeader a[aria-current="page"] {
+    background-color: #176c93 !important;
+}
+
+/* Copyright notice and version */
+.app-label {
+    position: fixed;
+    bottom: 15px;
+    left: 20px;
+    color: #9CA3AF;
+    font-size: 15px;
+    line-height: 1.4;
+    z-index: 999999;
+    pointer-events: none;
+}
+
+/* Outer frame around entire app */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    z-index: 999999;
+}
+
+/* Sidebar separator */
+[data-testid="stSidebar"] {
+    border-right: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Custom vertical slider information */
+.vertical-text {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    margin: auto;
+    font-size: 0.90rem;
+    color: rgba(150, 150, 150, 1.0);
+}
+
+
+
